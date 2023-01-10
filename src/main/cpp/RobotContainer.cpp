@@ -8,10 +8,12 @@
 
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
+#include "commands/CmdDriveRobot.h"
+#include "subsystems/SubDriveBase.h"
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
   // Configure the button bindings
   ConfigureBindings();
 }
@@ -32,4 +34,16 @@ void RobotContainer::ConfigureBindings() {
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   return autos::ExampleAuto(&m_subsystem);
+}
+
+double RobotContainer::ControllerGetLeftX() {
+  return _controller.GetLeftX();
+}
+
+double RobotContainer::ControllerGetLeftY() {
+  return _controller.GetLeftY();
+}
+
+double RobotContainer::ControllerGetRightX() {
+  return _controller.GetRightX();
 }
