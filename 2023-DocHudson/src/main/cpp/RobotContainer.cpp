@@ -5,13 +5,13 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
-
+#include "subsystems/SubArm.h"
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-
+  SubArm::GetInstance();
   // Configure the button bindings
   ConfigureBindings();
 }
