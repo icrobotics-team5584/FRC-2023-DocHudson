@@ -11,16 +11,16 @@
 
 
 
-class SubClaw : public frc2::SubsystemBase {
+class SubIntake : public frc2::SubsystemBase {
  public:
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
 
-    SubClaw();
-  static SubClaw& GetInstance() {
-    static SubClaw inst;
+    SubIntake();
+  static SubIntake& GetInstance() {
+    static SubIntake inst;
     return inst;
   }
 

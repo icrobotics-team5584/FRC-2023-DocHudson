@@ -9,7 +9,7 @@
 #include <frc2/command/button/JoystickButton.h>
 
 #include "Constants.h"
-#include "subsystems/SubClaw.h"
+#include "subsystems/SubIntake.h"
 #include <frc/XboxController.h>
 #include <frc2/command/InstantCommand.h>
 #include "commands/CmdOuttake.h"

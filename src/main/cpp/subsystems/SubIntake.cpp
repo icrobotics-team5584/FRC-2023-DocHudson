@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "subsystems/SubClaw.h"
+#include "subsystems/SubIntake.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-SubClaw::SubClaw() {
+SubIntake::SubIntake() {
     _spmLeftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     _spmRightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
@@ -17,22 +17,22 @@ SubClaw::SubClaw() {
 }
 
 // This method will be called once per scheduler run
-void SubClaw::Periodic() {
+void SubIntake::Periodic() {
    
 }
-void SubClaw::IntakeLeft(){
+void SubIntake::IntakeLeft(){
 _spmLeftMotor.Set(-1);
 }
-void SubClaw::IntakeRight(){
+void SubIntake::IntakeRight(){
 _spmRightMotor.Set(0.5);
 }
-void SubClaw::OuttakeLeft(){
+void SubIntake::OuttakeLeft(){
 _spmLeftMotor.Set(-0.5);
 }
-void SubClaw::OuttakeRight(){
+void SubIntake::OuttakeRight(){
 _spmRightMotor.Set(1);
 }
-void SubClaw::Stop(){
+void SubIntake::Stop(){
 _spmLeftMotor.Set(0);
 _spmRightMotor.Set(0);
 }

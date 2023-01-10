@@ -16,14 +16,14 @@ void CmdIntake::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void CmdIntake::Execute() {
-   SubClaw::GetInstance().IntakeLeft();
-   SubClaw::GetInstance().IntakeRight();
+   SubIntake::GetInstance().IntakeLeft();
+   SubIntake::GetInstance().IntakeRight();
    
 }
 
 // Called once the command ends or is interrupted.
 void CmdIntake::End(bool interrupted) {
-  SubClaw::GetInstance().Stop();
+  SubIntake::GetInstance().Stop();
 }
 
 // Returns true when the command should end.

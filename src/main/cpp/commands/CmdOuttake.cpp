@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/CmdOuttake.h"
-#include "subsystems/SubClaw.h"
+#include "subsystems/SubIntake.h"
 
 CmdOuttake::CmdOuttake() {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -14,13 +14,13 @@ void CmdOuttake::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void CmdOuttake::Execute() {
-  SubClaw::GetInstance().OuttakeLeft();
-  SubClaw::GetInstance().OuttakeRight();
+  SubIntake::GetInstance().OuttakeLeft();
+  SubIntake::GetInstance().OuttakeRight();
 }
 
 // Called once the command ends or is interrupted.
 void CmdOuttake::End(bool interrupted) {
-  SubClaw::GetInstance().Stop();
+  SubIntake::GetInstance().Stop();
 }
 
 // Returns true when the command should end.
