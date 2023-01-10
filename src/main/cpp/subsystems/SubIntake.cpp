@@ -12,8 +12,8 @@ SubIntake::SubIntake() {
     _spmLeftMotor.SetSmartCurrentLimit(20);
     _spmRightMotor.SetSmartCurrentLimit(20);
 
-    frc::SmartDashboard::PutData("Claw/IntakeMotor", (wpi::Sendable*)&_spmLeftMotor);
-    frc::SmartDashboard::PutData("Claw/OuttakeMotor", (wpi::Sendable*)&_spmRightMotor);
+    frc::SmartDashboard::PutData("Intake/IntakeMotor", (wpi::Sendable*)&_spmLeftMotor);
+    frc::SmartDashboard::PutData("Intake/OuttakeMotor", (wpi::Sendable*)&_spmRightMotor);
 }
 
 // This method will be called once per scheduler run
