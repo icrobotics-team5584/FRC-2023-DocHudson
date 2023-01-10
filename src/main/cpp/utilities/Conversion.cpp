@@ -39,4 +39,13 @@ frc::Rotation2d FalconTicsToOutputRotations(const int tics,
   return units::degree_t{outputRevolutions};
 }
 
+units::meter_t FalconTicsToMeters(const int tics, double gearRatio, units::meter_t wheelRadius){
+  const double ticsPerOutputRevolution = FALCON_TICS_PER_REVOLUTION * gearRatio;
+  const double Revolutions = tics / ticsPerOutputRevolution;
+  // const 
+  // const units::turn_t revolutions{tics / ticsPerOutputRevolution};
+  const units::meter_t outputDistance{(2 * std::numbers::pi * wheelRadius) * Revolutions};
+  return units::meter_t{outputDistance};
+}
+
 }

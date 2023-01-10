@@ -9,14 +9,15 @@
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/motorcontrol/PWMSparkMax.h>
-#include <units/angular_velocity.h>
 #include <units/time.h>
 #include <units/velocity.h>
 #include <units/voltage.h>
 #include <units/length.h>
+#include <units/angular_velocity.h>
 #include <frc/geometry/Rotation2d.h>
 #include <memory>
 #include <frc/controller/SimpleMotorFeedforward.h>
+#include <frc/kinematics/SwerveModulePosition.h>
 
 class SwerveModule {
  public:
@@ -27,6 +28,7 @@ class SwerveModule {
   void SetDesiredAngle(units::degree_t angle);
   void SetDesiredVelocity(units::meters_per_second_t velocity);
   void StopMotors();
+  frc::SwerveModulePosition GetPosition();
   frc::Rotation2d GetAngle();
   units::meters_per_second_t GetSpeed();
   frc::SwerveModuleState GetState();

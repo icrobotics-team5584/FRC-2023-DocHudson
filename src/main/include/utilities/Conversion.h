@@ -26,6 +26,16 @@ units::meters_per_second_t FalconVelToRobotVel(int falconVelocity,
                                                units::meter_t wheelRadius);
 
 /**
+ * Converts a the distance of a falcon motor (measured in encoder tics) to a 
+ * the distance in meters
+ * 
+ * @param tics angle of the falcon motor in falcon encoder tics
+ * @param gearRatio the gear ratio between the falcon and mechanism output.
+ * @param wheelRadius the radius of the drivebase wheels.
+ */
+units::meter_t FalconTicsToMeters(const int tics, double gearRatio, units::meter_t wheelRadius);
+
+/**
  * Converts a robot velocity in meters per second to the angular velocity that
  * the falcon drive motors would need to spin at, measureed in falcon encoder 
  * tics per 100 milliseconds.
