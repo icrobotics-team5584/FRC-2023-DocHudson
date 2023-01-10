@@ -14,8 +14,10 @@
  * they are needed.
  */
 
+namespace can {
+constexpr int spmIntake = 40;
+
+} 
 namespace OperatorConstants {
-
-constexpr int kDriverControllerPort = 0;
-
-}  // namespace OperatorConstants
+    constexpr int kDriverControllerPort = 0;
+}
