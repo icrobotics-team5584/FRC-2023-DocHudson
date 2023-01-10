@@ -19,3 +19,35 @@ namespace OperatorConstants {
 constexpr int kDriverControllerPort = 0;
 
 }  // namespace OperatorConstants
+
+namespace canid {
+    // drive base id: 1 - 19
+    constexpr int tfxDriveBaseFrontLeftDrive = 1;
+    constexpr int tfxDriveBaseFrontLeftTurn = 2;
+    constexpr int tfxDriveBaseFrontLeftEncoder = 11;
+
+    constexpr int tfxDriveBaseFrontRightDrive = 7;
+    constexpr int tfxDriveBaseFrontRightTurn = 8;
+    constexpr int tfxDriveBaseFrontRightEncoder = 10;
+
+    constexpr int tfxDriveBaseBackLeftDrive = 3;
+    constexpr int tfxDriveBaseBackLeftTurn = 4;
+    constexpr int tfxDriveBaseBackLeftEncoder = 9;
+
+    constexpr int tfxDriveBaseBackRightDrive = 5;
+    constexpr int tfxDriveBaseBackRightTurn = 6;
+    constexpr int tfxDriveBaseBackRightEncoder = 12;
+
+    // Intake id: 40 - 60
+
+    // Arm id: 20 - 39
+}
+
+namespace pcm {
+    constexpr int solIntakeOut = 0;
+    constexpr int solIntakeIn = 1;
+}
+
+namespace dio {
+    constexpr int lineBreakPayload = 0;
+}
