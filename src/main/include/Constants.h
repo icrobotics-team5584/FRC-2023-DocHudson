@@ -14,6 +14,11 @@
  * they are needed.
  */
 
+namespace can {
+constexpr int spmLeftMotor = 40;
+constexpr int spmRightMotor = 41;
+
+} 
 namespace OperatorConstants {
 
 constexpr int kDriverControllerPort = 0;
@@ -50,4 +55,6 @@ namespace pcm {
 
 namespace dio {
     constexpr int lineBreakPayload = 0;
+}
+    constexpr int kDriverControllerPort = 0;
 }
