@@ -8,6 +8,7 @@
 #include "subsystems/SubArm.h"
 #include "commands/Autos.h"
 #include "commands/ExampleCommand.h"
+#include <frc2/command/Commands.h>
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
@@ -17,6 +18,7 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
+  using namespace frc2::cmd;
   // Configure your trigger bindings here
 
   // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -26,7 +28,9 @@ void RobotContainer::ConfigureBindings() {
 
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
+  m_driverController.A().WhileTrue(Run([]{SubArm::GetInstance().DriveTo(10_deg);}));
+  m_driverController.B().WhileTrue(Run([]{SubArm::GetInstance().DriveTo(40_deg);}));
+
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {

@@ -177,6 +177,11 @@ template <class Position>
 units::volt_t ICSparkMax<Position>::GetSimVoltage() {
   units::volt_t output = 0_V;
 
+  auto currentVel = GetVelocity().value();
+  auto targetVel = GetCurrentSMVelocity().value();
+  auto FF = _pidController.GetFF();
+  auto feedbackVolts = _simController.Calculate(currentVel, targetVel);
+
   switch (_controlType) {
     case Mode::kDutyCycle:
       output = units::volt_t{CANSparkMax::Get() * 12};
@@ -199,9 +204,8 @@ units::volt_t ICSparkMax<Position>::GetSimVoltage() {
       break;
 
     case Mode::kSmartMotion:
-      output = units::volt_t{
-          _simController.Calculate(GetVelocity().value(), GetCurrentSMVelocity().value()) +
-          _pidController.GetFF() * GetCurrentSMVelocity().value()};
+      
+      output = units::volt_t{feedbackVolts + FF * targetVel};
       break;
 
     case Mode::kCurrent:

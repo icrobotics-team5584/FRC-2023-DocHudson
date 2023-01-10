@@ -8,10 +8,9 @@
 SubArm::SubArm(){
     frc::SmartDashboard::PutData("Arm/Arm Motor 1: ", (wpi::Sendable*)&_armMotor1);
 
+    _armMotor1.SetConversionFactor(1/GEAR_RATIO);
     _armMotor1.SetPIDFF(P, I, D, F);
     _armMotor1.ConfigSmartMotion(MAX_VEL, MAX_ACCEL, TOLERANCE);
-    _armMotor1.SetConversionFactor(GEAR_RATIO);
-
 }
 
 // This method will be called once per scheduler run
@@ -24,4 +23,8 @@ void SubArm::SimulationPeriodic(){
     auto armAngle = _armSim.GetAngle();
     auto armVel = _armSim.GetVelocity();
     _armMotor1.UpdateSimEncoder(armAngle, armVel);
+}
+
+void SubArm::DriveTo(units::degree_t deg) {
+    _armMotor1.SetSmartMotionTarget(deg);
 }
