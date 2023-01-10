@@ -57,4 +57,3 @@ namespace dio {
     constexpr int lineBreakPayload = 0;
 }
     constexpr int kDriverControllerPort = 0;
-}
