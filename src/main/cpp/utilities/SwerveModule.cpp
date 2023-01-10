@@ -53,6 +53,11 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState)
   SetDesiredVelocity(targetState.speed);
 }
 
+frc::SwerveModulePosition SwerveModule::GetPosition() {
+  return {units::meter_t{Conversions::FalconTicsToMeters(_canDriveMotor.GetSelectedSensorPosition(), DRIVE_GEAR_RATIO, WHEEL_RADIUS)},
+           GetAngle().Radians()};
+}
+
 void SwerveModule::SendSensorsToDash() {
   std::string driveMotorName = "drive motor " + std::to_string(_canDriveMotor.GetDeviceID());
   std::string turnMotorName = "turn motor " + std::to_string(_canTurnMotor.GetDeviceID());
