@@ -8,6 +8,12 @@
     "transitory": {
       "SmartDashboard": {
         "Claw": {
+          "IntakeMotor": {
+            "open": true
+          },
+          "OuttakeMotor": {
+            "open": true
+          },
           "motor": {
             "open": true
           },

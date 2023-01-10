@@ -29,10 +29,12 @@ class SubClaw : public frc2::SubsystemBase {
   void Periodic() override;
   void Intake();
   void Stop();
+  void Outtake();
 
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   ICSparkMax<> _spmIntake{can::spmIntake};
+  ICSparkMax<> _spmOuttake{can::spmOuttake};
 };
