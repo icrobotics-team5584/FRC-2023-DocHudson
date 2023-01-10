@@ -7,8 +7,13 @@
 
 SubClaw::SubClaw() {
     _spmIntake.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    _spmOuttake.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
     _spmIntake.SetSmartCurrentLimit(20);
-    frc::SmartDashboard::PutData("Claw/motor", (wpi::Sendable*)&_spmIntake);
+    _spmOuttake.SetSmartCurrentLimit(20);
+
+    frc::SmartDashboard::PutData("Claw/IntakeMotor", (wpi::Sendable*)&_spmIntake);
+    frc::SmartDashboard::PutData("Claw/OuttakeMotor", (wpi::Sendable*)&_spmOuttake);
 }
 
 // This method will be called once per scheduler run
@@ -20,4 +25,7 @@ _spmIntake.Set(-1);
 }
 void SubClaw::Stop(){
 _spmIntake.Set(0);
+}
+void SubClaw::Outtake(){
+_spmOuttake.Set(1);
 }

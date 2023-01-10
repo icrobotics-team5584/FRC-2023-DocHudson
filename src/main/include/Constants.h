@@ -16,6 +16,7 @@
 
 namespace can {
 constexpr int spmIntake = 40;
+constexpr int spmOuttake = 41;
 
 } 
 namespace OperatorConstants {
