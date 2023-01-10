@@ -15,8 +15,8 @@
  */
 
 namespace can {
-constexpr int spmIntake = 40;
-constexpr int spmOuttake = 41;
+constexpr int spmLeftMotor = 40;
+constexpr int spmRightMotor = 41;
 
 } 
 namespace OperatorConstants {

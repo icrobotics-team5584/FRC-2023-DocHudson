@@ -16,7 +16,8 @@ void CmdIntake::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void CmdIntake::Execute() {
-   SubClaw::GetInstance().Intake();
+   SubClaw::GetInstance().IntakeLeft();
+   SubClaw::GetInstance().IntakeRight();
    
 }
 

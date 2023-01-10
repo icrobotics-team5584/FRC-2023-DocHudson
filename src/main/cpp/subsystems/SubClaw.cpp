@@ -6,26 +6,33 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 SubClaw::SubClaw() {
-    _spmIntake.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    _spmOuttake.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    _spmLeftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    _spmRightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-    _spmIntake.SetSmartCurrentLimit(20);
-    _spmOuttake.SetSmartCurrentLimit(20);
+    _spmLeftMotor.SetSmartCurrentLimit(20);
+    _spmRightMotor.SetSmartCurrentLimit(20);
 
-    frc::SmartDashboard::PutData("Claw/IntakeMotor", (wpi::Sendable*)&_spmIntake);
-    frc::SmartDashboard::PutData("Claw/OuttakeMotor", (wpi::Sendable*)&_spmOuttake);
+    frc::SmartDashboard::PutData("Claw/IntakeMotor", (wpi::Sendable*)&_spmLeftMotor);
+    frc::SmartDashboard::PutData("Claw/OuttakeMotor", (wpi::Sendable*)&_spmRightMotor);
 }
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
    
 }
-void SubClaw::Intake(){
-_spmIntake.Set(-1);
+void SubClaw::IntakeLeft(){
+_spmLeftMotor.Set(-1);
+}
+void SubClaw::IntakeRight(){
+_spmRightMotor.Set(0.5);
+}
+void SubClaw::OuttakeLeft(){
+_spmLeftMotor.Set(-0.5);
+}
+void SubClaw::OuttakeRight(){
+_spmRightMotor.Set(1);
 }
 void SubClaw::Stop(){
-_spmIntake.Set(0);
-}
-void SubClaw::Outtake(){
-_spmOuttake.Set(1);
+_spmLeftMotor.Set(0);
+_spmRightMotor.Set(0);
 }

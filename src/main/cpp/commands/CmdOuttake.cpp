@@ -14,7 +14,8 @@ void CmdOuttake::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void CmdOuttake::Execute() {
-  SubClaw::GetInstance().Outtake();
+  SubClaw::GetInstance().OuttakeLeft();
+  SubClaw::GetInstance().OuttakeRight();
 }
 
 // Called once the command ends or is interrupted.
