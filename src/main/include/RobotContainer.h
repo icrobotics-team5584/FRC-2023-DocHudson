@@ -3,16 +3,14 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Woverloaded-virtual"
-    // Member declaration raising the warning.
-#pragma clang diagnostic pop
 
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
-
+#include <frc/XboxController.h>
 #include "Constants.h"
 #include "subsystems/ExampleSubsystem.h"
+#include "utilities/JoystickScaler.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -24,6 +22,9 @@
 class RobotContainer {
  public:
   RobotContainer();
+  double ControllerGetLeftX();
+  double ControllerGetLeftY();
+  double ControllerGetRightX();
 
   frc2::CommandPtr GetAutonomousCommand();
 
@@ -36,4 +37,5 @@ class RobotContainer {
   ExampleSubsystem m_subsystem;
 
   void ConfigureBindings();
+  JoystickScaler _controller {0, 2.5, 2.5};
 };
