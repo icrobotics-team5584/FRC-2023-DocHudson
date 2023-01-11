@@ -18,7 +18,6 @@ void CmdIntake::Initialize() {
 void CmdIntake::Execute() {
    SubIntake::GetInstance().IntakeLeft();
    SubIntake::GetInstance().IntakeRight();
-   
 }
 
 // Called once the command ends or is interrupted.

@@ -6,25 +6,18 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
 
-
-
 class SubIntake : public frc2::SubsystemBase {
  public:
+  SubIntake();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-
-    SubIntake();
   static SubIntake& GetInstance() {
     static SubIntake inst;
     return inst;
   }
-
-
 
   void Periodic() override;
   void IntakeLeft();
@@ -33,11 +26,7 @@ class SubIntake : public frc2::SubsystemBase {
   void OuttakeRight();
   void Stop();
   
-
-
  private:
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
-  ICSparkMax<> _spmLeftMotor{can::spmLeftMotor};
-  ICSparkMax<> _spmRightMotor{can::spmRightMotor};
+  ICSparkMax<> _leftMotor{canid::leftMotor};
+  ICSparkMax<> _rightMotor{canid::rightMotor};
 };

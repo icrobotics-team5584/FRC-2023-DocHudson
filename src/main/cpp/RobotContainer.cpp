@@ -5,23 +5,44 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
-#include "frc2/command/Commands.h"
+#include <frc2/command/commands.h>
+
+#include "commands/CmdDriveRobot.h"
+#include "subsystems/SubDriveBase.h"
 
 
 RobotContainer::RobotContainer() {
-  // Initialize all of your commands and subsystems here
+  // Initializing Commmands
   SubIntake::GetInstance();
 
-  // Configure the button bindings
+  // Configure button bindings
   ConfigureBindings();
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
 }
 
 void RobotContainer::ConfigureBindings() {
-    using BtnId = frc::XboxController::Button;
-    using Btn = frc2::JoystickButton;
- 
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
+  // Configure your trigger bindings here
+
   // pressed, cancelling on release.
-  m_driverController.A().WhileTrue(CmdIntake().ToPtr());
-  m_driverController.X().WhileTrue(CmdOuttake().ToPtr());
+  _driverController.A().WhileTrue(CmdIntake().ToPtr());
+  _driverController.X().WhileTrue(CmdOuttake().ToPtr());
+  _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+}
+
+// For Auto Commands, removed temporarily
+// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+//   // An example command will be run in autonomous
+//   return autos::ExampleAuto(&m_subsystem);
+// }
+
+double RobotContainer::ControllerGetLeftX() {
+  return _controller.GetLeftX();
+}
+
+double RobotContainer::ControllerGetLeftY() {
+  return _controller.GetLeftY();
+}
+
+double RobotContainer::ControllerGetRightX() {
+  return _controller.GetRightX();
 }

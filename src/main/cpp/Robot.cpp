@@ -33,7 +33,14 @@ void Robot::DisabledPeriodic() {}
  * This autonomous runs the autonomous command selected by your {@link
  * RobotContainer} class.
  */
-void Robot::AutonomousInit() {}
+void Robot::AutonomousInit() {
+  // Removed temporarily for auto
+  // _autonomousCommand = _container.GetAutonomousCommand();
+
+  // if (m_autonomousCommand) {
+  //   _autonomousCommand->Schedule();
+  // }
+}
 
 void Robot::AutonomousPeriodic() {}
 
