@@ -41,12 +41,14 @@ class SubDriveBase : public frc2::SubsystemBase {
   void DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot);
 
   frc::Pose2d GetPose();
+  void SetPose(frc::Pose2d pose);
   void DisplayPose(std::string label, frc::Pose2d pose);
              
   void UpdateOdometry();
   void SyncSensors();
   frc::Rotation2d GetHeading();
   units::meters_per_second_t GetVelocity();
+  frc::SwerveDriveKinematics<4> GetKinematics();
 
   static constexpr units::meters_per_second_t MAX_VELOCITY = 3_mps;
   static constexpr units::radians_per_second_t MAX_ANGULAR_VELOCITY =
@@ -57,6 +59,8 @@ class SubDriveBase : public frc2::SubsystemBase {
 
   void ResetGyroHeading();
   void UpdatePosition(frc::Pose2d robotPosition);
+
+  void DisplayTrajectory(std::string name, frc::Trajectory trajectory);
 
  private:
   SubDriveBase();

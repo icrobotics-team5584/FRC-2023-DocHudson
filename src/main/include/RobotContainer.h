@@ -29,6 +29,7 @@ class RobotContainer {
   double ControllerGetLeftX();
   double ControllerGetLeftY();
   double ControllerGetRightX();
+  frc2::CommandPtr GetAutonomousCommand();
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -36,5 +37,4 @@ class RobotContainer {
   
   void ConfigureBindings();
   JoystickScaler _controller {0, 2.5, 2.5};
-  
 };

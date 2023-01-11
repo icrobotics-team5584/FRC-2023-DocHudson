@@ -8,6 +8,7 @@
 #include <frc2/command/commands.h>
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
+#include "commands/AutoCommands.h"
 
 
 RobotContainer::RobotContainer() {
@@ -29,10 +30,9 @@ void RobotContainer::ConfigureBindings() {
 }
 
 // For Auto Commands, removed temporarily
-// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-//   // An example command will be run in autonomous
-//   return autos::ExampleAuto(&m_subsystem);
-// }
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+  return cmd::PPDrivePath();
+}
 
 double RobotContainer::ControllerGetLeftX() {
   return _controller.GetLeftX();
