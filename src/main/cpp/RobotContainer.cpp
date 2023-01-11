@@ -20,12 +20,19 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
+  // Configure your trigger bindings here
 
   // pressed, cancelling on release.
   m_driverController.A().WhileTrue(CmdIntake().ToPtr());
   m_driverController.X().WhileTrue(CmdOuttake().ToPtr());
   m_driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 }
+
+// For Auto Commands, removed temporarily
+// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+//   // An example command will be run in autonomous
+//   return autos::ExampleAuto(&m_subsystem);
+// }
 
 double RobotContainer::ControllerGetLeftX() {
   return _controller.GetLeftX();
