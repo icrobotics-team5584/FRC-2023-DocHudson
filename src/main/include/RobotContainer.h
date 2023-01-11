@@ -4,13 +4,17 @@
 
 #pragma once
 
-#include <frc2/command/CommandPtr.h>
+#include <frc2/command/Command.h>
 #include <frc2/command/button/CommandXboxController.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <frc/XboxController.h>
-#include "Constants.h"
-#include "subsystems/ExampleSubsystem.h"
-#include "utilities/JoystickScaler.h"
+#include <frc2/command/InstantCommand.h>
 
+#include "Constants.h"
+#include "subsystems/SubIntake.h"
+#include "commands/CmdOuttake.h"
+#include "commands/CmdIntake.h"
+#include "utilities/JoystickScaler.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -26,16 +30,11 @@ class RobotContainer {
   double ControllerGetLeftY();
   double ControllerGetRightX();
 
-  frc2::CommandPtr GetAutonomousCommand();
-
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
-
-  // The robot's subsystems are defined here...
-  ExampleSubsystem m_subsystem;
-
+  frc2::CommandXboxController m_driverController{0};
+  
   void ConfigureBindings();
   JoystickScaler _controller {0, 2.5, 2.5};
+  
 };

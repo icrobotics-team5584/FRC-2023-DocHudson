@@ -1,0 +1,35 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Claw": {
+          "IntakeMotor": {
+            "open": true
+          },
+          "OuttakeMotor": {
+            "open": true
+          },
+          "motor": {
+            "open": true
+          },
+          "open": true
+        },
+        "Intake": {
+          "IntakeMotor": {
+            "open": true
+          },
+          "OuttakeMotor": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      }
+    }
+  }
+}
