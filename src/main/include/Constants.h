@@ -14,17 +14,6 @@
  * they are needed.
  */
 
-namespace can {
-constexpr int spmLeftMotor = 40;
-constexpr int spmRightMotor = 41;
-
-} 
-namespace OperatorConstants {
-
-constexpr int kDriverControllerPort = 0;
-
-}  // namespace OperatorConstants
-
 namespace canid {
     // drive base id: 1 - 19
     constexpr int tfxDriveBaseFrontLeftDrive = 1;
@@ -44,8 +33,10 @@ namespace canid {
     constexpr int tfxDriveBaseBackRightEncoder = 12;
 
     // Intake id: 40 - 60
-
+    constexpr int spmLeftMotor = 40;
+    constexpr int spmRightMotor = 41;
     // Arm id: 20 - 39
+
 }
 
 namespace pcm {
@@ -56,4 +47,3 @@ namespace pcm {
 namespace dio {
     constexpr int lineBreakPayload = 0;
 }
-    constexpr int kDriverControllerPort = 0;
