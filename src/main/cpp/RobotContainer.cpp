@@ -6,15 +6,16 @@
 
 #include <frc2/command/button/Trigger.h>
 #include <frc2/command/commands.h>
+
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
 
 
 RobotContainer::RobotContainer() {
-  // Initialize all of your commands and subsystems here
+  // Initializing Commmands
   SubIntake::GetInstance();
 
-  // Configure the button bindings
+  // Configure button bindings
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
 }
@@ -23,9 +24,9 @@ void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
 
   // pressed, cancelling on release.
-  m_driverController.A().WhileTrue(CmdIntake().ToPtr());
-  m_driverController.X().WhileTrue(CmdOuttake().ToPtr());
-  m_driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+  _driverController.A().WhileTrue(CmdIntake().ToPtr());
+  _driverController.X().WhileTrue(CmdOuttake().ToPtr());
+  _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 }
 
 // For Auto Commands, removed temporarily
