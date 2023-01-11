@@ -5,23 +5,26 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
+#include <frc2/command/commands.h>
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
 
-#include <frc2/command/commands.h>
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
+  SubIntake::GetInstance();
+
   // Configure the button bindings
   ConfigureBindings();
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
 }
 
 void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
 
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
+  m_driverController.A().WhileTrue(CmdIntake().ToPtr());
+  m_driverController.X().WhileTrue(CmdOuttake().ToPtr());
   m_driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 }
 

@@ -15,35 +15,35 @@
  */
 
 namespace canid {
-  constexpr int tfxDriveBaseFrontLeftDrive = 1;
-  constexpr int tfxDriveBaseFrontLeftTurn = 2;
-  constexpr int tfxDriveBaseFrontLeftEncoder = 11;
+    // drive base id: 1 - 19
+    constexpr int tfxDriveBaseFrontLeftDrive = 1;
+    constexpr int tfxDriveBaseFrontLeftTurn = 2;
+    constexpr int tfxDriveBaseFrontLeftEncoder = 11;
 
-  constexpr int tfxDriveBaseFrontRightDrive = 7;
-  constexpr int tfxDriveBaseFrontRightTurn = 8;
-  constexpr int tfxDriveBaseFrontRightEncoder = 10;
+    constexpr int tfxDriveBaseFrontRightDrive = 7;
+    constexpr int tfxDriveBaseFrontRightTurn = 8;
+    constexpr int tfxDriveBaseFrontRightEncoder = 10;
 
-  constexpr int tfxDriveBaseBackLeftDrive = 3;
-  constexpr int tfxDriveBaseBackLeftTurn = 4;
-  constexpr int tfxDriveBaseBackLeftEncoder = 9;
+    constexpr int tfxDriveBaseBackLeftDrive = 3;
+    constexpr int tfxDriveBaseBackLeftTurn = 4;
+    constexpr int tfxDriveBaseBackLeftEncoder = 9;
 
-  constexpr int tfxDriveBaseBackRightDrive = 5;
-  constexpr int tfxDriveBaseBackRightTurn = 6;
-  constexpr int tfxDriveBaseBackRightEncoder = 12;
+    constexpr int tfxDriveBaseBackRightDrive = 5;
+    constexpr int tfxDriveBaseBackRightTurn = 6;
+    constexpr int tfxDriveBaseBackRightEncoder = 12;
 
-  //For tank drive
-  constexpr int spmDriveBaseFrontRight = 3;
-  constexpr int spmDriveBaseBackRight = 1;
-  constexpr int spmDriveBaseFrontLeft = 4;
-  constexpr int spmDriveBaseBackLeft = 2;
+    // Intake id: 40 - 60
+    constexpr int spmLeftMotor = 40;
+    constexpr int spmRightMotor = 41;
+    // Arm id: 20 - 39
 
-  constexpr int tfxIntake = 14;
-  constexpr int spmPayload = 99;
-  constexpr int spmPayloadFollow = 98;
 }
 
-namespace OperatorConstants {
+namespace pcm {
+    constexpr int solIntakeOut = 0;
+    constexpr int solIntakeIn = 1;
+}
 
-constexpr int kDriverControllerPort = 0;
-
-}  // namespace OperatorConstants
+namespace dio {
+    constexpr int lineBreakPayload = 0;
+}
