@@ -6,7 +6,6 @@
 #include "subsystems/SubDriveBase.h"
 
 CmdDriveRobot::CmdDriveRobot(frc::XboxController* controller) {
-  // Use addRequirements() here to declare subsystem dependencies.
   _controller = controller;
   AddRequirements(&SubDriveBase::GetInstance());
 }
