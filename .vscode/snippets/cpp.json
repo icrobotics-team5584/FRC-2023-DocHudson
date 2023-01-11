@@ -1,0 +1,20 @@
+{
+	"Make singleton getter" : {
+		"prefix": "sing",
+		"body": "static $1 &GetInstance() {static $1 inst; return inst;}",
+		"description": "Make a getter for this singleton class"
+	},
+	"Make IC Spark Max" : {
+		"prefix" : "ics",
+		"body": "ICSparkMax _$1{canid::$2};",
+		"descrption" : "Construct an IC Spark Max object (Spark max with simulation support and convenience features)"
+	},
+	"Put number to the SmartDashBoard" :{
+		"prefix": "dbn",
+		"body": "frc::SmartDashboard::PutNumber(\"$1\", $2);"
+	},
+	"Put boolean to the SmartDashBoard" :{
+		"prefix": "dbb",
+		"body": "frc::SmartDashboard::PutBoolean(\"$1\", $2);"
+	}
+}
