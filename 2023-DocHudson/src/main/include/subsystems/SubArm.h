@@ -26,6 +26,7 @@ class SubArm : public frc2::SubsystemBase {
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
+  void ArmPos(units::meter_t x, units::meter_t y);
 
  private:
   ICSparkMax<> _armMotor1{99};
@@ -34,7 +35,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
-  static constexpr double F = 0.0;
+  static constexpr double F = 30.0;
   
   static constexpr double GEAR_RATIO = 200.0;
   static constexpr units::kilogram_t ARM_MASS_1 = 6_kg;
@@ -50,7 +51,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 0.0;
+  static constexpr double F_2 = 30.0;
   
   static constexpr double GEAR_RATIO_2 = 200.0;
   static constexpr units::kilogram_t ARM_MASS_2 = 6_kg;

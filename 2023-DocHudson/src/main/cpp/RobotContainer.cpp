@@ -28,8 +28,10 @@ void RobotContainer::ConfigureBindings() {
 
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  m_driverController.A().WhileTrue(Run([]{SubArm::GetInstance().DriveTo(10_deg, 20_deg);}));
-  m_driverController.B().WhileTrue(Run([]{SubArm::GetInstance().DriveTo(40_deg, 60_deg);}));
+  m_driverController.A().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(10_deg, 20_deg);}));
+  m_driverController.B().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(40_deg, 60_deg);}));
+  //ARM_LENGTH = 1m, ARM_LENGTH_2 = 1m
+  m_driverController.LeftBumper().WhileTrue(Run([]{SubArm::GetInstance().ArmPos(1.3_m, 0.67_m);}));
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
