@@ -7,7 +7,6 @@
 
 #include <frc2/command/SubsystemBase.h>
 
-// #include <frc/AnalogGyro.h>
 #include <AHRS.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
@@ -17,8 +16,6 @@
 #include <frc/controller/HolonomicDriveController.h>
 
 #include <numbers>
-
-
 
 #include "Constants.h"
 #include "utilities/SwerveModule.h"
@@ -74,10 +71,10 @@ class SubDriveBase : public frc2::SubsystemBase {
   const double BACK_LEFT_MAG_OFFSET = 108.63;//-149.68;//148.7;
   const double BACK_RIGHT_MAG_OFFSET = -31.64;//-44.82;//-136.05;
 
-  SwerveModule m_frontLeft{canid::tfxDriveBaseFrontLeftDrive, canid::tfxDriveBaseFrontLeftTurn, canid::tfxDriveBaseFrontLeftEncoder, FRONT_LEFT_MAG_OFFSET};
-  SwerveModule m_frontRight{canid::tfxDriveBaseFrontRightDrive, canid::tfxDriveBaseFrontRightTurn, canid::tfxDriveBaseFrontRightEncoder, FRONT_RIGHT_MAG_OFFSET};
-  SwerveModule m_backLeft{canid::tfxDriveBaseBackLeftDrive, canid::tfxDriveBaseBackLeftTurn, canid::tfxDriveBaseBackLeftEncoder, BACK_LEFT_MAG_OFFSET};
-  SwerveModule m_backRight{canid::tfxDriveBaseBackRightDrive, canid::tfxDriveBaseBackRightTurn, canid::tfxDriveBaseBackRightEncoder, BACK_RIGHT_MAG_OFFSET};
+  SwerveModule m_frontLeft{canid::DriveBaseFrontLeftDrive, canid::DriveBaseFrontLeftTurn, canid::DriveBaseFrontLeftEncoder, FRONT_LEFT_MAG_OFFSET};
+  SwerveModule m_frontRight{canid::DriveBaseFrontRightDrive, canid::DriveBaseFrontRightTurn, canid::DriveBaseFrontRightEncoder, FRONT_RIGHT_MAG_OFFSET};
+  SwerveModule m_backLeft{canid::DriveBaseBackLeftDrive, canid::DriveBaseBackLeftTurn, canid::DriveBaseBackLeftEncoder, BACK_LEFT_MAG_OFFSET};
+  SwerveModule m_backRight{canid::DriveBaseBackRightDrive, canid::DriveBaseBackRightTurn, canid::DriveBaseBackRightEncoder, BACK_RIGHT_MAG_OFFSET};
 
   frc::SwerveDriveKinematics<4> m_kinematics{
       m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation,
