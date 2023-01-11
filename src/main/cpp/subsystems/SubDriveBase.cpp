@@ -16,7 +16,7 @@ SubDriveBase::SubDriveBase(){
   frc::SmartDashboard::PutData("y controller", &Ycontroller);
   frc::SmartDashboard::PutData("rotation controller", &Rcontroller);
   Rcontroller.EnableContinuousInput(-180_deg, 180_deg);
-
+  SyncSensors();
 }
 
 // This method will be called once per scheduler run
@@ -25,6 +25,13 @@ void SubDriveBase::Periodic() {
   frc::SmartDashboard::PutNumber("gyro", m_gyro.GetAngle());
   frc::SmartDashboard::PutBoolean("gyro is callibrating", m_gyro.IsCalibrating());
   frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
+
+  frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
+    m_frontLeft.GetAngle().Degrees().value(), m_frontLeft.GetSpeed().value(),
+    m_frontRight.GetAngle().Degrees().value(), m_frontRight.GetSpeed().value(),
+    m_backLeft.GetAngle().Degrees().value(), m_backLeft.GetSpeed().value(),
+    m_backRight.GetAngle().Degrees().value(), m_backRight.GetSpeed().value(),
+  });
   UpdateOdometry();
 }
 
@@ -40,6 +47,14 @@ void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_se
 
   // Setting modules from aquired states
   auto [fl, fr, bl, br] = states;
+
+  frc::SmartDashboard::PutNumberArray("drivebase/requestedstates", std::array{
+    fl.angle.Degrees().value(), fl.speed.value(),
+    fr.angle.Degrees().value(), fr.speed.value(),
+    bl.angle.Degrees().value(), bl.speed.value(),
+    br.angle.Degrees().value(), br.speed.value(),
+  });
+
   m_frontLeft.SetDesiredState(fl);
   m_frontRight.SetDesiredState(fr);
   m_backLeft.SetDesiredState(bl);
@@ -94,6 +109,7 @@ void SubDriveBase::UpdateOdometry() {
   auto fr = m_frontRight.GetPosition();
   auto bl = m_backLeft.GetPosition();
   auto br = m_backRight.GetPosition();
+
   _prevPose = _poseEstimator.GetEstimatedPosition();
   _poseEstimator.Update(GetHeading(), {fl, fr, bl, br});
   _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());
