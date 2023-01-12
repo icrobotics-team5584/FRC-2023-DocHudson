@@ -30,6 +30,5 @@ class RobotContainer {
   frc2::CommandXboxController _driverController{0};
   
   void ConfigureBindings();
-  JoystickScaler _controller {0, 2.5, 2.5};
   
 };
