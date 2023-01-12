@@ -27,11 +27,10 @@ namespace cmd {
         static SwerveAutoBuilder autoBuilder{
             [] { return SubDriveBase::GetInstance().GetPose(); },
             [] (frc::Pose2d pose) { SubDriveBase::GetInstance().SetPose(pose); },
-            SubDriveBase::GetInstance().GetKinematics(),
             {0.1, 0, 0},
             {0.1, 0, 0},
             [] (frc::ChassisSpeeds speeds) {
-                SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, true);
+                SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
             },
             eventMap,
             {&SubDriveBase::GetInstance()}

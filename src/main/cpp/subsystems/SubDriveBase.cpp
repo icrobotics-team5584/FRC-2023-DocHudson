@@ -146,6 +146,6 @@ void SubDriveBase::UpdatePosition(frc::Pose2d robotPosition) {
   _poseEstimator.AddVisionMeasurement(robotPosition, 2_ms);
 }
 
-void SubDriveBase::DisplayTrajectory(std::string, frc::Trajectory trajectory) {
-  _field.GetObject(name)->SetTrajectory(trajectory);
+void SubDriveBase::DisplayTrajectory(std::string name, frc::Trajectory trajectory) {
+  _fieldDisplay.GetObject(name)->SetTrajectory(trajectory);
 }

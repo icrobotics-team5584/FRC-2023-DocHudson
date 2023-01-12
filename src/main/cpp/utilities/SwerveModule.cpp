@@ -54,8 +54,13 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState)
 }
 
 frc::SwerveModulePosition SwerveModule::GetPosition() {
-  return {units::meter_t{Conversions::FalconTicsToMeters(_canDriveMotor.GetSelectedSensorPosition(), DRIVE_GEAR_RATIO, WHEEL_RADIUS)},
-           GetAngle().Radians()};
+  if (frc::RobotBase::IsSimulation()) {
+    return {_simulatorDistanceTravelled, GetAngle().Radians()};
+  }
+  else {
+    return {units::meter_t{Conversions::FalconTicsToMeters(_canDriveMotor.GetSelectedSensorPosition(), DRIVE_GEAR_RATIO, WHEEL_RADIUS)},
+            GetAngle().Radians()};
+  }
 }
 
 void SwerveModule::SendSensorsToDash() {
@@ -104,6 +109,7 @@ void SwerveModule::SetDesiredVelocity(units::meters_per_second_t velocity) {
   double ffpercent = ffvolts.value()/12;
   _canDriveMotor.Set(TalonFXControlMode::Velocity, falconVel,
                      DemandType::DemandType_ArbitraryFeedForward, ffpercent);
+  _simulatorDistanceTravelled += velocity * 20_ms;
 }
 
 void SwerveModule::StopMotors() {

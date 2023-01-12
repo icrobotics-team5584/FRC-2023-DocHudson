@@ -1,7 +1,23 @@
 {
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
+      "/SmartDashboard/Xcontroller": "PIDController",
+      "/SmartDashboard/field": "Field2d",
+      "/SmartDashboard/x controller": "PIDController",
+      "/SmartDashboard/y controller": "PIDController"
+    },
+    "windows": {
+      "/SmartDashboard/field": {
+        "auto path 0": {
+          "arrowSize": 0,
+          "style": "Line"
+        },
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
