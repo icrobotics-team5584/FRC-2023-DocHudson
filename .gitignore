@@ -109,6 +109,7 @@ Temporary Items
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/snippets/
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -160,3 +161,6 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
+
+# Ignoring DS_Store files on Mac OS
+**/.DS_Store
