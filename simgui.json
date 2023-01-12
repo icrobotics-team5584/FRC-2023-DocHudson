@@ -20,6 +20,12 @@
           "open": true
         },
         "Intake": {
+          "IntakeMotor": {
+            "open": true
+          },
+          "OuttakeMotor": {
+            "open": true
+          },
           "open": true
         },
         "open": true

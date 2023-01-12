@@ -4,38 +4,42 @@
 
 #include "subsystems/SubIntake.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
 
 SubIntake::SubIntake() {
-    _spmLeftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    _spmRightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-    _spmLeftMotor.SetSmartCurrentLimit(20);
-    _spmRightMotor.SetSmartCurrentLimit(20);
-
-   
+  _leftMotor.SetSmartCurrentLimit(20);
+  _rightMotor.SetSmartCurrentLimit(20);
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
    
-frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _spmLeftMotor.GetSimVoltage().value());
-frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _spmRightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
 
 
 }
+
 void SubIntake::IntakeLeft(){
-_spmLeftMotor.Set(-1);
+	_leftMotor.Set(-1);
 }
+
 void SubIntake::IntakeRight(){
-_spmRightMotor.Set(0.5);
-}   
+	_rightMotor.Set(0.5);
+}
+
 void SubIntake::OuttakeLeft(){
-_spmLeftMotor.Set(-0.5);
+	_leftMotor.Set(-0.5);
 }
+
 void SubIntake::OuttakeRight(){
-_spmRightMotor.Set(1);
+	_rightMotor.Set(1);
 }
+
 void SubIntake::Stop(){
-_spmLeftMotor.Set(0);
-_spmRightMotor.Set(0);
+	_leftMotor.Set(0);
+	_rightMotor.Set(0);
 }
