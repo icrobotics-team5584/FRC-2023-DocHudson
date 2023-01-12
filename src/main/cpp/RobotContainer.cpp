@@ -6,6 +6,7 @@
 
 #include <frc2/command/button/Trigger.h>
 #include "frc2/command/Commands.h"
+#include "commands/GamePieceCommands.h"
 
 
 RobotContainer::RobotContainer() {
@@ -17,11 +18,14 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-    using BtnId = frc::XboxController::Button;
-    using Btn = frc2::JoystickButton;
+    //using BtnId = frc::XboxController::Button;
+   // using Btn = frc2::JoystickButton;
  
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  m_driverController.A().WhileTrue(CmdIntake().ToPtr());
-  m_driverController.X().WhileTrue(CmdOuttake().ToPtr());
+  m_driverController.A().WhileTrue(cmd::Intake());
+  m_driverController.X().WhileTrue(cmd::Outtake());
+  m_driverController.RightBumper().WhileTrue(cmd::ClawExpand());
+  m_driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
+  m_driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
 }

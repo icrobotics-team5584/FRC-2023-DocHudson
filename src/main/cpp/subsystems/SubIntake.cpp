@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/SubIntake.h"
-#include <frc/smartdashboard/SmartDashboard.h>
+
 
 SubIntake::SubIntake() {
     _spmLeftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -12,20 +12,23 @@ SubIntake::SubIntake() {
     _spmLeftMotor.SetSmartCurrentLimit(20);
     _spmRightMotor.SetSmartCurrentLimit(20);
 
-    frc::SmartDashboard::PutData("Claw/IntakeMotor", (wpi::Sendable*)&_spmLeftMotor);
-    frc::SmartDashboard::PutData("Claw/OuttakeMotor", (wpi::Sendable*)&_spmRightMotor);
+   
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
    
+frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _spmLeftMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _spmRightMotor.GetSimVoltage().value());
+
+
 }
 void SubIntake::IntakeLeft(){
 _spmLeftMotor.Set(-1);
 }
 void SubIntake::IntakeRight(){
 _spmRightMotor.Set(0.5);
-}
+}   
 void SubIntake::OuttakeLeft(){
 _spmLeftMotor.Set(-0.5);
 }

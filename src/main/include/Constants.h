@@ -22,3 +22,9 @@ constexpr int spmRightMotor = 41;
 namespace OperatorConstants {
     constexpr int kDriverControllerPort = 0;
 }
+namespace pcm {
+    constexpr int ClawGrabLeft = 0; 
+    constexpr int ClawGrabRight = 1;
+    constexpr int ClawRealeseLeft = 2;
+    constexpr int ClawRealeseRight = 3;
+}

@@ -12,8 +12,7 @@
 #include "subsystems/SubIntake.h"
 #include <frc/XboxController.h>
 #include <frc2/command/InstantCommand.h>
-#include "commands/CmdOuttake.h"
-#include "commands/CmdIntake.h"
+#include "subsystems/SubClaw.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
