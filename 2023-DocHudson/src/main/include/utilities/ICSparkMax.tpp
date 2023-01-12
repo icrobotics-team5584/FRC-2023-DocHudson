@@ -26,7 +26,10 @@ void ICSparkMax<Position>::InitSendable(wpi::SendableBuilder& builder) {
   builder.AddDoubleProperty(
       "Velocity", [&] { return GetVelocity().value(); }, nullptr);
   builder.AddDoubleProperty(
-      "Voltage", [&] { return GetSimVoltage().value(); }, nullptr);
+      "Voltage", [&] { 
+        if (frc::RobotBase::IsSimulation()){return GetSimVoltage().value();}
+        else {return CANSparkMax::GetAppliedOutput() * 12;}
+      }, nullptr);
   builder.AddDoubleProperty(
       "Position Target", [&] { return GetPositionTarget().value(); }, nullptr);
   builder.AddDoubleProperty(

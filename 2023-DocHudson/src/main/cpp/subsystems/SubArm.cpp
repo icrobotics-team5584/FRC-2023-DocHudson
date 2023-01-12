@@ -18,10 +18,18 @@ SubArm::SubArm(){
     _armMotor2.SetPIDFF(P_2, I_2, D_2, F_2);
     _armMotor2.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
 
+    frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
+
+    _armMotor1Follow.Follow(_armMotor1);
 }
 
 // This method will be called once per scheduler run
-void SubArm::Periodic(){}
+void SubArm::Periodic(){
+    frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotor1.GetBusVoltage());
+    frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotor1.GetOutputCurrent());
+    frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
+    frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
+}
 
 void SubArm::SimulationPeriodic(){
 
@@ -39,13 +47,15 @@ void SubArm::SimulationPeriodic(){
     auto armVel2 = _armSim2.GetVelocity();
     _armMotor2.UpdateSimEncoder(armAngle2, armVel2);
 
+    _arm1Ligament->SetAngle(armAngle);
+    _arm2Ligament->SetAngle(armAngle2);
+
 }
 
 void SubArm::DriveTo(units::degree_t deg1, units::degree_t deg2) {
     _armMotor1.SetSmartMotionTarget(deg1);
     _armMotor2.SetSmartMotionTarget(deg2);
 }
-
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y){
 
@@ -56,12 +66,11 @@ void SubArm::ArmPos(units::meter_t x, units::meter_t y){
     double angle2FracBottom = 2.0 * ARM_LENGTH.value() * ARM_LENGTH_2.value();
     units::radian_t angle2{-1 * (acos(angle2FracTop/angle2FracBottom))};
 
-    double angle1_sqrt = sqrt(pow(ARM_LENGTH_2.value(), 2) + pow(ARM_LENGTH.value(), 2));
-    double angle1FracTop = angle1_sqrt + ARM_LENGTH.value() - ARM_LENGTH_2.value();
-    double angle1FracBottom = 2.0 * angle1_sqrt * ARM_LENGTH.value();
-    double statement1 = acos(angle1FracTop/angle1FracBottom);
-    double statement2 = atan(y_coord/x_coord);
-    double angle1 = statement1 + statement2;
+    double angle1FracTop = ARM_LENGTH_2.value() * sin(angle2.value());
+    double angle1FracBottom = ARM_LENGTH.value() + ARM_LENGTH_2.value() * cos(angle2.value());
+    double statement1 = atan(y_coord / x_coord);
+    double statement2 = atan(angle1FracTop / angle1FracBottom);
+    units::radian_t angle1{statement1 - statement2};
 
     DriveTo(angle1, angle2);
 }
