@@ -30,5 +30,7 @@ class RobotContainer {
   frc2::CommandXboxController _driverController{0};
   
   void ConfigureBindings();
+  void SetConeMode();
+  void SetCubeMode();
   
 };
