@@ -18,6 +18,9 @@
   "files.associations": {
     "*.tpp": "cpp",
     "cmath": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "functional": "cpp",
+    "*.tcc": "cpp",
+    "*.inc": "cpp"
   }
 }

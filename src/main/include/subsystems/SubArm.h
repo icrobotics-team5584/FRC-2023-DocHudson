@@ -43,33 +43,33 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
-  static constexpr double F = 0.05;
+  static constexpr double F = 0.01;
   
-  static constexpr double GEAR_RATIO = 210.0;
-  static constexpr units::kilogram_t ARM_MASS_1 = 6_kg;
+  static constexpr double GEAR_RATIO = 210.0; // only sim
+  static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
   static constexpr units::degrees_per_second_t MAX_VEL = 5_deg_per_s;
-  static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 1_deg_per_s_sq;
+  static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 5_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 1_m;
-  static constexpr units::kilogram_square_meter_t MOI = 0.01_kg_sq_m;
-  static constexpr units::degree_t MIN_ANGLE = 0_deg;
-  static constexpr units::degree_t MAX_ANGLE = 180_deg;
+  static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
+  static constexpr units::degree_t MIN_ANGLE = 0_deg; // only sim
+  static constexpr units::degree_t MAX_ANGLE = 90_deg; // only sim
 
   //arm 2
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 0.05;
+  static constexpr double F_2 = 0.01;
   
-  static constexpr double GEAR_RATIO_2 = 165.0;
-  static constexpr units::kilogram_t ARM_MASS_2 = 3_kg;
+  static constexpr double GEAR_RATIO_2 = 165.0; // only sim
+  static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
   static constexpr units::degrees_per_second_t MAX_VEL_2 = 5_deg_per_s;
-  static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 1_deg_per_s_sq;
+  static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 =51_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
-  static constexpr units::kilogram_square_meter_t MOI_2 = 0.01_kg_sq_m;
-  static constexpr units::degree_t MIN_ANGLE_2 = -180_deg;
-  static constexpr units::degree_t MAX_ANGLE_2 = 0_deg;
+  static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
+  static constexpr units::degree_t MIN_ANGLE_2 = -90_deg; // only sim
+  static constexpr units::degree_t MAX_ANGLE_2 = 0_deg; // only sim
 
   // simulation of armMotor1
   frc::sim::SingleJointedArmSim _armSim{
@@ -98,8 +98,8 @@ class SubArm : public frc2::SubsystemBase {
   // Display of arm sim
   frc::Mechanism2d _doubleJointedArmMech{3, 3}; //canvas width and height
   frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 0.5, 0); //root x and y
-  frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
-  frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
+  frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 30_deg);
+  frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 30_deg);
 
 };
 

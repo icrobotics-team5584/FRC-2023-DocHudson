@@ -3,7 +3,6 @@
 #include <frc/RobotBase.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <units/voltage.h>
-
 #include <cstdlib>
 #include <iostream>
 
@@ -20,16 +19,17 @@ ICSparkMax<Position>::ICSparkMax(int deviceID, units::ampere_t currentLimit)
 
 template <class Position>
 void ICSparkMax<Position>::InitSendable(wpi::SendableBuilder& builder) {
-  builder.AddDoubleProperty(
-      "Position", [&] { return GetPosition().value(); },
-      nullptr);  // setter is null, cannot set position directly
-  builder.AddDoubleProperty(
-      "Velocity", [&] { return GetVelocity().value(); }, nullptr);
+  builder.AddDoubleProperty("Position", [&] { return GetPosition().value(); }, nullptr);  // setter is null, cannot set position directly
+  builder.AddDoubleProperty("Velocity", [&] { return GetVelocity().value(); }, nullptr);
+
   builder.AddDoubleProperty(
       "Voltage", [&] { 
         if (frc::RobotBase::IsSimulation()){return GetSimVoltage().value();}
         else {return CANSparkMax::GetAppliedOutput() * 12;}
       }, nullptr);
+
+  // builder.AddDoubleProperty("Voltage", [&]{return GetSimVoltage().value();});
+
   builder.AddDoubleProperty(
       "Position Target", [&] { return GetPositionTarget().value(); }, nullptr);
   builder.AddDoubleProperty(
