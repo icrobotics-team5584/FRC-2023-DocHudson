@@ -20,7 +20,6 @@ namespace cmd {
 
         std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap {
             // {"Intake", },
-            // {"Drive", },
             // {"Score", },
         };
 
@@ -28,7 +27,7 @@ namespace cmd {
             [] { return SubDriveBase::GetInstance().GetPose(); },
             [] (frc::Pose2d pose) { SubDriveBase::GetInstance().SetPose(pose); },
             {0.1, 0, 0},
-            {0.1, 0, 0},
+            {1, 0, 0},
             [] (frc::ChassisSpeeds speeds) {
                 SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
             },
