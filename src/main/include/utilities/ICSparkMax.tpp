@@ -275,5 +275,6 @@ ICSparkMax<Position>::Velocity_t ICSparkMax<Position>::GetCurrentSMVelocity() {
     return Velocity_t{0};
   }
 
-  return _simSmartMotionProfile.Calculate(_smartMotionProfileTimer.Get()).velocity;
+auto velocity = _simSmartMotionProfile.Calculate(_smartMotionProfileTimer.Get()).velocity;
+  return velocity;
 }

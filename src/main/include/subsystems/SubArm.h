@@ -52,8 +52,8 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 1_m;
   static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
-  static constexpr units::degree_t MIN_ANGLE = 0_deg; // only sim
-  static constexpr units::degree_t MAX_ANGLE = 90_deg; // only sim
+  static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
+  static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
 
   //arm 2
   static constexpr double P_2 = 0.0;
@@ -68,8 +68,8 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
   static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
-  static constexpr units::degree_t MIN_ANGLE_2 = -90_deg; // only sim
-  static constexpr units::degree_t MAX_ANGLE_2 = 0_deg; // only sim
+  static constexpr units::degree_t MIN_ANGLE_2 = -180_deg; // only sim
+  static constexpr units::degree_t MAX_ANGLE_2 = 180_deg; // only sim
 
   // simulation of armMotor1
   frc::sim::SingleJointedArmSim _armSim{
@@ -80,7 +80,7 @@ class SubArm : public frc2::SubsystemBase {
     MIN_ANGLE,
     MAX_ANGLE,
     ARM_MASS_1,
-    true,
+    false,
   };
 
   // simulation of armMotor2
@@ -92,14 +92,14 @@ class SubArm : public frc2::SubsystemBase {
     MIN_ANGLE_2,
     MAX_ANGLE_2,
     ARM_MASS_2,
-    true,
+    false,
   };
 
   // Display of arm sim
   frc::Mechanism2d _doubleJointedArmMech{3, 3}; //canvas width and height
-  frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 0.5, 0); //root x and y
-  frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 30_deg);
-  frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 30_deg);
+  frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 2, 2); //root x and y
+  frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
+  frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
 
 };
 

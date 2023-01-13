@@ -182,6 +182,16 @@
           ]
         }
       ]
+    },
+    "Plot <3>": {
+      "plots": [
+        {
+          "height": 326
+        }
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

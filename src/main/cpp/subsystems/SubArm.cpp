@@ -19,8 +19,8 @@ SubArm::SubArm() {
   _armMotor2.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
 
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
-  frc::SmartDashboard::PutNumber("Arm/bottomAngle input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/topAngle input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/armBottomAngle input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/armTopAngle input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/Arm2 offset: ", 1);
 
   _armMotor1Follow.Follow(_armMotor1);
@@ -34,9 +34,9 @@ void SubArm::Periodic() {
     frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
     frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
 
-    units::degree_t bottomAngle{frc::SmartDashboard::GetNumber("Arm/bottomAngle input: ", 0)};
-    units::degree_t topAngle{frc::SmartDashboard::GetNumber("Arm/topAngle input: ", 0)};
-    DriveTo(bottomAngle, topAngle);
+    units::degree_t armBottomAngle{frc::SmartDashboard::GetNumber("Arm/armBottomAngle input: ", 0)};
+    units::degree_t armTopAngle{frc::SmartDashboard::GetNumber("Arm/armTopAngle input: ", 0)};
+    DriveTo(armBottomAngle, armTopAngle);
 }
 
 void SubArm::DriveTo(units::degree_t deg1, units::degree_t deg2) {
@@ -48,19 +48,17 @@ void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
   double x_coord = x.value();
   double y_coord = y.value();
 
-  double topAngleFracbottom = pow(x_coord, 2.0) + pow(y_coord, 2.0) - pow(ARM_LENGTH.value(), 2.0) - pow(ARM_LENGTH_2.value(), 2.0);
-  double topAngleFractop = 2.0 * ARM_LENGTH.value() * ARM_LENGTH_2.value();
-  units::radian_t topAngle{-1 * (acos(topAngleFracbottom / topAngleFractop))};
+  double armTopAngleFracbottom = pow(x_coord, 2.0) + pow(y_coord, 2.0) - pow(ARM_LENGTH.value(), 2.0) - pow(ARM_LENGTH_2.value(), 2.0);
+  double armTopAngleFractop = 2.0 * ARM_LENGTH.value() * ARM_LENGTH_2.value();
+  units::radian_t armTopAngle{-1 * (acos(armTopAngleFracbottom / armTopAngleFractop))};
 
-  double bottomAngleFracbottom = ARM_LENGTH_2.value() * sin(topAngle.value());
-  double bottomAngleFractop = ARM_LENGTH.value() + ARM_LENGTH_2.value() * cos(topAngle.value());
+  double armBottomAngleFracbottom = ARM_LENGTH_2.value() * sin(armTopAngle.value());
+  double armBottomAngleFractop = ARM_LENGTH.value() + ARM_LENGTH_2.value() * cos(armTopAngle.value());
   double statement1 = atan(y_coord / x_coord);
-  double statement2 = atan(bottomAngleFracbottom / bottomAngleFractop);
-  units::radian_t bottomAngle{statement1 - statement2};
+  double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
+  units::radian_t armBottomAngle{statement1 - statement2};
 
-  //bottomAngle = bottom angle
-  //topAngle = top angle
-  DriveTo(bottomAngle * -1, topAngle);
+  DriveTo(armBottomAngle * -1, armTopAngle);
 }
 
 void SubArm::CubeConeSwitch() {}
@@ -76,10 +74,10 @@ void SubArm::SimulationPeriodic() {
   auto armVel = _armSim.GetVelocity();
   _armMotor1.UpdateSimEncoder(armAngle, armVel);
 
-  auto armtopAngle = _armSim2.GetAngle();
-  auto armVel2 = _armSim2.GetVelocity();
-  _armMotor2.UpdateSimEncoder(armtopAngle, armVel2);
+  auto armarmTopAngle = _armSim2.GetAngle() - armAngle;
+  auto armVel2 = _armSim2.GetVelocity() - armVel;
+  _armMotor2.UpdateSimEncoder(armarmTopAngle, armVel2);
 
-  _arm1Ligament->SetAngle(armAngle * -1);
-  _arm2Ligament->SetAngle(armtopAngle - armAngle);
+  _arm1Ligament->SetAngle(armAngle);
+  _arm2Ligament->SetAngle(armarmTopAngle );
 }
