@@ -47,11 +47,11 @@ class SubArm : public frc2::SubsystemBase {
   
   static constexpr double GEAR_RATIO = 210.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL = 5_deg_per_s;
-  static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 5_deg_per_s_sq;
+  static constexpr units::degrees_per_second_t MAX_VEL = 20_deg_per_s;
+  static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 1_m;
-  static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
+  // static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
 
@@ -59,15 +59,15 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 0.01;
+  static constexpr double F_2 = 0.0;
   
   static constexpr double GEAR_RATIO_2 = 165.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL_2 = 5_deg_per_s;
-  static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 =51_deg_per_s_sq;
+  static constexpr units::degrees_per_second_t MAX_VEL_2 = 20_deg_per_s;
+  static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
-  static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
+  // static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE_2 = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE_2 = 180_deg; // only sim
 
@@ -75,7 +75,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::sim::SingleJointedArmSim _armSim{
     frc::DCMotor::NEO(2),
     GEAR_RATIO, 
-    MOI,
+    frc::sim::SingleJointedArmSim::EstimateMOI(ARM_LENGTH, ARM_MASS_1),
     ARM_LENGTH,
     MIN_ANGLE,
     MAX_ANGLE,
@@ -87,7 +87,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::sim::SingleJointedArmSim _armSim2{
     frc::DCMotor::NEO(2),
     GEAR_RATIO_2, 
-    MOI_2,
+    frc::sim::SingleJointedArmSim::EstimateMOI(ARM_LENGTH_2, ARM_MASS_2),
     ARM_LENGTH_2,
     MIN_ANGLE_2,
     MAX_ANGLE_2,

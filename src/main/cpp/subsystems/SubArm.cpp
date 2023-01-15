@@ -21,7 +21,6 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
   frc::SmartDashboard::PutNumber("Arm/armBottomAngle input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/armTopAngle input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/Arm2 offset: ", 1);
 
   _armMotor1Follow.Follow(_armMotor1);
   _armMotor1.SetInverted(true);
@@ -29,14 +28,22 @@ SubArm::SubArm() {
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
-    frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotor1.GetBusVoltage());
-    frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotor1.GetOutputCurrent());
-    frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
-    frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotor1.GetBusVoltage());
+  frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotor1.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
+  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
 
-    units::degree_t armBottomAngle{frc::SmartDashboard::GetNumber("Arm/armBottomAngle input: ", 0)};
-    units::degree_t armTopAngle{frc::SmartDashboard::GetNumber("Arm/armTopAngle input: ", 0)};
+  static auto prevTopRequst = 0_deg;
+  static auto prevBottomRequest = 0_deg;
+
+  units::degree_t armBottomAngle{frc::SmartDashboard::GetNumber("Arm/armBottomAngle input: ", 0)};
+  units::degree_t armTopAngle{frc::SmartDashboard::GetNumber("Arm/armTopAngle input: ", 0)};
+
+  if((prevTopRequst != armTopAngle) or (prevBottomRequest != armBottomAngle)){
     DriveTo(armBottomAngle, armTopAngle);
+  } 
+  prevBottomRequest = armBottomAngle;
+  prevTopRequst = armTopAngle;
 }
 
 void SubArm::DriveTo(units::degree_t deg1, units::degree_t deg2) {
@@ -74,10 +81,10 @@ void SubArm::SimulationPeriodic() {
   auto armVel = _armSim.GetVelocity();
   _armMotor1.UpdateSimEncoder(armAngle, armVel);
 
-  auto armarmTopAngle = _armSim2.GetAngle() - armAngle;
-  auto armVel2 = _armSim2.GetVelocity() - armVel;
-  _armMotor2.UpdateSimEncoder(armarmTopAngle, armVel2);
+  auto armTopAngle = _armSim2.GetAngle();
+  auto armVel2 = _armSim2.GetVelocity();
+  _armMotor2.UpdateSimEncoder(armTopAngle, armVel2);
 
   _arm1Ligament->SetAngle(armAngle);
-  _arm2Ligament->SetAngle(armarmTopAngle );
+  _arm2Ligament->SetAngle(armTopAngle - armAngle);
 }

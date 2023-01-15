@@ -14,7 +14,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d"
+      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
+      "/SmartDashboard/Arm/mechanismDisplay": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/Arm/Mechanism Display": {
