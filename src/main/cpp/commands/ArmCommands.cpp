@@ -1,6 +1,7 @@
 #include "commands/ArmCommands.h"
 #include "subsystems/SubArm.h"
 #include "units/length.h"
+#include "RobotContainer.h"
 
 namespace cmd{
     using namespace frc2::cmd;
@@ -15,5 +16,28 @@ namespace cmd{
 
     frc2::CommandPtr ArmToLowCubeOrCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(0.17862_m + SubArm::ARM_ROOT_X, 0.07_m);});}
     frc2::CommandPtr ArmToLoadingStation(){return RunOnce([]{SubArm::GetInstance().ArmPos(SubArm::ARM_ROOT_X, 0.942992018_m);});}
+
+    frc2::CommandPtr CubeConeSwitch(){
+        return RunOnce([]{
+            if(RobotContainer::isConeMode){RobotContainer::isConeMode = false;}
+            else{RobotContainer::isConeMode = true;}
+        });
+    }
+    
+    frc2::CommandPtr ArmToHigh(){
+        return Either(
+            ArmToHighCone(),
+            ArmToHighCube(),
+            []{return RobotContainer::isConeMode;}
+        );
+    }
+
+    frc2::CommandPtr ArmToMid(){
+        return Either(
+            ArmToMidCone(),
+            ArmToMidCube(),
+            []{return RobotContainer::isConeMode;}
+        );
+    }
 
 }

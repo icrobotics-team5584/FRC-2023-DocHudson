@@ -12,5 +12,9 @@ namespace cmd {
     frc2::CommandPtr ArmToLoadingStation();
     frc2::CommandPtr ArmToLowCubeOrCone();
 
-    // frc2::CommandPtr ConeCubeSwitch();
+    frc2::CommandPtr CubeConeSwitch();
+    
+    frc2::CommandPtr ArmToHigh();
+    frc2::CommandPtr ArmToMid();
+
 }

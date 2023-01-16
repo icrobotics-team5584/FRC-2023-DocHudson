@@ -13,6 +13,7 @@
 #include "subsystems/SubDriveBase.h"
 #include "commands/ArmCommands.h"
 
+bool RobotContainer::isConeMode = true;
 
 RobotContainer::RobotContainer() {
   // Initializing Commmands
@@ -21,7 +22,7 @@ RobotContainer::RobotContainer() {
 
   // Configure button bindings
   ConfigureBindings();
-  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));  
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -46,11 +47,10 @@ _driverController.X().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(20_deg, 0_
 _driverController.Y().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(30_deg, 0_deg);}));
 */
 
-_driverController.A().OnTrue(cmd::ArmToHighCone());
-_driverController.B().OnTrue(cmd::ArmToMidCone());
-_driverController.X().OnTrue(cmd::ArmToHighCube());
-_driverController.Y().OnTrue(cmd::ArmToMidCube());
+_driverController.A().OnTrue(cmd::ArmToHigh());
+_driverController.B().OnTrue(cmd::ArmToMid());
 _driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
+_driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
 
 // A = 1
 // B = 2

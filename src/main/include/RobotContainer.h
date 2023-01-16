@@ -25,6 +25,8 @@ class RobotContainer {
   double ControllerGetLeftY();
   double ControllerGetRightX();
 
+  static bool isConeMode;
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController _driverController{0};
