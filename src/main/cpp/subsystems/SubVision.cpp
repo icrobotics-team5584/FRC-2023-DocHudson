@@ -7,6 +7,7 @@
 #include <fmt/format.h>
 
 
+
 SubVision::SubVision() {
      for (int i=0; i<=8; i++) {
     auto pose = _tagLayout->GetTagPose(i);
@@ -18,11 +19,14 @@ SubVision::SubVision() {
   }
   }
 
-std::optional <std::pair<frc::Pose3d, units::second_t>> SubVision::GetMeasurement(){
+std::optional <Measurement> SubVision::GetMeasurement(){
 if (_camera->GetLatestResult().HasTargets()) {
-  return std::optional{_visionPoseEstimator.Update()};
+  auto [pose, latency] = _visionPoseEstimator.Update();
+  auto ambiguity = _camera->GetLatestResult().GetBestTarget().GetPoseAmbiguity(); 
+  Measurement UpdateMeasurement {pose, latency, ambiguity};
+  return {UpdateMeasurement};
 } else {return {};}
-};
+}
 // This method will be called once per scheduler run
 void SubVision::Periodic() {
     void UpdateOdometry();

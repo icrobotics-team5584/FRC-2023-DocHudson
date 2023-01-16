@@ -15,8 +15,13 @@
 #include <photonlib/SimPhotonCamera.h>
 #include <photonlib/SimVisionSystem.h>
 #include <photonlib/SimVisionTarget.h>
+#include <frc/Filesystem.h>
 
-
+struct Measurement {
+  frc::Pose3d pose;
+  units::second_t latency;
+  double ambiguity;
+};
 
 class SubVision : public frc2::SubsystemBase {
  public:
@@ -27,18 +32,18 @@ class SubVision : public frc2::SubsystemBase {
    */
   void Periodic() override;
   void SimulationPeriodic() override;
-  std::optional <std::pair<frc::Pose3d, units::second_t>> GetMeasurement();
+  std::optional <Measurement> GetMeasurement();
  private:
 
 std::shared_ptr<photonlib::PhotonCamera> _camera{new photonlib::PhotonCamera{"limelight"}};
   const units::meter_t CAMERA_HEIGHT = 665_mil;
-  const units::degree_t CAMERA_PITCH = 45_deg;
+  const units::degree_t CAMERA_PITCH = 2_deg;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
   frc::Transform3d _camToBot{{11_cm, 10_cm, 65.5_cm}, {}};
 
-  std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{"deploy/AprilTags.json"}};
+  std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory()+"/AprilTags.json"}};
 
   photonlib::RobotPoseEstimator _visionPoseEstimator{
     _tagLayout, 

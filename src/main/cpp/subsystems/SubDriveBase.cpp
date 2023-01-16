@@ -135,9 +135,11 @@ void SubDriveBase::DisplayPose(std::string label, frc::Pose2d pose){
 }
 
   
-void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, units::second_t latency){
+void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency){
     DisplayPose("EstimatedPose", pose);
+    if (ambiguity < 0.15) {
     auto timestamp = frc::Timer::GetFPGATimestamp() + latency;
     _poseEstimator.AddVisionMeasurement(pose, timestamp);
+    }
 }
 
