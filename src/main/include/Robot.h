@@ -10,6 +10,7 @@
 #include <frc2/command/CommandPtr.h>
 
 #include "RobotContainer.h"
+#include "TankContainer.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -30,5 +31,5 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
   std::optional<frc2::CommandPtr> _autonomousCommand;
 
-  RobotContainer _container;
+  TankContainer _container;
 };
