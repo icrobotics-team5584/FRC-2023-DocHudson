@@ -43,3 +43,20 @@ void SubIntake::Stop(){
 	_leftMotor.Set(0);
 	_rightMotor.Set(0);
 }
+
+void SubIntake::BothExtended(){
+    _solPnuematicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+    _solPnuematicsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void SubIntake::BothRetracted(){
+    _solPnuematicsLeftBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+    _solPnuematicsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::OneExtended(){
+    _solPnuematicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+void SubIntake::OneRetracted(){
+    _solPnuematicsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}

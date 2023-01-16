@@ -31,6 +31,7 @@ namespace canid {
     // Intake id: 40 - 60
   constexpr int leftMotor = 40;
   constexpr int rightMotor = 41;
+  
     // Arm id: 20 - 39
 
 }
@@ -39,6 +40,8 @@ namespace pcm {
   constexpr int ClawGrabRight = 1;
   constexpr int ClawRealeseLeft = 2;
   constexpr int ClawRealeseRight = 3;
+  constexpr int leftBumper = 4;
+  constexpr int rightBumper = 5;
 }
 
 namespace dio {
