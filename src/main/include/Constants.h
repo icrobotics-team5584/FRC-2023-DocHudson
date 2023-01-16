@@ -29,12 +29,12 @@ namespace canid {
 
 }
 namespace pcm {
-    constexpr int ClawGrabLeft = 0; 
-    constexpr int ClawGrabRight = 1;
-    constexpr int ClawRealeseLeft = 2;
-    constexpr int ClawRealeseRight = 3;
+    constexpr int ClawGrabLeft = 2; 
+    constexpr int ClawGrabRight = 6;
+    constexpr int ClawRealeseLeft = 3;
+    constexpr int ClawRealeseRight = 7;
 }
-
+ 
 namespace dio {
     constexpr int lineBreakPayload = 0;
 }

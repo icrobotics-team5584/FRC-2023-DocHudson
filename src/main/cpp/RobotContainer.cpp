@@ -11,9 +11,11 @@
 
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
+#include "frc/DataLogManager.h"
 
 
 RobotContainer::RobotContainer() {
+  frc::DataLogManager::Start();
   // Initializing Commmands
   SubIntake::GetInstance();
 
