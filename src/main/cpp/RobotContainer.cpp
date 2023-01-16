@@ -5,47 +5,40 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
+#include "frc2/command/Commands.h"
+#include "commands/GamePieceCommands.h"
 #include <frc2/command/commands.h>
 
 #include "commands/DriveCommands.h"
 
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
+#include "frc/DataLogManager.h"
 
 
 RobotContainer::RobotContainer() {
+  frc::DataLogManager::Start();
   // Initializing Commmands
   SubIntake::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();
-  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_controller));
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
 }
 
 void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
-
+    //using BtnId = frc::XboxController::Button;
+   // using Btn = frc2::JoystickButton;
+ 
+  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  _driverController.A().WhileTrue(CmdIntake().ToPtr());
-  _driverController.X().WhileTrue(CmdOuttake().ToPtr());
+  _driverController.A().WhileTrue(cmd::Intake());
+  _driverController.X().WhileTrue(cmd::Outtake());
+  _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
+  _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
+  _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
+
+
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
   _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
-}
-
-// For Auto Commands, removed temporarily
-// frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-//   // An example command will be run in autonomous
-//   return autos::ExampleAuto(&m_subsystem);
-// }
-
-double RobotContainer::ControllerGetLeftX() {
-  return _controller.GetLeftX();
-}
-
-double RobotContainer::ControllerGetLeftY() {
-  return _controller.GetLeftY();
-}
-
-double RobotContainer::ControllerGetRightX() {
-  return _controller.GetRightX();
 }

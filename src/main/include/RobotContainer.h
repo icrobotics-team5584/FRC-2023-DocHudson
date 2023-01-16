@@ -14,11 +14,9 @@
 // Created classes includes 
 #include "Constants.h"
 #include "subsystems/SubIntake.h"
-#include "utilities/JoystickScaler.h"
-
-// Command Includes
-#include "commands/CmdOuttake.h"
-#include "commands/CmdIntake.h"
+#include <frc/XboxController.h>
+#include <frc2/command/InstantCommand.h>
+#include "subsystems/SubClaw.h"
 
 class RobotContainer {
  public:
@@ -32,6 +30,5 @@ class RobotContainer {
   frc2::CommandXboxController _driverController{0};
   
   void ConfigureBindings();
-  JoystickScaler _controller {0, 2.5, 2.5};
   
 };

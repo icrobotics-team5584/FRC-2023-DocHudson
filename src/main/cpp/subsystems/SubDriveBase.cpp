@@ -29,12 +29,12 @@ void SubDriveBase::Periodic() {
   // frc::SmartDashboard::PutBoolean("gyro is callibrating", _gyro.IsCalibrating());
   // frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
 
-  // frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
-  //   _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
-  //   _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
-  //   _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
-  //   _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
-  // });
+   frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
+     _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
+     _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
+     _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
+     _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
+    });
   UpdateOdometry();
 }
 
