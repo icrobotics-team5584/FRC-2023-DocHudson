@@ -28,6 +28,7 @@ class SubDriveBase : public frc2::SubsystemBase {
     static SubDriveBase inst;
     return inst;
   }
+  void AddVisionMeasurement(frc::Pose2d pose, units::second_t latency);
   // void UpdatePidControllerDrive();
   void DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, 
                   units::meter_t targetDistance, units::degree_t targetRotation);
@@ -55,6 +56,9 @@ class SubDriveBase : public frc2::SubsystemBase {
 
   void ResetGyroHeading();
   void UpdatePosition(frc::Pose2d robotPosition);
+    frc::Field2d _fieldDisplay;
+ 
+
 
  private:
   SubDriveBase();
@@ -91,7 +95,5 @@ class SubDriveBase : public frc2::SubsystemBase {
   };
 
   frc::Pose2d _prevPose; // Used for velocity calculations
-
-  frc::Field2d _fieldDisplay;
-};
+};;
  

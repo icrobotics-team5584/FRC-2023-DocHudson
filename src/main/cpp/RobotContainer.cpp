@@ -7,6 +7,8 @@
 #include <frc2/command/button/Trigger.h>
 #include <frc2/command/commands.h>
 
+#include "commands/DriveCommands.h"
+
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
 
@@ -27,6 +29,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.A().WhileTrue(CmdIntake().ToPtr());
   _driverController.X().WhileTrue(CmdOuttake().ToPtr());
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+  _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 }
 
 // For Auto Commands, removed temporarily
