@@ -27,9 +27,6 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureBindings() {
   using namespace frc2::cmd;
- 
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
 
   /*
   _driverController.A().WhileTrue(cmd::Intake());
@@ -40,15 +37,9 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();})); 
   */
 
-/*
-_driverController.A().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(0_deg, 0_deg);}));
-_driverController.B().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(10_deg, 0_deg);}));
-_driverController.X().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(20_deg, 0_deg);}));
-_driverController.Y().OnTrue(RunOnce([]{SubArm::GetInstance().DriveTo(30_deg, 0_deg);}));
-*/
-
 _driverController.A().OnTrue(cmd::ArmToHigh());
 _driverController.B().OnTrue(cmd::ArmToMid());
+_driverController.X().OnTrue(cmd::ArmPickUp());
 _driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
 _driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
 

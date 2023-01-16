@@ -43,3 +43,7 @@ void SubIntake::Stop(){
 	_leftMotor.Set(0);
 	_rightMotor.Set(0);
 }
+
+bool SubIntake::SensesCone(){
+	return _coneSensor.Get();
+}

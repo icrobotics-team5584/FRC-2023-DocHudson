@@ -9,6 +9,7 @@
 
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
+#include <frc/DigitalInput.h>
 
 class SubIntake : public frc2::SubsystemBase {
  public:
@@ -25,8 +26,10 @@ class SubIntake : public frc2::SubsystemBase {
   void OuttakeLeft();
   void OuttakeRight();
   void Stop();
+  bool SensesCone();
   
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
+  frc::DigitalInput _coneSensor{dio::coneSensor};
 };

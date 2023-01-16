@@ -2,6 +2,7 @@
 #include "subsystems/SubArm.h"
 #include "units/length.h"
 #include "RobotContainer.h"
+#include "subsystems/SubIntake.h"
 
 namespace cmd{
     using namespace frc2::cmd;
@@ -16,6 +17,10 @@ namespace cmd{
 
     frc2::CommandPtr ArmToLowCubeOrCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(0.17862_m + SubArm::ARM_ROOT_X, 0.07_m);});}
     frc2::CommandPtr ArmToLoadingStation(){return RunOnce([]{SubArm::GetInstance().ArmPos(SubArm::ARM_ROOT_X, 0.942992018_m);});}
+
+    frc2::CommandPtr PickUpCube(){return RunOnce([]{SubArm::GetInstance().ArmPos(52_cm, 7_cm);});}
+    frc2::CommandPtr PickUpUprightCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(52_cm, 33_cm);});}
+    frc2::CommandPtr PickUpSlantedCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(52_cm, 3_cm);});}
 
     frc2::CommandPtr CubeConeSwitch(){
         return RunOnce([]{
@@ -37,6 +42,22 @@ namespace cmd{
             ArmToMidCone(),
             ArmToMidCube(),
             []{return RobotContainer::isConeMode;}
+        );
+    }
+
+    frc2::CommandPtr ArmPickUp(){
+        return Either(
+            PickUpCone(),
+            PickUpCube(),
+            []{return RobotContainer::isConeMode;}
+        );
+    }
+
+    frc2::CommandPtr PickUpCone(){
+        return Either(
+            PickUpUprightCone(),
+            PickUpSlantedCone(),
+            []{return SubIntake::GetInstance().SensesCone();} // substitute for line breaker
         );
     }
 
