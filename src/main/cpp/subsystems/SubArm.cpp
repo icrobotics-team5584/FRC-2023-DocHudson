@@ -7,6 +7,8 @@
 #include <cmath>
 #include <iostream>
 
+//./gradlew clean
+
 SubArm::SubArm() {
   frc::SmartDashboard::PutData("Arm/Arm Motor 1: ", (wpi::Sendable*)&_armMotor1);
   _armMotor1.SetConversionFactor(1 / GEAR_RATIO);
@@ -65,7 +67,7 @@ void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
   double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
   units::radian_t armBottomAngle{statement1 - statement2};
 
-  DriveTo(armBottomAngle * -1, armTopAngle);
+  DriveTo(armBottomAngle, armTopAngle);
 }
 
 void SubArm::CubeConeSwitch() {}
