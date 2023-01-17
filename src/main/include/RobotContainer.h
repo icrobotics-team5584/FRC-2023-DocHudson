@@ -8,6 +8,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/CommandGenericHID.h> 
 #include <frc2/command/InstantCommand.h>
 #include <frc/XboxController.h>
 
@@ -18,6 +19,7 @@
 #include <frc2/command/button/CommandGenericHID.h>
 #include <frc2/command/InstantCommand.h>
 #include "subsystems/SubClaw.h"
+#include "subsystems/SubIntake.h"
 
 class RobotContainer {
  public:
