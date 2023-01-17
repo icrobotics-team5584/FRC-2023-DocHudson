@@ -45,7 +45,7 @@ namespace pcm {
   constexpr int rightBumperExtend = 6;
   constexpr int rightBumperRetract = 7;
 }
-
+ 
 namespace dio {
   constexpr int lineBreakPayload = 0;
 }

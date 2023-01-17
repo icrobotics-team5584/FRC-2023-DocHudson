@@ -9,11 +9,15 @@
 #include "commands/GamePieceCommands.h"
 #include <frc2/command/commands.h>
 
+#include "commands/DriveCommands.h"
+
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
+#include "frc/DataLogManager.h"
 
 
 RobotContainer::RobotContainer() {
+  frc::DataLogManager::Start();
   // Initializing Commmands
   SubIntake::GetInstance();
 
@@ -39,4 +43,5 @@ void RobotContainer::ConfigureBindings() {
 
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+  _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 }
