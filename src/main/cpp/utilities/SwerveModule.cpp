@@ -54,7 +54,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState)
 }
 
 frc::SwerveModulePosition SwerveModule::GetPosition() {
-  return {units::meter_t{Conversions::FalconTicsToMeters(_canDriveMotor.GetSelectedSensorPosition(), DRIVE_GEAR_RATIO, WHEEL_RADIUS)},
+  return {Conversions::FalconTicsToMeters(_canDriveMotor.GetSelectedSensorPosition(), DRIVE_GEAR_RATIO, WHEEL_RADIUS),
            GetAngle().Radians()};
 }
 

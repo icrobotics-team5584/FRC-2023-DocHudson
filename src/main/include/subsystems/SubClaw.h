@@ -25,6 +25,6 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  frc::DoubleSolenoid _solPnuematicsLeft{1, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabLeft,pcm::ClawRealeseLeft};
-  frc::DoubleSolenoid _solPnuematicsRight{2, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabRight,pcm::ClawRealeseRight};
+  frc::DoubleSolenoid _solPnuematicsLeft{0, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabLeft,pcm::ClawRealeseLeft};
+  frc::DoubleSolenoid _solPnuematicsRight{0, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabRight,pcm::ClawRealeseRight};
 };

@@ -9,6 +9,7 @@
 
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
+#include <frc/DoubleSolenoid.h>
 
 class SubIntake : public frc2::SubsystemBase {
  public:
@@ -20,13 +21,24 @@ class SubIntake : public frc2::SubsystemBase {
   }
 
   void Periodic() override;
+  void SimulationPeriodic() override;
   void IntakeLeft();
   void IntakeRight();
   void OuttakeLeft();
   void OuttakeRight();
   void Stop();
-  
+  void StopBumper();
+  void BothBumperExtended();
+  void LeftBumperExtended();
+  void LeftBumperRetracted();
+  void RightBumperRetracted();
+  void RightBumperExtended();
+  void OneBumperRetracted();
+  void BothBumperRetracted();
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
+
+  frc::DoubleSolenoid _solPneumaicsLeftBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::leftBumperExtend,pcm::rightBumperRetract};
+  frc::DoubleSolenoid _solPneumaticsRightBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::rightBumperExtend,pcm::leftBumperRetract};
 };

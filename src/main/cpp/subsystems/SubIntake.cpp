@@ -17,18 +17,24 @@ SubIntake::SubIntake() {
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
    
-//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
-//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
-
-
+frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("RightBumper", _solPneumaticsRightBumper.Get());
+frc::SmartDashboard::PutNumber("LeftBumper", _solPneumaicsLeftBumper.Get());
 }
 
+void SubIntake::SimulationPeriodic() {
+//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+}
+
+
 void SubIntake::IntakeLeft(){
-	_leftMotor.Set(-1);
+	_leftMotor.Set(1);
 }
 
 void SubIntake::IntakeRight(){
-	_rightMotor.Set(0.5);
+	_rightMotor.Set(-0.5);
 }
 
 void SubIntake::OuttakeLeft(){
@@ -42,4 +48,30 @@ void SubIntake::OuttakeRight(){
 void SubIntake::Stop(){
 	_leftMotor.Set(0);
 	_rightMotor.Set(0);
+}
+
+void SubIntake::BothBumperExtended(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void SubIntake::BothBumperRetracted(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::LeftBumperExtended(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void SubIntake::LeftBumperRetracted(){
+	_solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::RightBumperRetracted(){
+	_solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::RightBumperExtended(){
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
 }

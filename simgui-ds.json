@@ -27,14 +27,15 @@
         }
       ],
       "axisCount": 4,
-      "buttonCount": 6,
+      "buttonCount": 7,
       "buttonKeys": [
         90,
         88,
         67,
         86,
         72,
-        74
+        74,
+        -1
       ],
       "povConfig": [
         {
@@ -97,10 +98,6 @@
     }
   ],
   "robotJoysticks": [
-    {
-      "guid": "78696e70757401000000000000000000",
-      "useGamepad": true
-    },
     {
       "guid": "Keyboard0"
     }
