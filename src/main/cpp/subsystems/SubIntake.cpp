@@ -17,8 +17,8 @@ SubIntake::SubIntake() {
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
    
-frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
-frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
 
 
 }

@@ -27,18 +27,21 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-    //using BtnId = frc::XboxController::Button;
-   // using Btn = frc2::JoystickButton;
- 
+   
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
   _driverController.A().WhileTrue(cmd::Intake());
   _driverController.X().WhileTrue(cmd::Outtake());
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
-  _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
+  _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube()); 
 
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
   _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
+
+//note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
+  _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
+  _secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
+  
 }

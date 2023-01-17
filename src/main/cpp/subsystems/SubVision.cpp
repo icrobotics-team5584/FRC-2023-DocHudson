@@ -29,7 +29,7 @@ if (_camera->GetLatestResult().HasTargets()) {
 }
 // This method will be called once per scheduler run
 void SubVision::Periodic() {
-    void UpdateOdometry();
+
 }
 
 void SubVision::SimulationPeriodic() {

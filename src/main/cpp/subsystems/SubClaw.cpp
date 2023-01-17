@@ -8,8 +8,8 @@ SubClaw::SubClaw() = default;
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
-frc::SmartDashboard::PutNumber("RightClawPneumatc", _solPnuematicsLeft.Get());
-frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
+//frc::SmartDashboard::PutNumber("RightClawPneumatc", _solPnuematicsLeft.Get());
+//frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
 }
 
 void SubClaw::BothExtended(){
