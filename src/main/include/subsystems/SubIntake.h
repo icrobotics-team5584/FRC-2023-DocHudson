@@ -21,6 +21,7 @@ class SubIntake : public frc2::SubsystemBase {
   }
 
   void Periodic() override;
+  void SimulationPeriodic() override;
   void IntakeLeft();
   void IntakeRight();
   void OuttakeLeft();

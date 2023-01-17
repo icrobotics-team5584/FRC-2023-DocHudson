@@ -293,6 +293,11 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
   // Sim device values (stuff that shows under Other Devices on Glass)
   frc::sim::SimDeviceSim _simDeviceSim{"SPARK MAX ", GetDeviceId()};
   hal::SimInt _simControlMode = _simDeviceSim.GetInt("Control Mode");
+
+double _minPidOutput = -1;
+double _maxPidOutput = 1;
+
 };
 
 #include "ICSparkMax.tpp"
+

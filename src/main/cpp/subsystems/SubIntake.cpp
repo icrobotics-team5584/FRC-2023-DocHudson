@@ -21,9 +21,13 @@ frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage()
 frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
 frc::SmartDashboard::PutNumber("RightBumper", _solPneumaticsRightBumper.Get());
 frc::SmartDashboard::PutNumber("LeftBumper", _solPneumaicsLeftBumper.Get());
-
-
 }
+
+void SubIntake::SimulationPeriodic() {
+//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+}
+
 
 void SubIntake::IntakeLeft(){
 	_leftMotor.Set(-1);
