@@ -36,7 +36,8 @@ frc::SmartDashboard::PutData("BackRightMotor", (wpi::Sendable*)&_spmBackRight);
 }
 
 void SubTankDrive::drive(double speed, double rotation, bool squaredInputs){
-  _diffDrive.ArcadeDrive(speed, rotation, squaredInputs);
+  rotation += .05; //to drive in straight line due to missing motor
+  _diffDrive.ArcadeDrive(speed, -rotation, squaredInputs);
 }
 
 // This method will be called once per scheduler run

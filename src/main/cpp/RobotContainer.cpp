@@ -32,8 +32,6 @@ void RobotContainer::ConfigureBindings() {
  
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  _driverController.A().WhileTrue(cmd::Intake());
-  _driverController.X().WhileTrue(cmd::Outtake());
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
   _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());

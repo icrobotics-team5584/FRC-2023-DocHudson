@@ -22,8 +22,8 @@ TankContainer::TankContainer(){
 }
 
 void TankContainer::ConfigureButtonBindings() {
- _driverController.A().WhileTrue(cmd::Intake());
-  _driverController.X().WhileTrue(cmd::Outtake());
+ _secondController.Button(5).WhileTrue(cmd::Intake());
+  _secondController.Button(6).WhileTrue(cmd::Outtake());
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
   _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
