@@ -30,6 +30,7 @@ class SubArm : public frc2::SubsystemBase {
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
   void ArmPos(units::meter_t x, units::meter_t y);
   void CubeConeSwitch();
+  void DashboardInput();
 
   static constexpr units::meter_t ARM_ROOT_X = 0.05_m;
 
@@ -43,7 +44,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
-  static constexpr double F = 0.01;
+  static constexpr double F = 0.001;
   
   static constexpr double GEAR_RATIO = 210.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
@@ -59,7 +60,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 0.0;
+  static constexpr double F_2 = 0.001;
   
   static constexpr double GEAR_RATIO_2 = 165.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim

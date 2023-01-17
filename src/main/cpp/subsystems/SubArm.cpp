@@ -2,10 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "subsystems/SubArm.h"
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <cmath>
 #include <iostream>
+#include "RobotContainer.h"
+#include "subsystems/SubArm.h"
 
 //./gradlew clean
 
@@ -21,8 +23,8 @@ SubArm::SubArm() {
   _armMotor2.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
 
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
-  frc::SmartDashboard::PutNumber("Arm/armBottomAngle input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/armTopAngle input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
 
   _armMotor1Follow.Follow(_armMotor1);
   _armMotor1.SetInverted(true);
@@ -34,23 +36,28 @@ void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotor1.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
   frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
-
-  static auto prevTopRequst = 0_deg;
-  static auto prevBottomRequest = 0_deg;
-
-  units::degree_t armBottomAngle{frc::SmartDashboard::GetNumber("Arm/armBottomAngle input: ", 0)};
-  units::degree_t armTopAngle{frc::SmartDashboard::GetNumber("Arm/armTopAngle input: ", 0)};
-
-  if((prevTopRequst != armTopAngle) or (prevBottomRequest != armBottomAngle)){
-    DriveTo(armBottomAngle, armTopAngle);
-  } 
-  prevBottomRequest = armBottomAngle;
-  prevTopRequst = armTopAngle;
+  
+  //DashboardInput()
 }
 
-void SubArm::DriveTo(units::degree_t deg1, units::degree_t deg2) {
-  _armMotor1.SetSmartMotionTarget(deg1);
-  _armMotor2.SetSmartMotionTarget(deg2 + deg1); 
+void SubArm::DashboardInput(){
+  static auto prevXRequest = 0_m;
+  static auto prevYRequest = 0_m;
+
+  units::centimeter_t x_coord{frc::SmartDashboard::GetNumber("Arm/x_coord input: ", 0)};
+  units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("Arm/y_coord input: ", 0)};
+
+  if((prevXRequest != x_coord) or (prevYRequest != y_coord)){
+    ArmPos(y_coord, x_coord);
+  } 
+  
+  prevYRequest = y_coord;
+  prevXRequest = x_coord;
+}
+
+void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
+  _armMotor1.SetSmartMotionTarget(bottomAngle);
+  _armMotor2.SetSmartMotionTarget(topAngle + bottomAngle); 
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
@@ -83,10 +90,10 @@ void SubArm::SimulationPeriodic() {
   auto armVel = _armSim.GetVelocity();
   _armMotor1.UpdateSimEncoder(armAngle, armVel);
 
-  auto armTopAngle = _armSim2.GetAngle();
+  auto x_coord = _armSim2.GetAngle();
   auto armVel2 = _armSim2.GetVelocity();
-  _armMotor2.UpdateSimEncoder(armTopAngle, armVel2);
+  _armMotor2.UpdateSimEncoder(x_coord, armVel2);
 
   _arm1Ligament->SetAngle(armAngle);
-  _arm2Ligament->SetAngle(armTopAngle - armAngle);
+  _arm2Ligament->SetAngle(x_coord - armAngle);
 }
