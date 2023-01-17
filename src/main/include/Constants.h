@@ -40,8 +40,10 @@ namespace pcm {
   constexpr int ClawGrabRight = 1;
   constexpr int ClawRealeseLeft = 2;
   constexpr int ClawRealeseRight = 3;
-  constexpr int leftBumper = 4;
-  constexpr int rightBumper = 5;
+  constexpr int leftBumperExtend = 4;
+  constexpr int leftBumperRetract = 5;
+  constexpr int rightBumperExtend = 6;
+  constexpr int rightBumperRetract = 7;
 }
 
 namespace dio {

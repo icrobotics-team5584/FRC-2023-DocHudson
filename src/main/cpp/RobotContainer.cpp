@@ -33,6 +33,9 @@ void RobotContainer::ConfigureBindings() {
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
   _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
+  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
+  _driverController.Y().WhileTrue(cmd::RightBumperExtend());
+  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));

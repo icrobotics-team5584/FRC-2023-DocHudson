@@ -17,6 +17,7 @@
 #include <frc/XboxController.h>
 #include <frc2/command/InstantCommand.h>
 #include "subsystems/SubClaw.h"
+#include "subsystems/SubIntake.h"
 
 class RobotContainer {
  public:
