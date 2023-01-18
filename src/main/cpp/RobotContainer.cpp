@@ -13,11 +13,9 @@
 
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
-#include "frc/DataLogManager.h"
 
 
 RobotContainer::RobotContainer() {
-  frc::DataLogManager::Start();
   // Initializing Commmands
   SubIntake::GetInstance();
 
@@ -42,7 +40,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 
 //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
-  //\_secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
-  //_secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
+  _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
+  _secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
   
 }
