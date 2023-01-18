@@ -10,6 +10,7 @@
 #include <frc2/command/commands.h>
 
 #include "commands/DriveCommands.h"
+#include "subsystems/SubVision.h"
 
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
@@ -22,6 +23,7 @@ RobotContainer::RobotContainer() {
   // Configure button bindings
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
+  SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 }
 
 void RobotContainer::ConfigureBindings() {
