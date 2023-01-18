@@ -36,14 +36,14 @@ namespace canid {
 
 }
 namespace pcm {
-  constexpr int ClawGrabLeft = 0; 
-  constexpr int ClawGrabRight = 1;
-  constexpr int ClawRealeseLeft = 2;
-  constexpr int ClawRealeseRight = 3;
-  constexpr int leftBumperExtend = 4;
-  constexpr int leftBumperRetract = 5;
-  constexpr int rightBumperExtend = 6;
-  constexpr int rightBumperRetract = 7;
+  constexpr int ClawGrabLeft = 4; 
+  constexpr int ClawGrabRight = 5;
+  constexpr int ClawRealeseLeft = 6;
+  constexpr int ClawRealeseRight = 7;
+  constexpr int leftBumperExtend = 2;
+  constexpr int leftBumperRetract = 1;
+  constexpr int rightBumperExtend = 0;
+  constexpr int rightBumperRetract = 3;
 }
  
 namespace dio {
