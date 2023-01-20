@@ -9,6 +9,7 @@
 #include "RobotContainer.h"
 #include "subsystems/SubArm.h"
 
+
 //./gradlew clean
 
 SubArm::SubArm() {
@@ -96,4 +97,9 @@ void SubArm::SimulationPeriodic() {
 
   _arm1Ligament->SetAngle(armAngle);
   _arm2Ligament->SetAngle(x_coord - armAngle);
+}
+
+void SubArm::ArmResettingPos() {
+  _armMotor1.SetPosition(0_deg);
+  _armMotor2.SetPosition(0_deg);
 }

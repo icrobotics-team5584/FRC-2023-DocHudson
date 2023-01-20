@@ -38,11 +38,12 @@ void RobotContainer::ConfigureBindings() {
 
 _driverController.A().OnTrue(cmd::ArmToHigh());
 _driverController.B().OnTrue(cmd::ArmToMid());
-_driverController.X().OnTrue(cmd::ArmPickUp());
-_driverController.Y().OnTrue(cmd::ArmToLoadingStation());
+_driverController.X().OnTrue(cmd::PickUpUprightCone()); 
+_driverController.Y().OnTrue(cmd::PickUpCube());
 _driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
 _driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
 _driverController.Start().OnTrue(cmd::ArmToDefaultLocation());
+_driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
 
 // A = 1
 // B = 2
@@ -54,5 +55,3 @@ _driverController.Start().OnTrue(cmd::ArmToDefaultLocation());
 // Start = 8
 
 }
-
-

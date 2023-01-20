@@ -45,6 +45,11 @@ void ICSparkMax<Position>::InitSendable(wpi::SendableBuilder& builder) {
 }
 
 template <class Position>
+void ICSparkMax<Position>::SetPosition(Position_t position){
+  _encoder->SetPosition(position.value());
+}
+
+template <class Position>
 void ICSparkMax<Position>::SetPositionTarget(Position_t target, units::volt_t arbFeedForward) {
   _positionTarget = target;
   _velocityTarget = Velocity_t{0};
@@ -55,7 +60,6 @@ void ICSparkMax<Position>::SetPositionTarget(Position_t target, units::volt_t ar
   _pidController.SetReference(target.value(), GetControlType(), 0, _arbFeedForward.value());
   SyncSimPID();
 }
-
 
 template <class Position>
 void ICSparkMax<Position>::SetSmartMotionTarget(Position_t target, units::volt_t arbFeedForward) {

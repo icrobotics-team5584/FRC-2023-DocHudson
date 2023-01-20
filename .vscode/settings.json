@@ -99,6 +99,22 @@
     "thread": "cpp",
     "cinttypes": "cpp",
     "typeindex": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "charconv": "cpp",
+    "format": "cpp",
+    "forward_list": "cpp",
+    "locale": "cpp",
+    "xhash": "cpp",
+    "xlocbuf": "cpp",
+    "xlocmes": "cpp",
+    "xlocmon": "cpp",
+    "xloctime": "cpp",
+    "xtree": "cpp",
+    "any": "cpp",
+    "coroutine": "cpp",
+    "filesystem": "cpp",
+    "queue": "cpp",
+    "ranges": "cpp",
+    "stack": "cpp"
   }
 }

@@ -31,6 +31,7 @@ class SubArm : public frc2::SubsystemBase {
   void ArmPos(units::meter_t x, units::meter_t y);
   void CubeConeSwitch();
   void DashboardInput();
+  void ArmResettingPos();
 
   static constexpr units::meter_t ARM_ROOT_X = 0.05_m;
 
@@ -98,7 +99,7 @@ class SubArm : public frc2::SubsystemBase {
 
   // Display of arm sim
   frc::Mechanism2d _doubleJointedArmMech{3, 3}; //canvas width and height
-  frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 2, 2); //root x and y
+  frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 1, 1); //root x and y
   frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
   frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
 
