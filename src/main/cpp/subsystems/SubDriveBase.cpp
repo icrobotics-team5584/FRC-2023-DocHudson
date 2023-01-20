@@ -9,77 +9,81 @@
 #include <units/time.h>
 
 SubDriveBase::SubDriveBase(){
-  m_gyro.Calibrate();
-  frc::SmartDashboard::PutData("Xcontroller", &Xcontroller);
-  frc::SmartDashboard::PutData("field", &_fieldDisplay);
-  frc::SmartDashboard::PutData("x controller", &Xcontroller);
-  frc::SmartDashboard::PutData("y controller", &Ycontroller);
-  frc::SmartDashboard::PutData("rotation controller", &Rcontroller);
+  _gyro.Calibrate();
   Rcontroller.EnableContinuousInput(-180_deg, 180_deg);
   SyncSensors();
+
+  // Dashboard Displays:
+  // frc::SmartDashboard::PutData("Xcontroller", &Xcontroller);
+   frc::SmartDashboard::PutData("field", &_fieldDisplay);
+  // frc::SmartDashboard::PutData("x controller", &Xcontroller);
+  // frc::SmartDashboard::PutData("y controller", &Ycontroller);
+  // frc::SmartDashboard::PutData("rotation controller", &Rcontroller);
 }
 
 // This method will be called once per scheduler run
 void SubDriveBase::Periodic() {
-  frc::SmartDashboard::PutNumber("heading", GetHeading().Degrees().value());
-  frc::SmartDashboard::PutNumber("gyro", m_gyro.GetAngle());
-  frc::SmartDashboard::PutBoolean("gyro is callibrating", m_gyro.IsCalibrating());
-  frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
+  // Dashboard Displays:
+  // frc::SmartDashboard::PutNumber("heading", GetHeading().Degrees().value());
+  // frc::SmartDashboard::PutNumber("gyro", _gyro.GetAngle());
+  // frc::SmartDashboard::PutBoolean("gyro is callibrating", _gyro.IsCalibrating());
+  // frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
 
-  frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
-    m_frontLeft.GetAngle().Degrees().value(), m_frontLeft.GetSpeed().value(),
-    m_frontRight.GetAngle().Degrees().value(), m_frontRight.GetSpeed().value(),
-    m_backLeft.GetAngle().Degrees().value(), m_backLeft.GetSpeed().value(),
-    m_backRight.GetAngle().Degrees().value(), m_backRight.GetSpeed().value(),
-  });
+  // frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
+   //  _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
+    // _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
+    // _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
+     //_backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
+   // });
   UpdateOdometry();
 }
 
-void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rot, bool fieldRelative) {
+void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 
+                      units::degrees_per_second_t rot, bool fieldRelative) {
 
   // Get states of all swerve modules
-  auto states = m_kinematics.ToSwerveModuleStates( fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
-                          xSpeed, ySpeed, rot, GetHeading())
-                    : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
+  auto states = _kinematics.ToSwerveModuleStates( fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+                          xSpeed, ySpeed, rot, GetHeading()) : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 
   // Set speed limit and apply speed limit to all modules
-  m_kinematics.DesaturateWheelSpeeds(&states, MAX_VELOCITY);
+  _kinematics.DesaturateWheelSpeeds(&states, MAX_VELOCITY);
 
   // Setting modules from aquired states
   auto [fl, fr, bl, br] = states;
 
-  frc::SmartDashboard::PutNumberArray("drivebase/requestedstates", std::array{
-    fl.angle.Degrees().value(), fl.speed.value(),
-    fr.angle.Degrees().value(), fr.speed.value(),
-    bl.angle.Degrees().value(), bl.speed.value(),
-    br.angle.Degrees().value(), br.speed.value(),
-  });
+  // Dashboard Displays:
+  // frc::SmartDashboard::PutNumberArray("drivebase/requestedstates", std::array{
+  //   fl.angle.Degrees().value(), fl.speed.value(),
+  //   fr.angle.Degrees().value(), fr.speed.value(),
+  //   bl.angle.Degrees().value(), bl.speed.value(),
+  //   br.angle.Degrees().value(), br.speed.value(),
+  // });
 
-  m_frontLeft.SetDesiredState(fl);
-  m_frontRight.SetDesiredState(fr);
-  m_backLeft.SetDesiredState(bl);
-  m_backRight.SetDesiredState(br);
+  _frontLeft.SetDesiredState(fl);
+  _frontRight.SetDesiredState(fr);
+  _backLeft.SetDesiredState(bl);
+  _backRight.SetDesiredState(br);
 
   // Check if robot is in simulation. 
   // Manualy adjusting gyro by calculating rotation in simulator as gyro is not enabled in simulation
   if (frc::RobotBase::IsSimulation()) {
     units::radian_t radPer20ms = rot * 20_ms;
     units::degree_t newHeading = GetHeading().RotateBy(radPer20ms).Degrees();
-    m_gyro.SetAngleAdjustment(-newHeading.value()); // negative to switch to CW from CCW
+    _gyro.SetAngleAdjustment(-newHeading.value()); // negative to switch to CW from CCW
   }
 }
 
 // Syncs encoder values when the robot is turned on
 void SubDriveBase::SyncSensors() {
-  m_frontLeft.SyncSensors();
-  m_frontRight.SyncSensors();
-  m_backLeft.SyncSensors();
-  m_backRight.SyncSensors();
-  m_gyro.Calibrate();
+  _frontLeft.SyncSensors();
+  _frontRight.SyncSensors();
+  _backLeft.SyncSensors();
+  _backRight.SyncSensors();
+  _gyro.Calibrate();
 }
 
 frc::Rotation2d SubDriveBase::GetHeading() {
-  return m_gyro.GetRotation2d();
+  return _gyro.GetRotation2d();
 }
 
 void SubDriveBase::DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, units::meter_t targetDistance, units::degree_t targetRotation) {
@@ -109,14 +113,14 @@ frc::SwerveDriveKinematics<4> SubDriveBase::GetKinematics() {
 
 // calculates the relative field location
 void SubDriveBase::UpdateOdometry() {
-  auto fl = m_frontLeft.GetPosition();
-  auto fr = m_frontRight.GetPosition();
-  auto bl = m_backLeft.GetPosition();
-  auto br = m_backRight.GetPosition();
+  auto fl = _frontLeft.GetPosition();
+  auto fr = _frontRight.GetPosition();
+  auto bl = _backLeft.GetPosition();
+  auto br = _backRight.GetPosition();
 
   _prevPose = _poseEstimator.GetEstimatedPosition();
   _poseEstimator.Update(GetHeading(), {fl, fr, bl, br});
-  _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());
+  _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());  
 }
 
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
@@ -125,7 +129,7 @@ void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t
 }
 
 void SubDriveBase::ResetGyroHeading() {
-  m_gyro.Reset();
+  _gyro.Reset();
 }
 
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}
@@ -149,3 +153,12 @@ void SubDriveBase::UpdatePosition(frc::Pose2d robotPosition) {
 void SubDriveBase::DisplayTrajectory(std::string name, frc::Trajectory trajectory) {
   _fieldDisplay.GetObject(name)->SetTrajectory(trajectory);
 }
+  
+void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency){
+    DisplayPose("EstimatedPose", pose);
+    if (ambiguity < 0.15) {
+    auto timestamp = frc::Timer::GetFPGATimestamp() + latency;
+    _poseEstimator.AddVisionMeasurement(pose, timestamp);
+    }
+}
+

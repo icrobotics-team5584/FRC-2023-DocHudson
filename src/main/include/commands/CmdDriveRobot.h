@@ -10,13 +10,6 @@
 #include <frc/XboxController.h>
 #include <units/dimensionless.h>
 
-/**
- * An example command.
- *
- * <p>Note that this extends CommandHelper, rather extending CommandBase
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
- */
 class CmdDriveRobot
     : public frc2::CommandHelper<frc2::CommandBase, CmdDriveRobot> {
  public:
@@ -29,9 +22,9 @@ class CmdDriveRobot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-  frc::SlewRateLimiter<units::scalar> m_xspeedLimiter{3 / 1_s};
-  frc::SlewRateLimiter<units::scalar> m_yspeedLimiter{3 / 1_s};
-  frc::SlewRateLimiter<units::scalar> m_rotLimiter{3 / 1_s};
+  frc::SlewRateLimiter<units::scalar> _xspeedLimiter{3 / 1_s};
+  frc::SlewRateLimiter<units::scalar> _yspeedLimiter{3 / 1_s};
+  frc::SlewRateLimiter<units::scalar> _rotLimiter{3 / 1_s};
   frc::XboxController* _controller;
 
 };

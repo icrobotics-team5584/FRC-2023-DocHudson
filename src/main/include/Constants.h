@@ -4,46 +4,48 @@
 
 #pragma once
 
-/**
- * The Constants header provides a convenient place for teams to hold robot-wide
- * numerical or boolean constants.  This should not be used for any other
- * purpose.
- *
- * It is generally a good idea to place constants into subsystem- or
- * command-specific namespaces within this header, which can then be used where
- * they are needed.
- */
-
 namespace canid {
     // drive base id: 1 - 19
-    constexpr int tfxDriveBaseFrontLeftDrive = 1;
-    constexpr int tfxDriveBaseFrontLeftTurn = 2;
-    constexpr int tfxDriveBaseFrontLeftEncoder = 11;
+  constexpr int DriveBaseFrontLeftDrive = 1;
+  constexpr int DriveBaseFrontLeftTurn = 2;
+  constexpr int DriveBaseFrontLeftEncoder = 11;
 
-    constexpr int tfxDriveBaseFrontRightDrive = 7;
-    constexpr int tfxDriveBaseFrontRightTurn = 8;
-    constexpr int tfxDriveBaseFrontRightEncoder = 10;
+  constexpr int DriveBaseFrontRightDrive = 7;
+  constexpr int DriveBaseFrontRightTurn = 8;
+  constexpr int DriveBaseFrontRightEncoder = 10;
 
-    constexpr int tfxDriveBaseBackLeftDrive = 3;
-    constexpr int tfxDriveBaseBackLeftTurn = 4;
-    constexpr int tfxDriveBaseBackLeftEncoder = 9;
+  constexpr int DriveBaseBackLeftDrive = 3;
+  constexpr int DriveBaseBackLeftTurn = 4;
+  constexpr int DriveBaseBackLeftEncoder = 9;
 
-    constexpr int tfxDriveBaseBackRightDrive = 5;
-    constexpr int tfxDriveBaseBackRightTurn = 6;
-    constexpr int tfxDriveBaseBackRightEncoder = 12;
+  constexpr int DriveBaseBackRightDrive = 5;
+  constexpr int DriveBaseBackRightTurn = 6;
+  constexpr int DriveBaseBackRightEncoder = 12;
+ 
+    // Tank Drive Values
+  constexpr int TankDriveBaseFrontRight = 3;
+  constexpr int TankDriveBaseBackRight = 1;
+  constexpr int TankDriveBaseFrontLeft = 5;
+  constexpr int TankDriveBaseBackLeft = 6;
 
     // Intake id: 40 - 60
-    constexpr int spmLeftMotor = 40;
-    constexpr int spmRightMotor = 41;
+  constexpr int leftMotor = 40;
+  constexpr int rightMotor = 41;
+  
     // Arm id: 20 - 39
 
 }
-
 namespace pcm {
-    constexpr int solIntakeOut = 0;
-    constexpr int solIntakeIn = 1;
+  constexpr int ClawGrabLeft = 4; 
+  constexpr int ClawGrabRight = 5;
+  constexpr int ClawRealeseLeft = 6;
+  constexpr int ClawRealeseRight = 7;
+  constexpr int leftBumperExtend = 2;
+  constexpr int leftBumperRetract = 1;
+  constexpr int rightBumperExtend = 0;
+  constexpr int rightBumperRetract = 3;
 }
-
+ 
 namespace dio {
-    constexpr int lineBreakPayload = 0;
+  constexpr int lineBreakPayload = 0;
 }

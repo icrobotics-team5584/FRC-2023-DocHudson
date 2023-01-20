@@ -6,7 +6,10 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/SubIntake.h"
+#include <frc/filter/SlewRateLimiter.h>
+#include <frc/XboxController.h>
+#include <units/dimensionless.h>
+#include <units/voltage.h>
 
 /**
  * An example command.
@@ -15,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CmdOuttake
-    : public frc2::CommandHelper<frc2::CommandBase, CmdOuttake> {
+class CmdDriveRobotTank
+    : public frc2::CommandHelper<frc2::CommandBase, CmdDriveRobotTank> {
  public:
-  CmdOuttake();
+  CmdDriveRobotTank(frc::XboxController* controller);
 
   void Initialize() override;
 
@@ -27,4 +30,9 @@ class CmdOuttake
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+  frc::XboxController* _controller;
+
+  private:
+  frc::SlewRateLimiter<units::volts> _stickYLimiter{2_V / 1_s};
+
 };
