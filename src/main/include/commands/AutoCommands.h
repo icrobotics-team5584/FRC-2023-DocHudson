@@ -2,5 +2,5 @@
 #include <frc2/command/commands.h>
 
 namespace cmd {
-    frc2::CommandPtr PPDrivePath();
+    frc2::CommandPtr PPDrivePath(std::string pathName);
 }

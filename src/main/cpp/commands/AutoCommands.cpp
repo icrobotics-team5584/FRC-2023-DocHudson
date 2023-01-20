@@ -1,5 +1,6 @@
 #include "commands/AutoCommands.h"
 #include "subsystems/SubDriveBase.h"
+#include "commands/GamePieceCommands.h"
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
@@ -8,8 +9,8 @@ namespace cmd {
 
     using namespace pathplanner;
 
-    frc2::CommandPtr PPDrivePath() { // name of pathplanner required in line 12
-        auto pathGroup = PathPlanner::loadPathGroup("Hudson#1", {{5_mps, 3_mps_sq}, {5_mps, 3_mps_sq}});
+    frc2::CommandPtr PPDrivePath(std::string pathName) { // name of pathplanner required in line 12
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{5_mps, 3_mps_sq}, {5_mps, 3_mps_sq}});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -18,9 +19,9 @@ namespace cmd {
             pathNum++;
         }
 
-        std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap {
-            // {"Intake", },
-            // {"Score", },
+        std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
+            {"intake", Intake().Unwrap() },
+            {"outtake", Outtake().Unwrap() }
         };
 
         static SwerveAutoBuilder autoBuilder{

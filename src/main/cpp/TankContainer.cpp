@@ -32,7 +32,7 @@ void TankContainer::ConfigureButtonBindings() {
   _driverController.Back().WhileTrue(cmd::BothBumperExtend());
 }
 
-frc2::Command* TankContainer::GetAutonomousCommand() {
+frc2::CommandPtr TankContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return nullptr;
+  return frc2::cmd::None();
 }

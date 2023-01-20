@@ -108,7 +108,7 @@ units::meters_per_second_t SubDriveBase::GetVelocity() {
 }
 
 frc::SwerveDriveKinematics<4> SubDriveBase::GetKinematics() {
-  return m_kinematics;
+  return _kinematics;
 }
 
 // calculates the relative field location
@@ -135,15 +135,15 @@ void SubDriveBase::ResetGyroHeading() {
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}
 
 void SubDriveBase::SetPose(frc::Pose2d pose) {
-  auto fl = m_frontLeft.GetPosition();
-  auto fr = m_frontRight.GetPosition();
-  auto bl = m_backLeft.GetPosition();
-  auto br = m_backRight.GetPosition();
+  auto fl = _frontLeft.GetPosition();
+  auto fr = _frontRight.GetPosition();
+  auto bl = _backLeft.GetPosition();
+  auto br = _backRight.GetPosition();
   _poseEstimator.ResetPosition(GetHeading(), {fl, fr, bl, br}, pose);
 }
 
 void SubDriveBase::DisplayPose(std::string label, frc::Pose2d pose){
-  _fieldDisplay.GetObject(label)->SetPose(pose);
+  _fieldDisplay.GetObject(label)->SetPose(pose);  
 }
 
 void SubDriveBase::UpdatePosition(frc::Pose2d robotPosition) {

@@ -38,16 +38,17 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Y().WhileTrue(cmd::RightBumperExtend());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
-// For Auto Commands, removed temporarily
-frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath();
-}
+
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
+  //_driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 
 //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
   _secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
-  
+}
+
+// For Auto Commands, removed temporarily
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+  return cmd::PPDrivePath("Hudson#1");
 }

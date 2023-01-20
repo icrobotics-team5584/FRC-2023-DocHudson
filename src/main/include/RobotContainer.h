@@ -35,5 +35,4 @@ class RobotContainer {
   frc2::CommandGenericHID _secondController{1};
   
   void ConfigureBindings();
-  JoystickScaler _controller {0, 2.5, 2.5};
 };

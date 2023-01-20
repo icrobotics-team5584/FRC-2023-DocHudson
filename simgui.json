@@ -5,6 +5,7 @@
       "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
       "/SmartDashboard/Xcontroller": "PIDController",
       "/SmartDashboard/field": "Field2d",
+      "/SmartDashboard/limelight Sim Field": "Field2d",
       "/SmartDashboard/x controller": "PIDController",
       "/SmartDashboard/y controller": "PIDController"
     },
