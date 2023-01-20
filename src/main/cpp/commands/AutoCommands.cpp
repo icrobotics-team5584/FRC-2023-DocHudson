@@ -21,7 +21,8 @@ namespace cmd {
 
         std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
             {"intake", Intake().Unwrap() },
-            {"outtake", Outtake().Unwrap() }
+            {"outtake", Outtake().Unwrap() },
+            {"wait", frc2::cmd::Wait(1_s).Unwrap() }
         };
 
         static SwerveAutoBuilder autoBuilder{

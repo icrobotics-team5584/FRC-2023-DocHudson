@@ -30,7 +30,7 @@ void SubIntake::SimulationPeriodic() {
 
 
 void SubIntake::IntakeLeft(){
-	_leftMotor.Set(1);
+	_leftMotor.Set(0.2);
 }
 
 void SubIntake::IntakeRight(){

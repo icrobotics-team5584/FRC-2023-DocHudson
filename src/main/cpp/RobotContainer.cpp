@@ -36,6 +36,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
   _driverController.Y().WhileTrue(cmd::RightBumperExtend());
+  _driverController.A().WhileTrue(cmd::Intake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
 
