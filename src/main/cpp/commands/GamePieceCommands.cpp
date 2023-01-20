@@ -31,17 +31,21 @@ namespace cmd {
 
     frc2::CommandPtr Intake(){
         return StartEnd(
-            [] {SubIntake::GetInstance().IntakeLeft();
+            [] {SubIntake::GetInstance().IntakeExtend();
+                SubIntake::GetInstance().IntakeLeft();
                 SubIntake::GetInstance().IntakeRight();},
-            [] {SubIntake::GetInstance().Stop();}    
+            [] {SubIntake::GetInstance().Stop();
+                SubIntake::GetInstance().IntakeRetract();}    
         );
     }
 
  frc2::CommandPtr Outtake(){
         return StartEnd(
-            [] {SubIntake::GetInstance().OuttakeLeft();
+            [] {SubIntake::GetInstance().IntakeExtend();
+                SubIntake::GetInstance().OuttakeLeft();
                 SubIntake::GetInstance().OuttakeRight();},
-            [] {SubIntake::GetInstance().Stop();}    
+            [] {SubIntake::GetInstance().Stop();
+                SubIntake::GetInstance().IntakeRetract();}    
         );
     }
 frc2::CommandPtr LeftBumperExtend() {

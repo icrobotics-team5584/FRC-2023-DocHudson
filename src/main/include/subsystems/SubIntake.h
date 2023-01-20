@@ -35,10 +35,13 @@ class SubIntake : public frc2::SubsystemBase {
   void RightBumperExtended();
   void OneBumperRetracted();
   void BothBumperRetracted();
+  void IntakeExtend();
+  void IntakeRetract();
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
 
   frc::DoubleSolenoid _solPneumaicsLeftBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::leftBumperExtend,pcm::rightBumperRetract};
   frc::DoubleSolenoid _solPneumaticsRightBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::rightBumperExtend,pcm::leftBumperRetract};
+  frc::DoubleSolenoid _solPneumaticsIntakeDeployment{0, frc::PneumaticsModuleType::CTREPCM,pcm::intakeExtend,pcm::intakeRetract};
 };

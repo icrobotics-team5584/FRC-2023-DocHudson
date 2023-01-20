@@ -75,3 +75,9 @@ void SubIntake::RightBumperRetracted(){
 void SubIntake::RightBumperExtended(){
     _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
 }
+void SubIntake::IntakeExtend(){
+    _solPneumaticsIntakeDeployment.Set(frc::DoubleSolenoid::Value::kForward);
+}
+void SubIntake::IntakeRetract(){
+    _solPneumaticsIntakeDeployment.Set(frc::DoubleSolenoid::Value::kReverse);
+}
