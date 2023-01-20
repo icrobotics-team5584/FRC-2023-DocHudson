@@ -11,7 +11,7 @@ namespace cmd {
            if (result.has_value()) {
            
             auto [pose, latency, ambiguity] = result.value();
-            SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, latency);
+            //SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, latency);
            }
         }, {&SubVision::GetInstance()});
       

@@ -27,6 +27,7 @@ class SubDriveBase : public frc2::SubsystemBase {
   static SubDriveBase& GetInstance() {
     static SubDriveBase inst;
     return inst;
+
   }
   void AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency);
   // void UpdatePidControllerDrive();
