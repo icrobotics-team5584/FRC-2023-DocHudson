@@ -4,6 +4,7 @@
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
+#include <units/time.h>
 
 namespace cmd {
 
@@ -19,10 +20,12 @@ namespace cmd {
             pathNum++;
         }
 
+        units::time::second_t eventTime = 6_s;
+
         std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
-            {"intake", Intake().Unwrap() },
-            {"outtake", Outtake().Unwrap() },
-            {"wait", frc2::cmd::Wait(1_s).Unwrap() }
+            {"Intake", Intake().WithTimeout(eventTime).Unwrap() },  
+            {"Outtake", Outtake().WithTimeout(eventTime).Unwrap() },
+            {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
         };
 
         static SwerveAutoBuilder autoBuilder{

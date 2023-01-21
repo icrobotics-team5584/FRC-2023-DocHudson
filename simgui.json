@@ -10,10 +10,21 @@
       "/SmartDashboard/y controller": "PIDController"
     },
     "windows": {
+      "/SmartDashboard/PPSwerveControllerCommand_field": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/field": {
         "auto path 0": {
           "arrowSize": 0,
-          "style": "Line"
+          "style": "Hidden"
+        },
+        "auto path 1": {
+          "style": "Hidden"
+        },
+        "auto path 2": {
+          "style": "Hidden"
         },
         "window": {
           "visible": true
@@ -46,6 +57,12 @@
           "OuttakeMotor": {
             "open": true
           },
+          "open": true
+        },
+        "field": {
+          "open": true
+        },
+        "limelight Sim Field": {
           "open": true
         },
         "open": true
