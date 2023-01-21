@@ -43,8 +43,8 @@ void TankContainer::ConfigureButtonBindings() {
   _driverController.Y().OnTrue(cmd::PickUpCube());
   _driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
   _driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-  _driverController.Start().OnTrue(cmd::ArmToDefaultLocation());
-  _driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
+  _driverController.Start().OnTrue(cmd::ArmToLoadingStation());
+  _driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
 }
 
 frc2::Command* TankContainer::GetAutonomousCommand() {

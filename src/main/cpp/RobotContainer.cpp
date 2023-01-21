@@ -47,7 +47,7 @@ _driverController.X().OnTrue(cmd::ArmPickUp());
 _driverController.Y().OnTrue(cmd::PickUpCube());
 _driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
 _driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-_driverController.Start().OnTrue(cmd::ArmToDefaultLocation());
+_driverController.Start().OnTrue(cmd::ArmToLoadingStation());
 _driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
 
 // A = 1 | LeftBumper = 5
