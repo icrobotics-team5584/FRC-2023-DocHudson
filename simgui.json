@@ -19,11 +19,18 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+<<<<<<< HEAD
       "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
       "/SmartDashboard/Arm/mechanismDisplay": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/Arm/Mechanism Display": {
+=======
+      "/SmartDashboard/field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/field": {
+>>>>>>> bcd4d1f8c6af0b36d0f5a990297da18c34f29726
         "window": {
           "visible": true
         }
@@ -35,6 +42,9 @@
       "open": false
     },
     "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
       "SmartDashboard": {
         "Arm": {
           "Arm Motor 1: ": {

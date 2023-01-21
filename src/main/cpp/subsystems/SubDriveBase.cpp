@@ -15,7 +15,7 @@ SubDriveBase::SubDriveBase(){
 
   // Dashboard Displays:
   // frc::SmartDashboard::PutData("Xcontroller", &Xcontroller);
-  // frc::SmartDashboard::PutData("field", &_fieldDisplay);
+   frc::SmartDashboard::PutData("field", &_fieldDisplay);
   // frc::SmartDashboard::PutData("x controller", &Xcontroller);
   // frc::SmartDashboard::PutData("y controller", &Ycontroller);
   // frc::SmartDashboard::PutData("rotation controller", &Rcontroller);
@@ -30,11 +30,11 @@ void SubDriveBase::Periodic() {
   // frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
 
   // frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
-  //   _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
-  //   _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
-  //   _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
-  //   _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
-  // });
+   //  _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
+    // _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
+    // _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
+     //_backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
+   // });
   UpdateOdometry();
 }
 
@@ -116,7 +116,7 @@ void SubDriveBase::UpdateOdometry() {
 
   _prevPose = _poseEstimator.GetEstimatedPosition();
   _poseEstimator.Update(GetHeading(), {fl, fr, bl, br});
-  _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());
+  _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());  
 }
 
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
@@ -134,6 +134,12 @@ void SubDriveBase::DisplayPose(std::string label, frc::Pose2d pose){
   _fieldDisplay.GetObject(label)->SetPose(pose);
 }
 
-void SubDriveBase::UpdatePosition(frc::Pose2d robotPosition) {
-  _poseEstimator.AddVisionMeasurement(robotPosition, 2_ms);
+  
+void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency){
+    DisplayPose("EstimatedPose", pose);
+    if (ambiguity < 0.15) {
+    auto timestamp = frc::Timer::GetFPGATimestamp() + latency;
+    _poseEstimator.AddVisionMeasurement(pose, timestamp);
+    }
 }
+

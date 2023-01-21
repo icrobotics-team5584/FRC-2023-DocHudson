@@ -28,6 +28,7 @@ class SubDriveBase : public frc2::SubsystemBase {
     static SubDriveBase inst;
     return inst;
   }
+  void AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency);
   // void UpdatePidControllerDrive();
   void DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, 
                   units::meter_t targetDistance, units::degree_t targetRotation);
@@ -55,6 +56,9 @@ class SubDriveBase : public frc2::SubsystemBase {
 
   void ResetGyroHeading();
   void UpdatePosition(frc::Pose2d robotPosition);
+    frc::Field2d _fieldDisplay;
+ 
+
 
  private:
   SubDriveBase();
@@ -87,11 +91,11 @@ class SubDriveBase : public frc2::SubsystemBase {
   frc::SwerveDrivePoseEstimator<4> _poseEstimator{
       _kinematics, _gyro.GetRotation2d(), {frc::SwerveModulePosition{0_m, _frontLeft.GetAngle()}, 
 				  frc::SwerveModulePosition{0_m, _frontRight.GetAngle()}, frc::SwerveModulePosition{0_m, _backLeft.GetAngle()}, 
-          frc::SwerveModulePosition{0_m, _backRight.GetAngle()}} ,frc::Pose2d()
+          frc::SwerveModulePosition{0_m, _backRight.GetAngle()}} ,frc::Pose2d(),
+          {0.3, 0.6, 0.3},
+          {0.7, 0.4, 0.7}
   };
 
   frc::Pose2d _prevPose; // Used for velocity calculations
-
-  frc::Field2d _fieldDisplay;
-};
+};;
  

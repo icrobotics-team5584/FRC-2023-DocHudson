@@ -19,16 +19,22 @@ void SubIntake::Periodic() {
    
 frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
 frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
-frc::SmartDashboard::PutBoolean("Intake/ConeSensor", SensesCone());
-
+frc::SmartDashboard::PutNumber("RightBumper", _solPneumaticsRightBumper.Get());
+frc::SmartDashboard::PutNumber("LeftBumper", _solPneumaicsLeftBumper.Get());
 }
 
+void SubIntake::SimulationPeriodic() {
+//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
+//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+}
+
+
 void SubIntake::IntakeLeft(){
-	_leftMotor.Set(-1);
+	_leftMotor.Set(1);
 }
 
 void SubIntake::IntakeRight(){
-	_rightMotor.Set(0.5);
+	_rightMotor.Set(-0.5);
 }
 
 void SubIntake::OuttakeLeft(){
@@ -44,6 +50,30 @@ void SubIntake::Stop(){
 	_rightMotor.Set(0);
 }
 
-bool SubIntake::SensesCone(){
-	return _coneSensor.Get();
+bool SubIntake::SensesCone(){return _coneSensor.Get();}
+
+void SubIntake::BothBumperExtended(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void SubIntake::BothBumperRetracted(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::LeftBumperExtended(){
+    _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void SubIntake::LeftBumperRetracted(){
+	_solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::RightBumperRetracted(){
+	_solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubIntake::RightBumperExtended(){
+    _solPneumaticsRightBumper.Set(frc::DoubleSolenoid::Value::kForward);
 }

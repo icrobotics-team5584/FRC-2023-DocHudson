@@ -168,6 +168,8 @@ void ICSparkMax<Position>::SetEncoderPosition(Position_t position) {
 template <class Position>
 void ICSparkMax<Position>::SetClosedLoopOutputRange(double minOutputPercent,
                                                     double maxOutputPercent) {
+  _minPidOutput = minOutputPercent;
+  _maxPidOutput = maxOutputPercent;                                                    
   _pidController.SetOutputRange(minOutputPercent, maxOutputPercent);
 }
 
@@ -221,8 +223,7 @@ units::volt_t ICSparkMax<Position>::GetSimVoltage() {
       break;
   }
   output += _arbFeedForward;
-  return std::clamp(output, _pidController.GetOutputMin() * 12_V,
-                    _pidController.GetOutputMax() * 12_V);
+  return std::clamp(output, _minPidOutput * 12_V, _maxPidOutput * 12_V);
 }
 
 template <class Position>

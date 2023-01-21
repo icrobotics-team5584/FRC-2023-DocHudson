@@ -32,22 +32,15 @@
           "keyRate": 0.009999999776482582
         }
       ],
-      "axisCount": 0,
-      "buttonCount": 8,
+      "axisCount": 4,
+      "buttonCount": 7,
       "buttonKeys": [
-        49,
-        50,
-        51,
-        52,
-        53,
-        54,
-        55,
-        56,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
+        90,
+        88,
+        67,
+        86,
+        72,
+        74,
         -1
       ],
       "povCount": 0
@@ -105,13 +98,6 @@
   "robotJoysticks": [
     {
       "guid": "Keyboard0"
-    },
-    {
-      "useGamepad": true
-    },
-    {},
-    {
-      "useGamepad": true
     }
   ]
 }
