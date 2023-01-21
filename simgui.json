@@ -1,10 +1,5 @@
 {
   "HALProvider": {
-    "DIO": {
-      "window": {
-        "visible": true
-      }
-    },
     "Other Devices": {
       "window": {
         "visible": false
@@ -19,18 +14,10 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-<<<<<<< HEAD
-      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
-      "/SmartDashboard/Arm/mechanismDisplay": "Mechanism2d"
+      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/Arm/Mechanism Display": {
-=======
-      "/SmartDashboard/field": "Field2d"
-    },
-    "windows": {
-      "/SmartDashboard/field": {
->>>>>>> bcd4d1f8c6af0b36d0f5a990297da18c34f29726
         "window": {
           "visible": true
         }
@@ -38,13 +25,7 @@
     }
   },
   "NetworkTables": {
-    "Persistent Values": {
-      "open": false
-    },
     "transitory": {
-      "LiveWindow": {
-        "open": true
-      },
       "SmartDashboard": {
         "Arm": {
           "Arm Motor 1: ": {
@@ -52,14 +33,9 @@
           },
           "Arm Motor 2: ": {
             "open": true
-          },
-          "Mechanism Display": {
-            "armRoot": {
-              "ligament1": {
-                "open": true
-              }
-            }
-          },
+          }
+        },
+        "Intake": {
           "open": true
         },
         "open": true
@@ -70,60 +46,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 316,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position Target"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position"
-            }
-          ]
-        },
-        {
-          "height": 316,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position Target"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position"
-            }
-          ]
-        }
-      ],
-      "window": {
-        "name": "Position"
-      }
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "height": 313,
+          "height": 285,
           "series": [
             {
               "color": [
@@ -146,7 +69,7 @@
           ]
         },
         {
-          "height": 313,
+          "height": 285,
           "series": [
             {
               "color": [
@@ -168,15 +91,12 @@
             }
           ]
         }
-      ],
-      "window": {
-        "name": "Velocity"
-      }
+      ]
     },
-    "Plot <2>": {
+    "Plot <1>": {
       "plots": [
         {
-          "height": 234,
+          "height": 269,
           "series": [
             {
               "color": [
@@ -185,52 +105,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Voltage"
-            }
-          ]
-        },
-        {
-          "height": 234,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Voltage"
-            }
-          ]
-        }
-      ],
-      "window": {
-        "name": "Voltage"
-      }
-    },
-    "Plot <3>": {
-      "plots": [
-        {
-          "height": 326
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    },
-    "Plot <4>": {
-      "plots": [
-        {
-          "height": 326,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:/SmartDashboard/Arm/Arm Bottom Angle Target"
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position Target"
             },
             {
               "color": [
@@ -239,13 +114,53 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/Arm/Arm Top Angle Target"
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position"
+            }
+          ]
+        },
+        {
+          "height": 269,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position Target"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 501,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Intake/SensesCone"
             }
           ]
         }
       ],
       "window": {
-        "name": "angle",
         "visible": false
       }
     }

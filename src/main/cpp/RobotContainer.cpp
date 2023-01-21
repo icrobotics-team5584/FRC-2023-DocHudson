@@ -12,7 +12,7 @@
 #include "commands/ArmCommands.h"
 #include "frc2/command/Commands.h"
 #include "commands/GamePieceCommands.h"
-
+#include "subsystems/SubArm.h"
 bool RobotContainer::isConeMode = true;
 
 RobotContainer::RobotContainer() {
@@ -27,17 +27,19 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-   
+
+  using namespace frc2::cmd;
+  
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  /*
-  _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
-  _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
-  _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
-  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  _driverController.Y().WhileTrue(cmd::RightBumperExtend());
-  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
-  */
+  
+  // _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
+  //_driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
+  //_driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
+  //_driverController.B().WhileTrue(cmd::LeftBumperExtend());
+  //_driverController.Y().WhileTrue(cmd::RightBumperExtend());
+  //_driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
+  
 
 _driverController.A().OnTrue(cmd::ArmToHigh());
 _driverController.B().OnTrue(cmd::ArmToMid());

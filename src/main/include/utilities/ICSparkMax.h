@@ -286,6 +286,7 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
   units::volt_t _voltageTarget{0};
   units::volt_t _arbFeedForward = 0.0_V;
   frc::PIDController _simController{0, 0, 0};
+  double _FF{0};
   frc::TrapezoidProfile<Position> _simSmartMotionProfile{
       {Velocity_t{0}, Acceleration_t{0}},  // constraints
       {Position_t{0}, Velocity_t{0}}       // goal states

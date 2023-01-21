@@ -14,6 +14,7 @@
 #include <frc/smartdashboard/Mechanism2d.h>
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include "utilities/ICSparkMax.h"
+#include "Constants.h"
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -37,15 +38,16 @@ class SubArm : public frc2::SubsystemBase {
 
  private:
   // motors
-  ICSparkMax<> _armMotor1{21};
-  ICSparkMax<> _armMotor2{20};
-  ICSparkMax<> _armMotor1Follow{22};
+  ICSparkMax<> _armMotor1{canid::armMotor1};
+  ICSparkMax<> _armMotor2{canid::armMotor2};
+  ICSparkMax<> _armMotor1Follow{canid::armMotor1Follow};
+
 
   //arm 1
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
-  static constexpr double F = 0.001;
+  static constexpr double F = 30;
   
   static constexpr double GEAR_RATIO = 210.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
@@ -61,7 +63,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 0.001;
+  static constexpr double F_2 = 30;
   
   static constexpr double GEAR_RATIO_2 = 165.0; // only sim
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
