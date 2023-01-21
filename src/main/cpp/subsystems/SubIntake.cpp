@@ -19,7 +19,7 @@ void SubIntake::Periodic() {
    
 frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
 frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
-
+frc::SmartDashboard::PutBoolean("Intake/ConeSensor", SensesCone());
 
 }
 

@@ -36,6 +36,5 @@ namespace pcm {
 }
 
 namespace dio {
-    constexpr int lineBreakPayload = 0;
-    constexpr int coneSensor = 1;
+    constexpr int coneSensor = 0;
 }
