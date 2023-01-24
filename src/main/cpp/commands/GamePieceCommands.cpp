@@ -5,6 +5,9 @@
 namespace cmd {
     using namespace frc2::cmd;
 
+
+
+
     frc2::CommandPtr ClawExpand() {
         return RunOnce(
             [] {SubClaw::GetInstance().BothExtended();}
@@ -22,6 +25,22 @@ namespace cmd {
         [] {
             SubClaw::GetInstance().OneExtended();
             SubClaw::GetInstance().OneRetracted();
+        }
+        );
+    }
+
+    frc2::CommandPtr ClawReleaseCone() {
+        return RunOnce(
+        [] {
+            SubClaw::GetInstance().BothRetracted();
+        }
+        );
+    }
+
+    frc2::CommandPtr ClawReleaseCube() {
+        return RunOnce(
+        [] {
+            SubClaw::GetInstance().BothRetracted();
         }
         );
     }
@@ -62,7 +81,5 @@ frc2::CommandPtr BothBumperExtend() {
     );
 
 }
-
-
 
 }
