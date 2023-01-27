@@ -29,10 +29,15 @@ class RobotContainer {
   double ControllerGetRightX();
   frc2::CommandPtr GetAutonomousCommand();
 
+  static bool isConeMode;
+
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController _driverController{0};
   frc2::CommandGenericHID _secondController{1};
   
   void ConfigureBindings();
+  void SetConeMode();
+  void SetCubeMode();
+  
 };

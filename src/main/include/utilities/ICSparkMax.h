@@ -48,6 +48,13 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
   ICSparkMax(int deviceID, units::ampere_t currentLimit = 20_A);
 
   /**
+   * Sets position of motor
+   * 
+   * @param position What to set the position to
+  */
+  void SetPosition(Position_t position);
+
+  /**
    * Sets a closed loop position target (aka reference or goal) for the motor to drive to.
    *
    * @param target The target position drive to.
@@ -279,6 +286,7 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
   units::volt_t _voltageTarget{0};
   units::volt_t _arbFeedForward = 0.0_V;
   frc::PIDController _simController{0, 0, 0};
+  double _FF{0};
   frc::TrapezoidProfile<Position> _simSmartMotionProfile{
       {Velocity_t{0}, Acceleration_t{0}},  // constraints
       {Position_t{0}, Velocity_t{0}}       // goal states

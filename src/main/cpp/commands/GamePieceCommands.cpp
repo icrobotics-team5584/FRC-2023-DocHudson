@@ -5,9 +5,6 @@
 namespace cmd {
     using namespace frc2::cmd;
 
-
-
-
     frc2::CommandPtr ClawExpand() {
         return RunOnce(
             [] {SubClaw::GetInstance().BothExtended();}
@@ -65,5 +62,7 @@ frc2::CommandPtr BothBumperExtend() {
     );
 
 }
+
+
 
 }

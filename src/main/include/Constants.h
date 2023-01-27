@@ -23,8 +23,8 @@ namespace canid {
   constexpr int DriveBaseBackRightEncoder = 9;
  
     // Tank Drive Values
-  constexpr int TankDriveBaseFrontRight = 3;
   constexpr int TankDriveBaseBackRight = 1;
+  constexpr int TankDriveBaseFrontRight = 3;
   constexpr int TankDriveBaseFrontLeft = 5;
   constexpr int TankDriveBaseBackLeft = 6;
 
@@ -33,6 +33,9 @@ namespace canid {
   constexpr int rightMotor = 41;
   
     // Arm id: 20 - 39
+  constexpr int armMotor2 = 20;
+  constexpr int armMotor1 = 21;
+  constexpr int armMotor1Follow = 22;
 
 }
 namespace pcm {
@@ -47,5 +50,5 @@ namespace pcm {
 }
  
 namespace dio {
-  constexpr int lineBreakPayload = 0;
+    constexpr int coneSensor = 0;
 }

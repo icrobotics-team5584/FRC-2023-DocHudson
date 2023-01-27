@@ -19,6 +19,7 @@ void SubIntake::Periodic() {
    
 frc::SmartDashboard::PutNumber("Intake/LeftIntakeMotor",  _leftMotor.GetSimVoltage().value());
 frc::SmartDashboard::PutNumber("Intake/RightIntakeMotor", _rightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutBoolean("Intake/SensesCone", SensesCone());
 frc::SmartDashboard::PutNumber("RightBumper", _solPneumaticsRightBumper.Get());
 frc::SmartDashboard::PutNumber("LeftBumper", _solPneumaicsLeftBumper.Get());
 }
@@ -49,6 +50,8 @@ void SubIntake::Stop(){
 	_leftMotor.Set(0);
 	_rightMotor.Set(0);
 }
+
+bool SubIntake::SensesCone(){return _coneSensor.Get();}
 
 void SubIntake::BothBumperExtended(){
     _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);
