@@ -13,6 +13,7 @@
 #include "frc2/command/Commands.h"
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubArm.h"
+#include "commands/AutoCommands.h"
 bool RobotContainer::isConeMode = true;
 
 RobotContainer::RobotContainer() {
@@ -33,11 +34,10 @@ void RobotContainer::ConfigureBindings() {
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
-  _driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
-  _driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
   _driverController.Y().WhileTrue(cmd::RightBumperExtend());
-  _driverController.A().WhileTrue(cmd::Intake());
+  _driverController.LeftBumper().WhileTrue(cmd::Intake());
+  _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
