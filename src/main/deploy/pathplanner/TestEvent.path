@@ -74,13 +74,13 @@
     {
       "position": 1.0,
       "names": [
-        "Intake2sec"
+        "Intake"
       ]
     },
     {
       "position": 2.0,
       "names": [
-        "Outtake2sec"
+        "Outtake"
       ]
     }
   ]

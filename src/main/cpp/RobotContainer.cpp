@@ -51,5 +51,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("Hudson#1");
+  return cmd::PPDrivePath("TestRotation");
 }
