@@ -14,7 +14,7 @@
 class TankContainer {
  public:
   TankContainer();
-  frc2::Command* GetAutonomousCommand();
+  frc2::CommandPtr GetAutonomousCommand();
 
  private:
   // The robot's subsystems and commands are defined here...

@@ -14,10 +14,30 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d"
+      "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
+      "/SmartDashboard/Xcontroller": "PIDController",
+      "/SmartDashboard/field": "Field2d",
+      "/SmartDashboard/limelight Sim Field": "Field2d",
+      "/SmartDashboard/x controller": "PIDController",
+      "/SmartDashboard/y controller": "PIDController"
     },
     "windows": {
-      "/SmartDashboard/Arm/Mechanism Display": {
+      "/SmartDashboard/PPSwerveControllerCommand_field": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/field": {
+        "auto path 0": {
+          "arrowSize": 0,
+          "style": "Hidden"
+        },
+        "auto path 1": {
+          "style": "Hidden"
+        },
+        "auto path 2": {
+          "style": "Hidden"
+        },
         "window": {
           "visible": true
         }
@@ -36,6 +56,12 @@
           }
         },
         "Intake": {
+          "open": true
+        },
+        "field": {
+          "open": true
+        },
+        "limelight Sim Field": {
           "open": true
         },
         "open": true

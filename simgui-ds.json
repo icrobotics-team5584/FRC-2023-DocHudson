@@ -20,12 +20,25 @@
         {},
         {},
         {
+          "decKey": 65,
+          "incKey": 68
+        },
+        {
+          "decKey": 87,
+          "incKey": 83
+        },
+        {
           "decayRate": 0.0,
           "keyRate": 0.009999999776482582
+        },
+        {},
+        {
+          "decKey": 69,
+          "incKey": 81
         }
       ],
-      "axisCount": 0,
-      "buttonCount": 8,
+      "axisCount": 5,
+      "buttonCount": 4,
       "buttonKeys": [
         49,
         50,

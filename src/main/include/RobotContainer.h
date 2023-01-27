@@ -27,6 +27,7 @@ class RobotContainer {
   double ControllerGetLeftX();
   double ControllerGetLeftY();
   double ControllerGetRightX();
+  frc2::CommandPtr GetAutonomousCommand();
 
   static bool isConeMode;
 
