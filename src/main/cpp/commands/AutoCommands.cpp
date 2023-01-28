@@ -1,6 +1,7 @@
 #include "commands/AutoCommands.h"
 #include "subsystems/SubDriveBase.h"
 #include "commands/GamePieceCommands.h"
+#include "commands/ArmCommands.h"
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
@@ -45,9 +46,11 @@ namespace cmd {
 
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
 
-            {"ScoreLow", nullptr},
-            {"ScoreMiddle", nullptr},
-            {"ScoreHigh", nullptr}
+            {"ScoreLow", ArmToLowCubeOrCone().AndThen(ClawExpand()).Unwrap() },
+            {"ScoreMiddleCone", ArmToMidCone().AndThen(ClawExpand()).Unwrap() },
+            {"ScoreMiddleCube", ArmToMidCube().AndThen(ClawExpand()).Unwrap() },
+            {"ScoreHighCone", ArmToHighCone().AndThen(ClawExpand()).Unwrap() },
+            {"ScoreHighCube", ArmToHighCube().AndThen(ClawExpand()).Unwrap() }
         };
 
         static SwerveAutoBuilder autoBuilder{

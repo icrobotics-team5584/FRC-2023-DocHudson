@@ -1,6 +1,7 @@
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
+#include "commands/ArmCommands.h"
 
 namespace cmd {
     using namespace frc2::cmd;
@@ -89,7 +90,5 @@ frc2::CommandPtr BothBumperExtend() {
     );
 
 }
-
-
 
 }
