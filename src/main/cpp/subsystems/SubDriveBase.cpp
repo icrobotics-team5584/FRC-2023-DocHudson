@@ -154,11 +154,10 @@ void SubDriveBase::DisplayTrajectory(std::string name, frc::Trajectory trajector
   _fieldDisplay.GetObject(name)->SetTrajectory(trajectory);
 }
   
-void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency){
+void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t timeStamp){
     DisplayPose("EstimatedPose", pose);
     if (ambiguity < 0.15) {
-    auto timestamp = frc::Timer::GetFPGATimestamp() + latency;
-    _poseEstimator.AddVisionMeasurement(pose, timestamp);
+    _poseEstimator.AddVisionMeasurement(pose, timeStamp);
     }
 }
 
