@@ -11,6 +11,10 @@ namespace cmd {
     using namespace pathplanner;
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
+
+        std::unordered_map<std::string, std::vector<PathConstraints>> {
+        };
+
         auto pathGroup = PathPlanner::loadPathGroup(pathName , {{5_mps, 3_mps_sq}, {5_mps, 3_mps_sq}});
 
         int pathNum = 0;
@@ -20,11 +24,16 @@ namespace cmd {
             pathNum++;
         }
 
-        units::time::second_t eventTime = 3_s;
+        units::time::second_t eventTime = 2_s;
 
         std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
             {"Intake", Intake().WithTimeout(eventTime).Unwrap() },  
             {"Outtake", Outtake().WithTimeout(eventTime).Unwrap() },
+
+            {"StartIntake", StartIntake().Unwrap() },
+            {"StopIntake", StopIntake().Unwrap() },
+            {"StartOuttake", StartOuttake().Unwrap() },
+            {"StopOuttake", StopOuttake().Unwrap() },
 
             {"ClawExpand", ClawExpand().WithTimeout(eventTime).Unwrap() },
             {"ClawGrabCone", ClawGrabCone().WithTimeout(eventTime).Unwrap() },
@@ -34,7 +43,11 @@ namespace cmd {
             {"RightBumperExtend", RightBumperExtend().WithTimeout(eventTime).Unwrap() },
             {"BothBumperExtend", BothBumperExtend().WithTimeout(eventTime).Unwrap() },
 
-            {"Wait", frc2::cmd::Wait(eventTime).Unwrap() }
+            {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
+
+            {"ScoreLow", nullptr},
+            {"ScoreMiddle", nullptr},
+            {"ScoreHigh", nullptr}
         };
 
         static SwerveAutoBuilder autoBuilder{

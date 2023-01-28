@@ -2,13 +2,38 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.0,
-        "y": 3.0
+        "x": 2.2397162372121215,
+        "y": 1.0380695277790897
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0,
-        "y": 3.0
+        "x": 3.700549781577012,
+        "y": 1.0380695277790897
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.889815263230191,
+        "y": 0.9685131228967263
+      },
+      "prevControl": {
+        "x": 3.4005120883158098,
+        "y": 0.9685131228967263
+      },
+      "nextControl": {
+        "x": 6.379118438144572,
+        "y": 0.9685131228967263
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -24,20 +49,20 @@
     },
     {
       "anchorPoint": {
-        "x": 3.0,
-        "y": 2.9995601454617544
+        "x": 7.080842017024658,
+        "y": 0.9476462014320163
       },
       "prevControl": {
-        "x": 1.7525916391748648,
-        "y": 2.9995601454617544
+        "x": 6.7299802275846154,
+        "y": 0.9580796621643712
       },
       "nextControl": {
-        "x": 3.999999999999995,
-        "y": 2.9995601454617544
+        "x": 7.4317038064647,
+        "y": 0.9372127406996613
       },
       "holonomicAngle": 0,
       "isReversal": false,
-      "velOverride": 3.0,
+      "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
@@ -51,12 +76,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.0,
-        "y": 3.0
+        "x": 3.9647150782947493,
+        "y": 2.85349169520879
       },
       "prevControl": {
-        "x": 4.0,
-        "y": 3.0
+        "x": 5.698209442379724,
+        "y": 1.8953522179542257
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -65,29 +90,18 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "StopOuttake"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "maxVelocity": 5.0,
-  "maxAcceleration": 3.0,
-  "isReversed": null,
   "markers": [
     {
-      "position": 0.5,
+      "position": 1.2,
       "names": [
         "StartIntake"
-      ]
-    },
-    {
-      "position": 1.5,
-      "names": [
-        "StartOuttake"
       ]
     }
   ]
