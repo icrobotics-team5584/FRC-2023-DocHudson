@@ -29,7 +29,7 @@ class SubDriveBase : public frc2::SubsystemBase {
     return inst;
 
   }
-  void AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t latency);
+  void AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t timeStamp);
   // void UpdatePidControllerDrive();
   void DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, 
                   units::meter_t targetDistance, units::degree_t targetRotation);
@@ -97,8 +97,8 @@ class SubDriveBase : public frc2::SubsystemBase {
       _kinematics, _gyro.GetRotation2d(), {frc::SwerveModulePosition{0_m, _frontLeft.GetAngle()}, 
 				  frc::SwerveModulePosition{0_m, _frontRight.GetAngle()}, frc::SwerveModulePosition{0_m, _backLeft.GetAngle()}, 
           frc::SwerveModulePosition{0_m, _backRight.GetAngle()}} ,frc::Pose2d(),
-          {0.3, 0.6, 0.3},
-          {0.7, 0.4, 0.7}
+          {0.3, 0.6, 0.3},  
+          {0.9, 0.9, 0.9}
   };
 
   frc::Pose2d _prevPose; // Used for velocity calculations

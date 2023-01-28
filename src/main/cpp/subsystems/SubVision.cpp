@@ -21,9 +21,9 @@ SubVision::SubVision() {
 
 std::optional <Measurement> SubVision::GetMeasurement(){
 if (_camera->GetLatestResult().HasTargets()) {
-  auto [pose, latency] = _visionPoseEstimator.Update();
+  auto [pose, timeStamp] = _visionPoseEstimator.Update();
   auto ambiguity = _camera->GetLatestResult().GetBestTarget().GetPoseAmbiguity(); 
-  Measurement UpdateMeasurement {pose, latency, ambiguity};
+  Measurement UpdateMeasurement {pose, timeStamp, ambiguity};
   return {UpdateMeasurement};
 } else {return {};}
 }

@@ -10,8 +10,8 @@ namespace cmd {
             auto result = SubVision::GetInstance().GetMeasurement();
            if (result.has_value()) {
            
-            auto [pose, latency, ambiguity] = result.value();
-            //SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, latency);
+            auto [pose, timeStamp, ambiguity] = result.value();
+            SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, timeStamp);
            }
         }, {&SubVision::GetInstance()});
       

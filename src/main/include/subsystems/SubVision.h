@@ -19,7 +19,7 @@
 
 struct Measurement {
   frc::Pose3d pose;
-  units::second_t latency;
+  units::second_t timeStamp;
   double ambiguity;
 };
 
@@ -41,14 +41,14 @@ std::shared_ptr<photonlib::PhotonCamera> _camera{new photonlib::PhotonCamera{"li
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
-  frc::Transform3d _camToBot{{11_cm, 10_cm, 65.5_cm}, {}};
+  frc::Transform3d _camToBot{{-11.5_cm, -11_cm, -45_cm}, {}};
 
   std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory()+"/AprilTags.json"}};
 
   photonlib::RobotPoseEstimator _visionPoseEstimator{
     _tagLayout, 
   photonlib::PoseStrategy::LOWEST_AMBIGUITY,
-  {{_camera, _camToBot}}
+  {{_camera, _camToBot.Inverse()}}
 };
 
 photonlib::SimVisionSystem _visionSim{"limelight", 45_deg, _camToBot, 15_m, 360, 240, 0.0001};
