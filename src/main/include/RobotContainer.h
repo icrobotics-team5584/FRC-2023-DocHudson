@@ -11,6 +11,7 @@
 #include <frc2/command/button/CommandGenericHID.h> 
 #include <frc2/command/InstantCommand.h>
 #include <frc/XboxController.h>
+#include <frc/smartdashboard/SendableChooser.h>
 
 // Created classes includes 
 #include "Constants.h"
@@ -40,4 +41,5 @@ class RobotContainer {
   void SetConeMode();
   void SetCubeMode();
   
+  frc::SendableChooser<std::string> _autoChooser;
 };

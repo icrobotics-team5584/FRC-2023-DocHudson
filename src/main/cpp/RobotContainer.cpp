@@ -25,6 +25,11 @@ RobotContainer::RobotContainer() {
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
+
+  _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("Does not exist", "DoesNotExist"); 
+
+  frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -50,5 +55,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("DoNothing");
+  return cmd::PPDrivePath(_autoChooser.GetSelected());
 }

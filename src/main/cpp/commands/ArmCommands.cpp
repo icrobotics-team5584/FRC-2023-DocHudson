@@ -15,7 +15,7 @@ namespace cmd{
 
     frc2::CommandPtr ArmToLowCubeOrCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(45_cm, 15_cm);});}
     frc2::CommandPtr ArmToLoadingStation(){return RunOnce([]{SubArm::GetInstance().ArmPos(45_cm, 100_cm);});}
-	frc2::CommandPtr ArmToDefaultLocation(){return RunOnce([]{SubArm::GetInstance().ArmPos(70_cm, 40_cm);});} //gtg
+	  frc2::CommandPtr ArmToDefaultLocation(){return RunOnce([]{SubArm::GetInstance().ArmPos(70_cm, 40_cm);});} //gtg
 
     frc2::CommandPtr PickUpCube(){return RunOnce([]{SubArm::GetInstance().ArmPos(90_cm, 14_cm);});} //gtg
     frc2::CommandPtr PickUpUprightCone(){return RunOnce([]{SubArm::GetInstance().ArmPos(80_cm, 17_cm);});} //gtg

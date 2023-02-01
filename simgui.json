@@ -14,6 +14,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
       "/SmartDashboard/Xcontroller": "PIDController",
       "/SmartDashboard/field": "Field2d",
@@ -72,7 +74,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -95,7 +97,7 @@
           ]
         },
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -122,7 +124,7 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -145,7 +147,7 @@
           ]
         },
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
