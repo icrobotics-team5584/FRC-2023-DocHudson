@@ -60,6 +60,8 @@ class SubDriveBase : public frc2::SubsystemBase {
   void ResetGyroHeading();
   void UpdatePosition(frc::Pose2d robotPosition);
     frc::Field2d _fieldDisplay;
+
+  void DriveToPose(frc::Pose2d targetPose);
  
 
 

@@ -123,6 +123,17 @@ void SubDriveBase::UpdateOdometry() {
   _fieldDisplay.SetRobotPose(_poseEstimator.GetEstimatedPosition());  
 }
 
+void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
+  frc::Pose2d currentPosition = _poseEstimator.GetEstimatedPosition();
+  double speedX = Xcontroller.Calculate(currentPosition.X().value(), targetPose.X().value());
+  double speedY = Ycontroller.Calculate(currentPosition.Y().value(), targetPose.Y().value());
+  double speedRot = -Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
+  speedX = std::clamp(speedX, -0.5, 0.5);
+  speedY = std::clamp(speedY, -0.5, 0.5);
+  speedRot = std::clamp(speedRot, -2.0, 2.0);
+  Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
+}
+
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
   auto driveSpeeds = _driveController.Calculate(_poseEstimator.GetEstimatedPosition(), pos, vel, rot);
   Drive(driveSpeeds.vx, driveSpeeds.vy, driveSpeeds.omega, true);

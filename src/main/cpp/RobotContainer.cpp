@@ -42,6 +42,8 @@ void RobotContainer::ConfigureBindings() {
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
   // _driverController.Y().WhileTrue(cmd::ArmToHigh());
   // _driverController.Y().WhileTrue(cmd::ArmPickUp());
+  _driverController.Y().WhileTrue(Run([]{SubDriveBase::GetInstance().DriveToPose(frc::Pose2d{1_m, 1_m, 0_deg});}));
+  _driverController.X().WhileTrue(RunOnce([]{SubDriveBase::GetInstance().SetPose(frc::Pose2d{0_m, 0_m, 0_deg});}));
   _driverController.LeftBumper().WhileTrue(cmd::Intake());
   _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
