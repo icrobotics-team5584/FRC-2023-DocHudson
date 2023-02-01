@@ -27,7 +27,7 @@ RobotContainer::RobotContainer() {
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
-  _autoChooser.AddOption("Does not exist", "DoesNotExist"); 
+  _autoChooser.AddOption("Get4m", "Get4m"); 
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
@@ -40,7 +40,8 @@ void RobotContainer::ConfigureBindings() {
   // pressed, cancelling on release.
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  _driverController.Y().WhileTrue(cmd::RightBumperExtend());
+  // _driverController.Y().WhileTrue(cmd::ArmToHigh());
+  // _driverController.Y().WhileTrue(cmd::ArmPickUp());
   _driverController.LeftBumper().WhileTrue(cmd::Intake());
   _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
