@@ -5,7 +5,12 @@
 #include "subsystems/SubClaw.h"
 
 SubClaw::SubClaw() {
+    frc::SmartDashboard::PutData("Claw/Claw Motor 1: ", (wpi::Sendable*)&_clawMotor1);
+
      _clawMotor1.SetPIDFF(P, I, D, F);
+
+    _clawMotor1.SetPosition(0_tr);
+     
 }
 
 // This method will be called once per scheduler run
@@ -32,9 +37,9 @@ void SubClaw::OneRetracted(){
 }
 
 void SubClaw::ClawClamped(){
-    //motor close claw
+    _clawMotor1.SetPositionTarget(0_tr);
 }
 
 void SubClaw::ClawUnclamped(){
-    //motor open claw
+    _clawMotor1.SetPositionTarget(15_tr);
 }

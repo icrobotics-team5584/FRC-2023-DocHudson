@@ -9,10 +9,13 @@
 #include "Constants.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "utilities/ICSparkMax.h"
+#include <units/angle.h>
 
 class SubClaw : public frc2::SubsystemBase {
  public:
   SubClaw();
+
+
 static SubClaw &GetInstance() {static SubClaw inst; return inst;}
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -36,7 +39,7 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
    ICSparkMax<> _clawMotor1{canid::clawMotor1};
 
 
-  static constexpr double P = 0.5;
+  static constexpr double P = 2.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
