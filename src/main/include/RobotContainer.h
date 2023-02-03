@@ -21,6 +21,8 @@
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
 
+
+
 class RobotContainer {
  public:
   RobotContainer();
@@ -29,6 +31,7 @@ class RobotContainer {
   double ControllerGetRightX();
 
   static bool isConeMode;
+  static Grid GridSelect;
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed

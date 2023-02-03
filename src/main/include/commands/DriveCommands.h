@@ -6,6 +6,16 @@ namespace cmd {
   frc2::CommandPtr  AddVisionMeasurement();
 
   //Grid drive commands
+  frc2::CommandPtr Drive01();
+  frc2::CommandPtr Drive02();
+  frc2::CommandPtr Drive03();
+  frc2::CommandPtr Drive04();
+  frc2::CommandPtr Drive05();
+  frc2::CommandPtr Drive06();
+  frc2::CommandPtr Drive07();
+  frc2::CommandPtr Drive08();
+  frc2::CommandPtr Drive09();
+  frc2::CommandPtr Drive10();
   frc2::CommandPtr Drive11();
   frc2::CommandPtr Drive12();
   frc2::CommandPtr Drive13();
@@ -14,16 +24,6 @@ namespace cmd {
   frc2::CommandPtr Drive16();
   frc2::CommandPtr Drive17();
   frc2::CommandPtr Drive18();
-  frc2::CommandPtr Drive19();
-  frc2::CommandPtr Drive21();
-  frc2::CommandPtr Drive22();
-  frc2::CommandPtr Drive23();
-  frc2::CommandPtr Drive24();
-  frc2::CommandPtr Drive25();
-  frc2::CommandPtr Drive26();
-  frc2::CommandPtr Drive27();
-  frc2::CommandPtr Drive28();
-  frc2::CommandPtr Drive29();
   frc2::CommandPtr Drive31();
   frc2::CommandPtr Drive32();
   frc2::CommandPtr Drive33();
