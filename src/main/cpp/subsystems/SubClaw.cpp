@@ -15,6 +15,9 @@ SubClaw::SubClaw() {
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
+    frc::SmartDashboard::PutNumber("claw Duty cycle", _clawMotor1.GetAppliedOutput());
+    frc::SmartDashboard::PutNumber("claw Current", _clawMotor1.GetOutputCurrent());
+    
 //frc::SmartDashboard::PutNumber("RightClawPneumatc", _solPnuematicsLeft.Get());
 //frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
 }
@@ -41,5 +44,5 @@ void SubClaw::ClawClamped(){
 }
 
 void SubClaw::ClawUnclamped(){
-    _clawMotor1.SetPositionTarget(15_tr);
+    _clawMotor1.SetPositionTarget(18_tr);
 }

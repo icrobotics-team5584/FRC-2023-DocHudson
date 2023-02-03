@@ -20,6 +20,7 @@ RobotContainer::RobotContainer() {
   // Initializing Commmands
   SubIntake::GetInstance();
   SubArm::GetInstance();
+  SubClaw::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();

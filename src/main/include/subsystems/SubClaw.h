@@ -39,7 +39,7 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
    ICSparkMax<> _clawMotor1{canid::clawMotor1};
 
 
-  static constexpr double P = 2.0;
+  static constexpr double P = 4.5;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
