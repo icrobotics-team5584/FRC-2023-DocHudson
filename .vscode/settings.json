@@ -88,6 +88,7 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "*.inc": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "*.tpp": "cpp"
   }
 }

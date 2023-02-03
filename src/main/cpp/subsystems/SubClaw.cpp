@@ -4,7 +4,9 @@
 
 #include "subsystems/SubClaw.h"
 
-SubClaw::SubClaw() = default;
+SubClaw::SubClaw() {
+     _clawMotor1.SetPIDFF(P, I, D, F);
+}
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
@@ -27,4 +29,12 @@ void SubClaw::OneExtended(){
 }
 void SubClaw::OneRetracted(){
     _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+void SubClaw::ClawClamped(){
+    //motor close claw
+}
+
+void SubClaw::ClawUnclamped(){
+    //motor open claw
 }
