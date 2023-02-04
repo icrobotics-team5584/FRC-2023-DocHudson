@@ -57,11 +57,13 @@ void SubArm::DashboardInput(){
 }
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
+  targetTopAngle = topAngle;
+  targetBottomAngle = bottomAngle;
   _armMotor1.SetSmartMotionTarget(bottomAngle);
-  _armMotor2.SetSmartMotionTarget(topAngle + bottomAngle); 
+  _armMotor2.SetSmartMotionTarget(topAngle);
 }
 
-void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
+std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
   double x_coord = x.value();
   double y_coord = y.value();
 
@@ -75,7 +77,26 @@ void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
   double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
   units::radian_t armBottomAngle{statement1 - statement2};
 
-  DriveTo(armBottomAngle, armTopAngle);
+  return {armTopAngle + armBottomAngle, armBottomAngle};
+}
+
+void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
+  // double x_coord = x.value();
+  // double y_coord = y.value();
+
+  // double armTopAngleFracbottom = pow(x_coord, 2.0) + pow(y_coord, 2.0) - pow(ARM_LENGTH.value(), 2.0) - pow(ARM_LENGTH_2.value(), 2.0);
+  // double armTopAngleFractop = 2.0 * ARM_LENGTH.value() * ARM_LENGTH_2.value();
+  // units::radian_t armTopAngle{-1 * (acos(armTopAngleFracbottom / armTopAngleFractop))};
+
+  // double armBottomAngleFracbottom = ARM_LENGTH_2.value() * sin(armTopAngle.value());
+  // double armBottomAngleFractop = ARM_LENGTH.value() + ARM_LENGTH_2.value() * cos(armTopAngle.value());
+  // double statement1 = atan(y_coord / x_coord);
+  // double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
+  // units::radian_t armBottomAngle{statement1 - statement2};
+
+  // DriveTo(armBottomAngle, armTopAngle);
+  auto armAngle = InverseKinmetics(x,y);
+  DriveTo(armAngle.second, armAngle.first);
 }
 
 void SubArm::CubeConeSwitch() {}
@@ -102,4 +123,10 @@ void SubArm::SimulationPeriodic() {
 void SubArm::ArmResettingPos() {
   _armMotor1.SetPosition(0_deg);
   _armMotor2.SetPosition(0_deg);
+}
+
+bool SubArm::CheckPosition() {
+  bool s1 = units::math::abs(_armMotor1.GetPosition() - targetBottomAngle) < 0.05_rad;
+  bool s2 = units::math::abs(_armMotor2.GetPosition() - targetTopAngle) < 0.05_rad;
+  return s1 && s2;
 }

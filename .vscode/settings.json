@@ -89,5 +89,6 @@
     "variant": "cpp",
     "*.inc": "cpp",
     "xstring": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

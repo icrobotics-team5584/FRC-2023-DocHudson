@@ -5,6 +5,16 @@
         "visible": false
       }
     },
+    "Solenoids": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "Timing": {
       "window": {
         "visible": false
@@ -14,6 +24,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
       "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
       "/SmartDashboard/Xcontroller": "PIDController",
       "/SmartDashboard/field": "Field2d",
@@ -22,7 +33,7 @@
       "/SmartDashboard/y controller": "PIDController"
     },
     "windows": {
-      "/SmartDashboard/PPSwerveControllerCommand_field": {
+      "/SmartDashboard/Arm/Mechanism Display": {
         "window": {
           "visible": true
         }
@@ -68,11 +79,14 @@
       }
     }
   },
+  "NetworkTables View": {
+    "visible": false
+  },
   "Plot": {
     "Plot <0>": {
       "plots": [
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -95,7 +109,7 @@
           ]
         },
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -117,12 +131,15 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -145,7 +162,7 @@
           ]
         },
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -167,7 +184,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <2>": {
       "plots": [

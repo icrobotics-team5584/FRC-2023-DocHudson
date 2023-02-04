@@ -49,7 +49,7 @@ namespace cmd {
             {"ScoreLow", ArmToLowCubeOrCone().AndThen(ClawExpand()).Unwrap() },
             {"ScoreMiddleCone", ArmToMidCone().AndThen(ClawExpand()).Unwrap() },
             {"ScoreMiddleCube", ArmToMidCube().AndThen(ClawExpand()).Unwrap() },
-            {"ScoreHighCone", ArmToHighCone().AndThen(ClawExpand()).Unwrap() },
+            {"ScoreHighCone", ArmToHighCone().AndThen(ClawExpand()).Unwrap() }, 
             {"ScoreHighCube", ArmToHighCube().AndThen(ClawExpand()).Unwrap() }
         };
 
