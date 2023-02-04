@@ -40,10 +40,8 @@ void RobotContainer::ConfigureBindings() {
   // pressed, cancelling on release.
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  // _driverController.Y().WhileTrue(cmd::ArmToHigh());
-  // _driverController.Y().WhileTrue(cmd::ArmPickUp());
-  _driverController.Y().WhileTrue(Run([]{SubDriveBase::GetInstance().DriveToPose(frc::Pose2d{1_m, 1_m, 0_deg});}));
-  _driverController.X().WhileTrue(RunOnce([]{SubDriveBase::GetInstance().SetPose(frc::Pose2d{0_m, 0_m, 0_deg});}));
+  _driverController.Y().WhileTrue(cmd::ArmToHigh());
+  _driverController.X().WhileTrue(cmd::ArmPickUp());
   _driverController.LeftBumper().WhileTrue(cmd::Intake());
   _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
@@ -58,5 +56,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("1PreloadScore+Climb");
+  return cmd::PPDrivePath("3Score");
 }

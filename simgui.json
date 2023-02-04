@@ -14,11 +14,6 @@
       "window": {
         "visible": true
       }
-    },
-    "Timing": {
-      "window": {
-        "visible": false
-      }
     }
   },
   "NTProvider": {
@@ -42,13 +37,15 @@
       "/SmartDashboard/field": {
         "auto path 0": {
           "arrowSize": 0,
-          "style": "Hidden"
+          "style": "Line"
         },
         "auto path 1": {
-          "style": "Hidden"
+          "arrowSize": 0,
+          "style": "Line"
         },
         "auto path 2": {
-          "style": "Hidden"
+          "arrowSize": 0,
+          "style": "Line"
         },
         "window": {
           "visible": true
@@ -59,29 +56,12 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
-        "Arm": {
-          "Arm Motor 1: ": {
-            "open": true
-          },
-          "Arm Motor 2: ": {
-            "open": true
-          }
-        },
-        "Intake": {
-          "open": true
-        },
-        "field": {
-          "open": true
-        },
-        "limelight Sim Field": {
+        "SubClaw": {
           "open": true
         },
         "open": true
       }
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   },
   "Plot": {
     "Plot <0>": {

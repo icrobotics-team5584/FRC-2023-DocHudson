@@ -12,10 +12,14 @@ namespace cmd {
         );
     }
 
-    frc2::CommandPtr ClawGrabCone(){
+    frc2::CommandPtr ClawRetract() {
         return RunOnce(
-         [] {SubClaw::GetInstance().BothRetracted();}   
+            [] {SubClaw::GetInstance().BothRetracted();}
         );
+    }
+
+    frc2::CommandPtr ClawGrabCone(){
+        return ClawRetract();
     }
 
     frc2::CommandPtr ClawGrabCube(){

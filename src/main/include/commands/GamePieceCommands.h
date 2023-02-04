@@ -6,6 +6,7 @@ namespace cmd {
 frc2::CommandPtr ClawGrabCone();
 frc2::CommandPtr ClawGrabCube();
 frc2::CommandPtr ClawExpand();
+frc2::CommandPtr ClawRetract();
 frc2::CommandPtr Intake();
 frc2::CommandPtr StartIntake();
 frc2::CommandPtr StopIntake();
