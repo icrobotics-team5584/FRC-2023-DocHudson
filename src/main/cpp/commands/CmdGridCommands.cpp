@@ -7,6 +7,7 @@
 #include "commands/GamePieceCommands.h"
 #include "commands/ArmCommands.h"
 #include <frc/geometry/Translation2d.h>
+#include "RobotContainer.h"
 
 /*
 
@@ -25,8 +26,14 @@ drive number blue             01 02 03     04 05 06     07 08 09
 namespace cmd {
 using namespace frc2::cmd;
 
-frc2::CommandPtr Score11() {
-  return Sequence(Drive01(), ArmToLowCubeOrCone(), ClawReleaseCone(),
-                  ArmToDefaultLocation());
+frc2::CommandPtr Score(grids::Column column, grids::Height height) {
+  return DriveToPose([column] {
+      grids::DrivePose drivePose{RobotContainer::GridSelect, column};
+      return grids::ScoringLocations[drivePose];
+      })
+      .AlongWith(ArmToScoringHeight(height))
+      .AndThen(ClawExpand());
 }
-}  // namespace cmd
+
+}
+ // namespace cmd

@@ -63,7 +63,7 @@ class SubDriveBase : public frc2::SubsystemBase {
 
   void DriveToPose(frc::Pose2d targetPose);
  
-
+  bool IsAtPose(frc::Pose2d pose);
 
   void DisplayTrajectory(std::string name, frc::Trajectory trajectory);
 

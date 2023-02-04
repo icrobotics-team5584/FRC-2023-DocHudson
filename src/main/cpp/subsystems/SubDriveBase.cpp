@@ -134,6 +134,11 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
   Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
 }
 
+bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
+  auto currentPose = _poseEstimator.GetEstimatedPosition();
+  return (currentPose.Translation().Distance(pose.Translation()) < 1_cm);
+}
+
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
   auto driveSpeeds = _driveController.Calculate(_poseEstimator.GetEstimatedPosition(), pos, vel, rot);
   Drive(driveSpeeds.vx, driveSpeeds.vy, driveSpeeds.omega, true);

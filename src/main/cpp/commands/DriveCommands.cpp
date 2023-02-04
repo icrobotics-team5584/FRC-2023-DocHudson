@@ -4,30 +4,29 @@
 #include "utilities/Grids.h"
 #include "RobotContainer.h"
 
-
 namespace cmd {
-    using namespace frc2::cmd;
+using namespace frc2::cmd;
 
-    frc2::CommandPtr AddVisionMeasurement() {
-        return Run([] {
-            auto result = SubVision::GetInstance().GetMeasurement();
-           if (result.has_value()) {
-           
-            auto [pose, timeStamp, ambiguity] = result.value();
-            SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, timeStamp);
-           }
-        }, {&SubVision::GetInstance()});
-      
-    }
-
-    //Grid drive commands
-    frc2::CommandPtr Drive01() {
-        return Run(
-         [] {grids::ScoringLocations[{RobotContainer::GridSelect, grids::Column::Left}];}
-        );
-    }
-
+frc2::CommandPtr AddVisionMeasurement() {
+  return Run(
+      [] {
+        auto result = SubVision::GetInstance().GetMeasurement();
+        if (result.has_value()) {
+          auto [pose, timeStamp, ambiguity] = result.value();
+          SubDriveBase::GetInstance().AddVisionMeasurement(
+              pose.ToPose2d(), ambiguity, timeStamp);
+        }
+      },
+      {&SubVision::GetInstance()});
 }
 
 
+frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
+  return Run([=] { SubDriveBase::GetInstance().DriveToPose(targetPoseGetter()); },
+             {&SubDriveBase::GetInstance()})
+      .Until([=] {
+        return SubDriveBase::GetInstance().IsAtPose(targetPoseGetter());
+      });
+}
 
+}  // namespace cmd

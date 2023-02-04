@@ -5,7 +5,8 @@
 #pragma once
 
 #include <frc2/command/Commands.h>
-class CmdGridCommands {
- public:
-  CmdGridCommands();
+#include "utilities/Grids.h"
+
+namespace cmd {
+  frc2::CommandPtr Score(grids::Column column, grids::Height height);
 };

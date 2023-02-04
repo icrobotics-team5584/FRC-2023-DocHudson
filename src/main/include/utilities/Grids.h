@@ -8,11 +8,13 @@ namespace grids
 
 enum class Grid{Neutral, Left, Middle, Right};
 enum class Column{Left, Middle, Right};
+enum class Height{High, Middle, Low};
 
 struct DrivePose
 {
    Grid grid; 
    Column column;
+   Height height;
 
    auto operator<=>(const DrivePose& other) const = default;
 };
