@@ -25,6 +25,11 @@ RobotContainer::RobotContainer() {
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
+
+  _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("Get4m", "Get4m"); 
+
+  frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -35,7 +40,10 @@ void RobotContainer::ConfigureBindings() {
   // pressed, cancelling on release.
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  _driverController.Y().WhileTrue(cmd::RightBumperExtend());
+  // _driverController.Y().WhileTrue(cmd::ArmToHigh());
+  // _driverController.Y().WhileTrue(cmd::ArmPickUp());
+  _driverController.Y().WhileTrue(Run([]{SubDriveBase::GetInstance().DriveToPose(frc::Pose2d{1_m, 1_m, 0_deg});}));
+  _driverController.X().WhileTrue(RunOnce([]{SubDriveBase::GetInstance().SetPose(frc::Pose2d{0_m, 0_m, 0_deg});}));
   _driverController.LeftBumper().WhileTrue(cmd::Intake());
   _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
