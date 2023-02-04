@@ -41,7 +41,8 @@ void RobotContainer::ConfigureBindings() {
   _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
   _driverController.B().WhileTrue(cmd::LeftBumperExtend());
   _driverController.Y().WhileTrue(cmd::ArmToHigh());
-  _driverController.X().WhileTrue(cmd::ArmPickUp());
+  _driverController.X().WhileTrue(cmd::ArmToMid());
+  _driverController.A().WhileTrue(cmd::ArmPickUp());
   _driverController.LeftBumper().WhileTrue(cmd::Intake());
   _driverController.RightBumper().WhileTrue(cmd::Outtake());
   _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
@@ -56,5 +57,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("3Score");
+  return cmd::PPDrivePath("1PreloadScore");
 }
