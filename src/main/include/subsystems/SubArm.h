@@ -29,10 +29,13 @@ class SubArm : public frc2::SubsystemBase {
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
+  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   void ArmPos(units::meter_t x, units::meter_t y);
   void CubeConeSwitch();
   void DashboardInput();
   void ArmResettingPos();
+
+  bool CheckPosition();
 
   static constexpr units::meter_t ARM_ROOT_X = 0.05_m;
 
@@ -105,5 +108,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
   frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
 
+  units::angle::degree_t targetTopAngle;
+  units::angle::degree_t targetBottomAngle;
 };
 

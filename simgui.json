@@ -5,6 +5,16 @@
         "visible": false
       }
     },
+    "Solenoids": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "Timing": {
       "window": {
         "visible": false
@@ -14,10 +24,32 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d"
+      "/SmartDashboard/Arm/Mechanism Display": "Mechanism2d",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
+      "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
+      "/SmartDashboard/Xcontroller": "PIDController",
+      "/SmartDashboard/field": "Field2d",
+      "/SmartDashboard/limelight Sim Field": "Field2d",
+      "/SmartDashboard/x controller": "PIDController",
+      "/SmartDashboard/y controller": "PIDController"
     },
     "windows": {
       "/SmartDashboard/Arm/Mechanism Display": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/field": {
+        "auto path 0": {
+          "arrowSize": 0,
+          "style": "Hidden"
+        },
+        "auto path 1": {
+          "style": "Hidden"
+        },
+        "auto path 2": {
+          "style": "Hidden"
+        },
         "window": {
           "visible": true
         }
@@ -38,15 +70,24 @@
         "Intake": {
           "open": true
         },
+        "field": {
+          "open": true
+        },
+        "limelight Sim Field": {
+          "open": true
+        },
         "open": true
       }
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   },
   "Plot": {
     "Plot <0>": {
       "plots": [
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -69,7 +110,7 @@
           ]
         },
         {
-          "height": 285,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -91,12 +132,15 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -119,7 +163,7 @@
           ]
         },
         {
-          "height": 269,
+          "height": 2,
           "series": [
             {
               "color": [
@@ -141,7 +185,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <2>": {
       "plots": [

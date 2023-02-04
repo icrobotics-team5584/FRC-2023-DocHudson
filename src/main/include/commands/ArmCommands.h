@@ -22,5 +22,5 @@ namespace cmd {
     frc2::CommandPtr PickUpUprightCone();
     frc2::CommandPtr PickUpSlantedCone();
 
-    
+    frc2::CommandPtr WaitStop();
 }

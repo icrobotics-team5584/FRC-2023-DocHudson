@@ -14,7 +14,7 @@
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubArm.h"
 #include "utilities/Grids.h"
-
+#include "commands/AutoCommands.h"
 
 
 bool RobotContainer::isConeMode = true;
@@ -29,6 +29,11 @@ RobotContainer::RobotContainer() {
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
+
+  _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("Get4m", "Get4m"); 
+
+  frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -37,31 +42,18 @@ void RobotContainer::ConfigureBindings() {
   
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  
-  // _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
-  //_driverController.LeftBumper().WhileTrue(cmd::ClawGrabCone());
-  //_driverController.RightTrigger().WhileTrue(cmd::ClawGrabCube());
-  //_driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  //_driverController.Y().WhileTrue(cmd::RightBumperExtend());
-  //_driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
-  
+  _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
+  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
+  // _driverController.Y().WhileTrue(cmd::ArmToHigh());
+  // _driverController.Y().WhileTrue(cmd::ArmPickUp());
+  _driverController.Y().WhileTrue(Run([]{SubDriveBase::GetInstance().DriveToPose(frc::Pose2d{1_m, 1_m, 0_deg});}));
+  _driverController.X().WhileTrue(RunOnce([]{SubDriveBase::GetInstance().SetPose(frc::Pose2d{0_m, 0_m, 0_deg});}));
+  _driverController.LeftBumper().WhileTrue(cmd::Intake());
+  _driverController.RightBumper().WhileTrue(cmd::Outtake());
+  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
-_driverController.A().OnTrue(cmd::ArmToHigh());
-_driverController.B().OnTrue(cmd::ArmToMid());
-_driverController.X().OnTrue(cmd::ArmPickUp()); 
-_driverController.Y().OnTrue(cmd::PickUpCube());
-_driverController.LeftBumper().OnTrue(cmd::ArmToLowCubeOrCone());
-_driverController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-_driverController.Start().OnTrue(cmd::ArmToLoadingStation());
-_driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
-
-// A = 1 | LeftBumper = 5
-// B = 2 | RightBumper = 6
-// X = 3 | Back = 7
-// Y = 4 | Start = 8
-
-//  _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-//  _driverController.B().WhileTrue(cmd::AddVisionMeasurement());
+  _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+  //_driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 
 //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
@@ -71,3 +63,9 @@ _driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos
   _secondController.Button(12).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
 }
   
+
+
+// For Auto Commands, removed temporarily
+frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
+  return cmd::PPDrivePath("1PreloadScore+Climb");
+}
