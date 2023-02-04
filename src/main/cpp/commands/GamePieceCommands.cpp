@@ -1,6 +1,7 @@
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
+#include "commands/ArmCommands.h"
 
 namespace cmd {
     using namespace frc2::cmd;
@@ -53,6 +54,19 @@ namespace cmd {
         );
     }
 
+    frc2::CommandPtr StartIntake() {
+        return RunOnce (
+            [] {SubIntake::GetInstance().IntakeLeft();
+                   SubIntake::GetInstance().IntakeRight();}
+        );
+    }
+
+    frc2::CommandPtr StopIntake() {
+        return RunOnce (
+            [] {SubIntake::GetInstance().Stop();}
+        );
+    }
+
  frc2::CommandPtr Outtake(){
         return StartEnd(
             [] {SubIntake::GetInstance().OuttakeLeft();
@@ -60,6 +74,20 @@ namespace cmd {
             [] {SubIntake::GetInstance().Stop();}    
         );
     }
+
+    frc2::CommandPtr StartOuttake() {
+        return RunOnce (
+            [] {SubIntake::GetInstance().OuttakeLeft();
+                   SubIntake::GetInstance().OuttakeRight();}
+        );
+    }
+
+    frc2::CommandPtr StopOuttake() {
+        return RunOnce (
+            [] {SubIntake::GetInstance().Stop();}
+        );
+    }
+
 frc2::CommandPtr LeftBumperExtend() {
     return StartEnd(
             [] {SubIntake::GetInstance().LeftBumperExtended();},

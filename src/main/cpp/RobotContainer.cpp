@@ -18,7 +18,7 @@
 
 
 bool RobotContainer::isConeMode = true;
-grids::Grid RobotContainer::GridSelect = Grid::Neutral;
+grids::Grid RobotContainer::GridSelect = grids::Grid::Neutral;
 
 RobotContainer::RobotContainer() {
   // Initializing Commmands
@@ -66,8 +66,8 @@ _driverController.Back().OnTrue(RunOnce([]{SubArm::GetInstance().ArmResettingPos
 //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
   _secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
-  _secondController.Button(14).OnTrue(RunOnce([] {GridSelect = Left;}));
-  _secondController.Button(13).OnTrue(RunOnce([] {GridSelect = Middle;}));
-  _secondController.Button(12).OnTrue(RunOnce([] {GridSelect = Right;}));
-  
+  _secondController.Button(14).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
+  _secondController.Button(13).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
+  _secondController.Button(12).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
 }
+  

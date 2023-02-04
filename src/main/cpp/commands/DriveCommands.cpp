@@ -12,8 +12,9 @@ namespace cmd {
         return Run([] {
             auto result = SubVision::GetInstance().GetMeasurement();
            if (result.has_value()) {
-            auto [pose, latency, ambiguity] = result.value();
-            SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, latency);
+           
+            auto [pose, timeStamp, ambiguity] = result.value();
+            SubDriveBase::GetInstance().AddVisionMeasurement(pose.ToPose2d(), ambiguity, timeStamp);
            }
         }, {&SubVision::GetInstance()});
       
@@ -22,8 +23,8 @@ namespace cmd {
     //Grid drive commands
     frc2::CommandPtr Drive01() {
         return Run(
-         [] {grids::ScoringLocations[{RobotContainer::GridSelect, grids::Column::Left}]};
-        )
+         [] {grids::ScoringLocations[{RobotContainer::GridSelect, grids::Column::Left}];}
+        );
     }
 
 }
