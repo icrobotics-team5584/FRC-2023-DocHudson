@@ -127,7 +127,7 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
   frc::Pose2d currentPosition = _poseEstimator.GetEstimatedPosition();
   double speedX = Xcontroller.Calculate(currentPosition.X().value(), targetPose.X().value());
   double speedY = Ycontroller.Calculate(currentPosition.Y().value(), targetPose.Y().value());
-  double speedRot = -Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
+  double speedRot = Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
   speedX = std::clamp(speedX, -0.5, 0.5);
   speedY = std::clamp(speedY, -0.5, 0.5);
   speedRot = std::clamp(speedRot, -2.0, 2.0);

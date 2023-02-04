@@ -22,7 +22,10 @@ frc2::CommandPtr AddVisionMeasurement() {
 
 
 frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
-  return Run([=] { SubDriveBase::GetInstance().DriveToPose(targetPoseGetter()); },
+  return Run([=] { SubDriveBase::GetInstance().DriveToPose(targetPoseGetter()); 
+                    frc::SmartDashboard::PutNumber("X Pose", targetPoseGetter().X().value());
+                    frc::SmartDashboard::PutNumber("Y Pose", targetPoseGetter().Y().value());
+},
              {&SubDriveBase::GetInstance()})
       .Until([=] {
         return SubDriveBase::GetInstance().IsAtPose(targetPoseGetter());
