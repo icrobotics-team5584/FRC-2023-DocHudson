@@ -1,6 +1,9 @@
 # This gitignore has been specially created by the WPILib team.
 # If you remove items from this file, intellisense might break.
 
+# log files
+*.wpilog
+
 ### C++ ###
 # Prerequisites
 *.d
@@ -164,3 +167,6 @@ bin/
 
 # Ignoring DS_Store files on Mac OS
 **/.DS_Store
+
+#Ignoring settings.json
+.vscode/settings.json

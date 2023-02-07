@@ -6,9 +6,9 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
+#include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
 
 class SubIntake : public frc2::SubsystemBase {
@@ -27,6 +27,7 @@ class SubIntake : public frc2::SubsystemBase {
   void OuttakeLeft();
   void OuttakeRight();
   void Stop();
+  
   void StopBumper();
   void BothBumperExtended();
   void LeftBumperExtended();
@@ -37,10 +38,12 @@ class SubIntake : public frc2::SubsystemBase {
   void BothBumperRetracted();
   void IntakeExtend();
   void IntakeRetract();
+  bool SensesCone();
+  
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
-
+  frc::DigitalInput _coneSensor{dio::coneSensor};
   frc::DoubleSolenoid _solPneumaicsLeftBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::leftBumperExtend,pcm::rightBumperRetract};
   frc::DoubleSolenoid _solPneumaticsRightBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::rightBumperExtend,pcm::leftBumperRetract};
   frc::DoubleSolenoid _solPneumaticsIntakeDeployment{0, frc::PneumaticsModuleType::CTREPCM,pcm::intakeExtend,pcm::intakeRetract};

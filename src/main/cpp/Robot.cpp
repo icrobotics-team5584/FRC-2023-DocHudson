@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+ // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -40,11 +40,11 @@ void Robot::DisabledPeriodic() {}
  */
 void Robot::AutonomousInit() {
   // Removed temporarily for auto
-  // _autonomousCommand = _container.GetAutonomousCommand();
+  _autonomousCommand = _container.GetAutonomousCommand();
 
-  // if (m_autonomousCommand) {
-  //   _autonomousCommand->Schedule();
-  // }
+  if (_autonomousCommand) {
+    _autonomousCommand->Schedule();
+  }
 }
 
 void Robot::AutonomousPeriodic() {}

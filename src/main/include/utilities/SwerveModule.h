@@ -60,4 +60,6 @@ class SwerveModule {
   TalonFX _canDriveMotor;
   TalonFX _canTurnMotor;
   CANCoder _canTurnEncoder;
+
+  units::meter_t _simulatorDistanceTravelled = 0_m;
 };

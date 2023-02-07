@@ -3,7 +3,6 @@
 #include <frc/RobotBase.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <units/voltage.h>
-
 #include <cstdlib>
 #include <iostream>
 
@@ -20,25 +19,34 @@ ICSparkMax<Position>::ICSparkMax(int deviceID, units::ampere_t currentLimit)
 
 template <class Position>
 void ICSparkMax<Position>::InitSendable(wpi::SendableBuilder& builder) {
+  builder.AddDoubleProperty("Position", [&] { return GetPosition().value(); }, nullptr);  // setter is null, cannot set position directly
+  builder.AddDoubleProperty("Velocity", [&] { return GetVelocity().value(); }, nullptr);
+
   builder.AddDoubleProperty(
-      "Position", [&] { return GetPosition().value(); },
-      nullptr);  // setter is null, cannot set position directly
-  builder.AddDoubleProperty(
-      "Velocity", [&] { return GetVelocity().value(); }, nullptr);
-  builder.AddDoubleProperty(
-      "Voltage", [&] { return GetSimVoltage().value(); }, nullptr);
+      "Voltage", [&] { 
+        if (frc::RobotBase::IsSimulation()){return GetSimVoltage().value();}
+        else {return CANSparkMax::GetAppliedOutput() * 12;}
+      }, nullptr);
+
+  // builder.AddDoubleProperty("Voltage", [&]{return GetSimVoltage().value();});
+
   builder.AddDoubleProperty(
       "Position Target", [&] { return GetPositionTarget().value(); }, nullptr);
   builder.AddDoubleProperty(
       "Velocity Target", [&] { return GetVelocityTarget().value(); }, nullptr);
   builder.AddDoubleProperty(
-      "P Gain", [&] { return _pidController.GetP(); }, [&](double P) { _pidController.SetP(P); });
+      "P Gain", [&] { return _simController.GetP(); }, [&](double P) { _simController.SetP(P); SyncSimPID();});
   builder.AddDoubleProperty(
-      "I Gain", [&] { return _pidController.GetI(); }, [&](double I) { _pidController.SetI(I); });
+      "I Gain", [&] { return _simController.GetI(); }, [&](double I) { _simController.SetI(I); SyncSimPID();});
   builder.AddDoubleProperty(
-      "D Gain", [&] { return _pidController.GetD(); }, [&](double D) { _pidController.SetD(D); });
+      "D Gain", [&] { return _simController.GetD(); }, [&](double D) { _simController.SetD(D); SyncSimPID();});
   builder.AddDoubleProperty(
-      "F Gain", [&] { return _pidController.GetFF(); }, [&](double F) { _pidController.SetFF(F); });
+      "F Gain", [&] { return _FF; }, [&](double F) { _FF = F; SyncSimPID();});
+}
+
+template <class Position>
+void ICSparkMax<Position>::SetPosition(Position_t position){
+  _encoder->SetPosition(position.value());
 }
 
 template <class Position>
@@ -50,20 +58,18 @@ void ICSparkMax<Position>::SetPositionTarget(Position_t target, units::volt_t ar
   SetInternalControlType(Mode::kPosition);
 
   _pidController.SetReference(target.value(), GetControlType(), 0, _arbFeedForward.value());
-  SyncSimPID();
 }
-
 
 template <class Position>
 void ICSparkMax<Position>::SetSmartMotionTarget(Position_t target, units::volt_t arbFeedForward) {
   _positionTarget = target;
+  _smartMotionProfileTimer.Start();
   _velocityTarget = Velocity_t{0};
   _voltageTarget = 0_V;
   _arbFeedForward = arbFeedForward;
   SetInternalControlType(Mode::kSmartMotion);
 
   _pidController.SetReference(target.value(), GetControlType(), 0, _arbFeedForward.value());
-  SyncSimPID();
 }
 
 template <class Position>
@@ -75,7 +81,6 @@ void ICSparkMax<Position>::SetVelocityTarget(Velocity_t target, units::volt_t ar
   SetInternalControlType(Mode::kVelocity);
 
   _pidController.SetReference(target.value(), GetControlType(), 0, _arbFeedForward.value());
-  SyncSimPID();
 }
 
 template <class Position>
@@ -86,7 +91,6 @@ void ICSparkMax<Position>::Set(double speed) {
   SetInternalControlType(Mode::kDutyCycle);
   if (frc::RobotBase::IsSimulation()) {
     _pidController.SetReference(speed, Mode::kDutyCycle);
-    SyncSimPID();
   }
   CANSparkMax::Set(speed);
 }
@@ -100,7 +104,6 @@ void ICSparkMax<Position>::SetVoltage(units::volt_t output) {
   SetInternalControlType(Mode::kVoltage);
 
   _pidController.SetReference(output.value(), GetControlType(), 0, _arbFeedForward.value());
-  SyncSimPID();
 }
 
 template <class Position>
@@ -146,11 +149,12 @@ void ICSparkMax<Position>::UseAlternateEncoder(int countsPerRev) {
 
 template <class Position>
 void ICSparkMax<Position>::SetPIDFF(double P, double I, double D, double FF) {
-  _pidController.SetP(P);
-  _pidController.SetI(I);
-  _pidController.SetD(D);
-  _pidController.SetFF(FF);
+  _simController.SetP(P);
+  _simController.SetI(I);
+  _simController.SetD(D);
+  _FF = FF;
   SyncSimPID();
+
 }
 
 template <class Position>
@@ -187,13 +191,13 @@ units::volt_t ICSparkMax<Position>::GetSimVoltage() {
     case Mode::kVelocity:
       output =
           units::volt_t{_simController.Calculate(GetVelocity().value(), _velocityTarget.value()) +
-                        _pidController.GetFF() * _velocityTarget.value()};
+                        _FF * _velocityTarget.value()};
       break;
 
     case Mode::kPosition:
       output =
           units::volt_t{_simController.Calculate(GetPosition().value(), _positionTarget.value()) +
-                        _pidController.GetFF() * _positionTarget.value()};
+                        _FF * _positionTarget.value()};
       break;
 
     case Mode::kVoltage:
@@ -203,7 +207,7 @@ units::volt_t ICSparkMax<Position>::GetSimVoltage() {
     case Mode::kSmartMotion:
       output = units::volt_t{
           _simController.Calculate(GetVelocity().value(), GetCurrentSMVelocity().value()) +
-          _pidController.GetFF() * GetCurrentSMVelocity().value()};
+          _FF * GetCurrentSMVelocity().value()};
       break;
 
     case Mode::kCurrent:
@@ -227,20 +231,15 @@ void ICSparkMax<Position>::UpdateSimEncoder(Position_t position, Velocity_t velo
 
 template <class Position>
 void ICSparkMax<Position>::SyncSimPID() {
-  if (frc::RobotBase::IsReal()) {
-    return;
-  }
+  double conversion = (GetControlType() == Mode::kPosition)
+    ? _encoder->GetPositionConversionFactor()
+    : _encoder->GetVelocityConversionFactor();
 
-  _simController.SetP(_pidController.GetP());
-  _simController.SetI(_pidController.GetI());
-  _simController.SetD(_pidController.GetD());
+  _pidController.SetP(_simController.GetP() * conversion);
+  _pidController.SetI(_simController.GetI() * conversion);
+  _pidController.SetD(_simController.GetD() * conversion);
+  _pidController.SetFF(_FF * conversion);
   _simController.SetIntegratorRange(-_pidController.GetIMaxAccum(), _pidController.GetIMaxAccum());
-
-  if (_controlType == Mode::kSmartMotion) {
-    GenerateSMProfile();
-  } else {
-    _smartMotionProfileTimer.Stop();
-  }
 }
 
 template <class Position>
@@ -273,5 +272,6 @@ ICSparkMax<Position>::Velocity_t ICSparkMax<Position>::GetCurrentSMVelocity() {
     return Velocity_t{0};
   }
 
-  return _simSmartMotionProfile.Calculate(_smartMotionProfileTimer.Get()).velocity;
+auto velocity = _simSmartMotionProfile.Calculate(_smartMotionProfileTimer.Get()).velocity;
+  return velocity;
 }

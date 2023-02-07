@@ -17,20 +17,21 @@ SubIntake::SubIntake() {
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
    
-frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
-frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/LeftIntakeMotor",  _leftMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/RightIntakeMotor", _rightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutBoolean("Intake/SensesCone", SensesCone());
 frc::SmartDashboard::PutNumber("RightBumper", _solPneumaticsRightBumper.Get());
 frc::SmartDashboard::PutNumber("LeftBumper", _solPneumaicsLeftBumper.Get());
 }
 
 void SubIntake::SimulationPeriodic() {
-//frc::SmartDashboard::PutNumber("Intake/IntakeMotor",  _leftMotor.GetSimVoltage().value());
-//frc::SmartDashboard::PutNumber("Intake/OuttakeMotor", _rightMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/LeftIntakeMotor",  _leftMotor.GetSimVoltage().value());
+frc::SmartDashboard::PutNumber("Intake/RightIntakeMotor", _rightMotor.GetSimVoltage().value());
 }
 
 
 void SubIntake::IntakeLeft(){
-	_leftMotor.Set(1);
+	_leftMotor.Set(0.2);
 }
 
 void SubIntake::IntakeRight(){
@@ -49,6 +50,8 @@ void SubIntake::Stop(){
 	_leftMotor.Set(0);
 	_rightMotor.Set(0);
 }
+
+bool SubIntake::SensesCone(){return _coneSensor.Get();}
 
 void SubIntake::BothBumperExtended(){
     _solPneumaicsLeftBumper.Set(frc::DoubleSolenoid::Value::kForward);

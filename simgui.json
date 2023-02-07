@@ -1,11 +1,43 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/field": "Field2d"
+      "/SmartDashboard/PPSwerveControllerCommand_field": "Field2d",
+      "/SmartDashboard/Xcontroller": "PIDController",
+      "/SmartDashboard/field": "Field2d",
+      "/SmartDashboard/limelight Sim Field": "Field2d",
+      "/SmartDashboard/x controller": "PIDController",
+      "/SmartDashboard/y controller": "PIDController"
     },
     "windows": {
+      "/SmartDashboard/PPSwerveControllerCommand_field": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/field": {
+        "auto path 0": {
+          "arrowSize": 0,
+          "style": "Hidden"
+        },
+        "auto path 1": {
+          "style": "Hidden"
+        },
+        "auto path 2": {
+          "style": "Hidden"
+        },
         "window": {
           "visible": true
         }
@@ -14,32 +46,148 @@
   },
   "NetworkTables": {
     "transitory": {
-      "LiveWindow": {
-        "open": true
-      },
       "SmartDashboard": {
-        "Claw": {
-          "IntakeMotor": {
+        "Arm": {
+          "Arm Motor 1: ": {
             "open": true
           },
-          "OuttakeMotor": {
+          "Arm Motor 2: ": {
             "open": true
-          },
-          "motor": {
-            "open": true
-          },
-          "open": true
+          }
         },
         "Intake": {
-          "IntakeMotor": {
-            "open": true
-          },
-          "OuttakeMotor": {
-            "open": true
-          },
+          "open": true
+        },
+        "field": {
+          "open": true
+        },
+        "limelight Sim Field": {
           "open": true
         },
         "open": true
+      }
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 285,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Velocity Target"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Velocity"
+            }
+          ]
+        },
+        {
+          "height": 285,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Velocity Target"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Velocity"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": 269,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position Target"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 1: /Position"
+            }
+          ]
+        },
+        {
+          "height": 269,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position Target"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Arm/Arm Motor 2: /Position"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 501,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Intake/SensesCone"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
       }
     }
   }
