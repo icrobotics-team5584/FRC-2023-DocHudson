@@ -11,4 +11,6 @@ frc2::CommandPtr Outtake();
 frc2::CommandPtr RightBumperExtend();
 frc2::CommandPtr LeftBumperExtend();
 frc2::CommandPtr BothBumperExtend();
+frc2::CommandPtr ClawOpen();
+frc2::CommandPtr ClawClose();
 }

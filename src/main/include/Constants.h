@@ -37,6 +37,9 @@ namespace canid {
   constexpr int armMotor1 = 21;
   constexpr int armMotor1Follow = 22;
 
+  //Claw id: 70-80
+  constexpr int clawMotor1 = 23;
+
 }
 namespace pcm {
   constexpr int ClawGrabLeft = 4; 
