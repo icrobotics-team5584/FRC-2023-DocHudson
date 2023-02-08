@@ -95,4 +95,20 @@ frc2::CommandPtr BothBumperExtend() {
 
 }
 
+    frc2::CommandPtr ClawClose(){
+        return RunOnce(
+        [] {
+            SubClaw::GetInstance().ClawClamped();
+        }
+        );
+    }
+
+        frc2::CommandPtr ClawOpen(){
+        return RunOnce(
+        [] {
+            SubClaw::GetInstance().ClawUnclamped();
+        }
+        );
+    }
+
 }
