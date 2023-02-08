@@ -47,12 +47,12 @@ namespace cmd {
 
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
 
-            {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
-            {"ScoreLowCone", PickUpCone().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
-            {"ScoreMiddleCone", PickUpCone().AndThen(ArmToMidCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
-            {"ScoreMiddleCube", PickUpCube().AndThen(ArmToMidCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
-            {"ScoreHighCone", PickUpCone().AndThen(ArmToHighCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() }, 
-            {"ScoreHighCube", PickUpCube().AndThen(ArmToHighCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
+            {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
+            {"ScoreLowCone", PickUpCone().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
+            {"ScoreMiddleCone", PickUpCone().AndThen(ArmToMidCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
+            {"ScoreMiddleCube", PickUpCube().AndThen(ArmToMidCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
+            {"ScoreHighCone", PickUpCone().AndThen(ArmToHighCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() }, 
+            {"ScoreHighCube", PickUpCube().AndThen(ArmToHighCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
 
             {"Shoot", frc2::cmd::Wait(1_s).Unwrap() }
         };
