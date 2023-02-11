@@ -167,3 +167,6 @@ bin/
 
 # Ignoring DS_Store files on Mac OS
 **/.DS_Store
+
+#Ignoring settings.json
+.vscode/settings.json
