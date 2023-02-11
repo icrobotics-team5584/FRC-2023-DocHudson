@@ -7,11 +7,15 @@
 namespace cmd{
     using namespace frc2::cmd;
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToPos(133_cm, 105_cm);} 
-    frc2::CommandPtr ArmToMidCone(){return ArmToPos(110_cm,92_cm);} //gtg
+    frc2::CommandPtr ArmToSafePosition() {
+        return ArmToPos(60_cm,110_cm);
+    }
 
-    frc2::CommandPtr ArmToHighCube(){return ArmToPos(100_cm, 97_cm);} 
-    frc2::CommandPtr ArmToMidCube(){return ArmToPos(58_cm, 67_cm);}
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(110_cm, 135_cm```````````````````));} 
+    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(105_cm,90_cm));} //gtg
+
+    frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(100_cm, 97_cm));} 
+    frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(58_cm, 67_cm));}
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
     frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(45_cm, 100_cm);}
@@ -45,6 +49,8 @@ namespace cmd{
     }
 
     frc2::CommandPtr ArmToPos(auto x, auto y) {
-        return RunOnce([x,y] () { SubArm::GetInstance().ArmPos(x,y); }).AndThen(WaitUntil([] () { return SubArm::GetInstance().CheckPosition(); }));
+        return RunOnce([x, y]() { SubArm::GetInstance().ArmPos(x, y); })
+            .AndThen(WaitUntil(
+                []() { return SubArm::GetInstance().CheckPosition(); }));
     }
 }

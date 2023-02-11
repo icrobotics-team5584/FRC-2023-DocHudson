@@ -27,7 +27,7 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
 
-  _armMotor1Follow.Follow(_armMotor1);
+  // _armMotor1Follow.Follow(_armMotor1);
   _armMotor1.SetInverted(true);
 }
 
@@ -38,7 +38,7 @@ void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
   frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
   
-  //DashboardInput()
+  DashboardInput();
 }
 
 void SubArm::DashboardInput(){
@@ -49,7 +49,7 @@ void SubArm::DashboardInput(){
   units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("Arm/y_coord input: ", 0)};
 
   if((prevXRequest != x_coord) or (prevYRequest != y_coord)){
-    ArmPos(y_coord, x_coord);
+    ArmPos(x_coord, y_coord);
   } 
   
   prevYRequest = y_coord;

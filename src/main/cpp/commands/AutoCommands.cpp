@@ -44,6 +44,7 @@ namespace cmd {
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
 
             {"ArmToHigh", ArmToHighCone().Unwrap()},
+            {"ArmToMid", ArmToMidCone().Unwrap()},
             {"ArmToPickUp", ArmPickUp().Unwrap()},
 
             // {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
@@ -72,7 +73,11 @@ namespace cmd {
     }
 
     // frc2::CommandPtr ScorePos (frc2::CommandPtr&& scoreCommand) {
-    //     return ClawRetract().AndThen(scoreCommand).AndThen(ClawExpand())
+    //     using namespace frc2::cmd;
+
+    //     return RunOnce([]{ClawRetract();})
+    //         .AndThen(&scoreCommand)
+    //         .AndThen(ClawExpand())
     //         .AndThen(frc2::cmd::Wait(0.5_s))
     //         .AndThen(ClawRetract())
     //         .AndThen(ArmPickUp());

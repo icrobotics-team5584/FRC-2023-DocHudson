@@ -24,7 +24,7 @@ RobotContainer::RobotContainer() {
 
   // Configure button bindings
   ConfigureBindings();
-  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
+  // SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
