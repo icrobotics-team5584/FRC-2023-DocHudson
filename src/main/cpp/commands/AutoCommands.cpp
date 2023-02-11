@@ -26,13 +26,9 @@ namespace cmd {
             {"Intake", Intake().WithTimeout(eventTime).Unwrap() },  
             {"Outtake", Outtake().WithTimeout(eventTime).Unwrap() },
 
-            {"ClawExpand", ClawExpand().WithTimeout(eventTime).Unwrap() },
-            {"ClawGrabCone", ClawGrabCone().WithTimeout(eventTime).Unwrap() },
-            {"ClawGrabCube", ClawGrabCube().WithTimeout(eventTime).Unwrap() },
             
-            {"LeftBumperExtend", LeftBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"RightBumperExtend", RightBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"BothBumperExtend", BothBumperExtend().WithTimeout(eventTime).Unwrap() },
+            
+           
 
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() }
         };

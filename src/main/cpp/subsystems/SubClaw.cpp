@@ -22,22 +22,7 @@ void SubClaw::Periodic() {
 //frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
 }
 
-void SubClaw::BothExtended(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kForward);
-}
 
-void SubClaw::BothRetracted(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kReverse);
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kReverse);
-}
-
-void SubClaw::OneExtended(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
-}
-void SubClaw::OneRetracted(){
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kReverse);
-}
 
 void SubClaw::ClawClamped(){
     _clawMotor1.SetPositionTarget(0_tr);

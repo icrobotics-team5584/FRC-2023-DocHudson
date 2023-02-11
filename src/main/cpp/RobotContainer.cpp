@@ -34,19 +34,26 @@ void RobotContainer::ConfigureBindings() {
   
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
-  _driverController.RightBumper().WhileTrue(cmd::ClawOpen());
-  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  _driverController.Y().WhileTrue(cmd::RightBumperExtend());
-  _driverController.LeftBumper().WhileTrue(cmd::ClawClose());
- // _driverController.RightBumper().WhileTrue(cmd::Outtake());
-  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
 
+
+  //navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  //_driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 
-//note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
-  _secondController.Button(5).WhileTrue(frc2::cmd::Print("ArduinoButton5"));
-  _secondController.Button(6).WhileTrue(frc2::cmd::Print("ArduinoButton6"));
+  //arm
+  
+  //claw
+   _driverController.RightBumper().WhileTrue(cmd::ClawClose()); //Should do --> picks up whatever is in intake and brings everything back into robot
+   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+   _driverController.A().OnTrue(cmd::ClawOpen());
+   //_driverController.A().OnTrue(isConeMode = False);
+   
+   
+  //intake
+   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
+   _driverController.RightTrigger().WhileTrue(cmd::Intake());
+  
+  //arduino
+  //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
 }
 
 // For Auto Commands, removed temporarily
