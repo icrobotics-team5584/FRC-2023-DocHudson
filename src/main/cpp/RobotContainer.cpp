@@ -59,5 +59,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("PreConeH+C");
+  return cmd::PPDrivePath("PreConeH");
 }

@@ -40,19 +40,18 @@ namespace cmd {
             {"ClawRetract", ClawRetract().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
             {"ClawGrabCone", ClawGrabCone().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
             {"ClawGrabCube", ClawGrabCube().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
-            
-            {"LeftBumperExtend", LeftBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"RightBumperExtend", RightBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"BothBumperExtend", BothBumperExtend().WithTimeout(eventTime).Unwrap() },
 
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
 
-            {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
-            {"ScoreLowCone", PickUpCone().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
-            {"ScoreMiddleCone", PickUpCone().AndThen(ArmToMidCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
-            {"ScoreMiddleCube", PickUpCube().AndThen(ArmToMidCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
-            {"ScoreHighCone", PickUpCone().AndThen(ArmToHighCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() }, 
-            {"ScoreHighCube", PickUpCube().AndThen(ArmToHighCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).Unwrap() },
+            {"ArmToHigh", ArmToHighCone().Unwrap()},
+            {"ArmToPickUp", ArmPickUp().Unwrap()},
+
+            // {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreLowCone", PickUpCone().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreMiddleCone", PickUpCone().AndThen(ArmToMidCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreMiddleCube", PickUpCube().AndThen(ArmToMidCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreHighCone", ScorePos(ArmToHighCone()).Unwrap() }, 
+            // {"ScoreHighCube", PickUpCube().AndThen(ArmToHighCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
 
             {"Shoot", frc2::cmd::Wait(1_s).Unwrap() }
         };
@@ -72,5 +71,10 @@ namespace cmd {
         return autoBuilder.fullAuto(pathGroup);
     }
 
-
+    // frc2::CommandPtr ScorePos (frc2::CommandPtr&& scoreCommand) {
+    //     return ClawRetract().AndThen(scoreCommand).AndThen(ClawExpand())
+    //         .AndThen(frc2::cmd::Wait(0.5_s))
+    //         .AndThen(ClawRetract())
+    //         .AndThen(ArmPickUp());
+    // }
 }

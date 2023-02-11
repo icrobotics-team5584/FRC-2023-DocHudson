@@ -8,13 +8,13 @@ namespace cmd {
 
     frc2::CommandPtr ClawExpand() {
         return RunOnce(
-            [] {SubClaw::GetInstance().BothExtended();}
+            [] {SubClaw::GetInstance().ClawUnclamped();}
         );
     }
 
     frc2::CommandPtr ClawRetract() {
         return RunOnce(
-            [] {SubClaw::GetInstance().BothRetracted();}
+            [] {SubClaw::GetInstance().ClawClamped();}
         );
     }
 

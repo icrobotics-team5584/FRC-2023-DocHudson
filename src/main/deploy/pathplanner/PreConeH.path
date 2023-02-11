@@ -17,9 +17,12 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "ScoreHighCone"
+          "ArmToHigh",
+          "ClawExpand",
+          "ClawRetract",
+          "ArmToPickUp"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
