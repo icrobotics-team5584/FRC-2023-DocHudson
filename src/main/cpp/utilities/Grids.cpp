@@ -5,7 +5,7 @@
 
 namespace grids {
     std::map <DrivePose, frc::Pose2d> ScoringLocations = {
-        {{Grid::Left, Column::Left}, {14.74_m, 5.02_m, 0_deg}}, 
+        {{Grid::Left, Column::Left}, {1_m, 1_m, 0_deg}}, //change values 
         {{Grid::Left, Column::Middle}, {14.74_m, 4.43_m, 0_deg}}, 
         {{Grid::Left, Column::Right}, {14.74_m, 3.82_m, 0_deg}}, 
         {{Grid::Middle, Column::Left}, {14.74_m, 3.25_m, 0_deg}}, 

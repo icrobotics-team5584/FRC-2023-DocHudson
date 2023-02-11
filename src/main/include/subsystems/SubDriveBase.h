@@ -90,8 +90,8 @@ class SubDriveBase : public frc2::SubsystemBase {
       _frontLeftLocation, _frontRightLocation, _backLeftLocation,
       _backRightLocation};
 
-  frc::PIDController Xcontroller{0.1,0,0};
-  frc::PIDController Ycontroller{0.1,0,0};
+  frc::PIDController Xcontroller{1,0,0};
+  frc::PIDController Ycontroller{1,0,0};
   frc::ProfiledPIDController<units::radian> Rcontroller{1.8,0,0,{MAX_ANGULAR_VELOCITY, MAX_ANGULAR_ACCEL}};
   frc::HolonomicDriveController _driveController{Xcontroller, Ycontroller, Rcontroller};
 

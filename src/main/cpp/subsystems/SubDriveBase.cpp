@@ -132,6 +132,8 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
   speedY = std::clamp(speedY, -0.5, 0.5);
   speedRot = std::clamp(speedRot, -2.0, 2.0);
   Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
+  frc::SmartDashboard::PutNumber( "Yspeed", speedY);
+  frc::SmartDashboard::PutNumber("Xspeed", speedX );
 }
 
 bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
