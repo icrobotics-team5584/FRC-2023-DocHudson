@@ -10,6 +10,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "utilities/ICSparkMax.h"
 #include <units/angle.h>
+#include <rev/SparkMaxAbsoluteEncoder.h>
 
 class SubClaw : public frc2::SubsystemBase {
  public:
@@ -21,7 +22,8 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-  void ClawClamped();
+  void ClawClampedCube();
+  void ClawClampedCone();
   void ClawUnclamped();
 
 
@@ -34,6 +36,7 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
 
    ICSparkMax<> _clawMotor1{canid::clawMotor1};
 
+  rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   static constexpr double P = 4.5;
   static constexpr double I = 0.0;
@@ -42,6 +45,5 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
   
 
 
-  frc::DoubleSolenoid _solPnuematicsLeft{0, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabLeft,pcm::ClawRealeseLeft};
-  frc::DoubleSolenoid _solPnuematicsRight{0, frc::PneumaticsModuleType::CTREPCM,pcm::ClawGrabRight,pcm::ClawRealeseRight};
+  
 };

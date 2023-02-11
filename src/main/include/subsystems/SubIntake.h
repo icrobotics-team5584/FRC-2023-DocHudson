@@ -27,21 +27,12 @@ class SubIntake : public frc2::SubsystemBase {
   void OuttakeLeft();
   void OuttakeRight();
   void Stop();
-  
-  void StopBumper();
-  void BothBumperExtended();
-  void LeftBumperExtended();
-  void LeftBumperRetracted();
-  void RightBumperRetracted();
-  void RightBumperExtended();
-  void OneBumperRetracted();
-  void BothBumperRetracted();
+
   bool SensesCone();
   
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
   frc::DigitalInput _coneSensor{dio::coneSensor};
-  frc::DoubleSolenoid _solPneumaicsLeftBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::leftBumperExtend,pcm::rightBumperRetract};
-  frc::DoubleSolenoid _solPneumaticsRightBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::rightBumperExtend,pcm::leftBumperRetract};
+ 
 };
