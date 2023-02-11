@@ -31,8 +31,6 @@ class SubDriveBase : public frc2::SubsystemBase {
   }
   void AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t timeStamp);
   // void UpdatePidControllerDrive();
-  void DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, 
-                  units::meter_t targetDistance, units::degree_t targetRotation);
 
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::degrees_per_second_t rot,
@@ -90,8 +88,8 @@ class SubDriveBase : public frc2::SubsystemBase {
       _frontLeftLocation, _frontRightLocation, _backLeftLocation,
       _backRightLocation};
 
-  frc::PIDController Xcontroller{1,0,0};
-  frc::PIDController Ycontroller{1,0,0};
+  frc::PIDController Xcontroller{0.5,0,0};
+  frc::PIDController Ycontroller{0.5,0,0};
   frc::ProfiledPIDController<units::radian> Rcontroller{1.8,0,0,{MAX_ANGULAR_VELOCITY, MAX_ANGULAR_ACCEL}};
   frc::HolonomicDriveController _driveController{Xcontroller, Ycontroller, Rcontroller};
 

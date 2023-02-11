@@ -86,15 +86,7 @@ frc::Rotation2d SubDriveBase::GetHeading() {
   return _gyro.GetRotation2d();
 }
 
-void SubDriveBase::DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, units::meter_t targetDistance, units::degree_t targetRotation) {
-   double speedX = -Xcontroller.Calculate(xDistance.value(), targetDistance.value());
-   double speedY = Ycontroller.Calculate(yDistance.value(), 0);
-   double speedRot = -Rcontroller.Calculate(targetRotation, 0_deg);
-   speedX = std::clamp(speedX, -0.5, 0.5);
-   speedY = std::clamp(speedY, -0.5, 0.5);
-   speedRot = std::clamp(speedRot, -2.0, 2.0);
-   Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, false);
-}
+
 
 // Calculate robot's velocity over past time step (20 ms)
 units::meters_per_second_t SubDriveBase::GetVelocity() {
