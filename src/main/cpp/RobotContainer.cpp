@@ -24,8 +24,13 @@ RobotContainer::RobotContainer() {
 
   // Configure button bindings
   ConfigureBindings();
-  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
+  // SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
+
+  _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("Get4m", "Get4m"); 
+
+  frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -34,6 +39,17 @@ void RobotContainer::ConfigureBindings() {
   
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
+<<<<<<< HEAD
+=======
+  _driverController.RightBumper().WhileTrue(cmd::ClawOpen());
+  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
+  _driverController.Y().WhileTrue(cmd::ArmToHigh());
+  _driverController.X().WhileTrue(cmd::ArmToMid());
+  _driverController.A().WhileTrue(cmd::ArmPickUp());
+  _driverController.LeftBumper().WhileTrue(cmd::Intake());
+  _driverController.RightBumper().WhileTrue(cmd::Outtake());
+  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
+>>>>>>> e2e7dc1dbd222e8e7629ed1509853a40fa884f80
 
 
   //navx
@@ -62,5 +78,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("TestRotation");
+  return cmd::PPDrivePath("PreConeH");
 }

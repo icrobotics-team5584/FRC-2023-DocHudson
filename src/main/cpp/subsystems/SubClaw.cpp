@@ -15,13 +15,24 @@ SubClaw::SubClaw() {
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
-    frc::SmartDashboard::PutNumber("claw Duty cycle", _clawMotor1.GetAppliedOutput());
-    frc::SmartDashboard::PutNumber("claw Current", _clawMotor1.GetOutputCurrent());
+    frc::SmartDashboard::PutNumber("Claw/claw Duty cycle", _clawMotor1.GetAppliedOutput());
+    frc::SmartDashboard::PutNumber("Claw/claw Current", _clawMotor1.GetOutputCurrent());
+    frc::SmartDashboard::PutNumber("Claw/power", _clawMotor1.GetSimVoltage().value());
     
 //frc::SmartDashboard::PutNumber("RightClawPneumatc", _solPnuematicsLeft.Get());
 //frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
 }
 
+void SubClaw::SimulationPeriodic() {
+    _clawSim.SetInputVoltage(_clawMotor1.GetSimVoltage());
+    _clawSim.Update(20_ms);
+    _clawMotor1.UpdateSimEncoder(_clawSim.GetAngularPosition(), _clawSim.GetAngularVelocity());
+}
+
+void SubClaw::BothExtended(){
+    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
+    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kForward);
+}
 
 
 void SubClaw::ClawClamped(){
