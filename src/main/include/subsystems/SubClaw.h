@@ -22,10 +22,6 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-  void BothExtended();
-  void OneExtended();
-  void OneRetracted();
-  void BothRetracted();
   void ClawClamped();
   void ClawUnclamped();
 

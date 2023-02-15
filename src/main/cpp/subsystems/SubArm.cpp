@@ -13,30 +13,30 @@
 //./gradlew clean
 
 SubArm::SubArm() {
-  frc::SmartDashboard::PutData("Arm/Arm Motor 1: ", (wpi::Sendable*)&_armMotor1);
-  _armMotor1.SetConversionFactor(1 / GEAR_RATIO);
-  _armMotor1.SetPIDFF(P, I, D, F);
-  _armMotor1.ConfigSmartMotion(MAX_VEL, MAX_ACCEL, TOLERANCE);
+  frc::SmartDashboard::PutData("Arm/Arm Motor Bottom: ", (wpi::Sendable*)&_armMotorBottom);
+  _armMotorBottom.SetConversionFactor(1 / GEAR_RATIO);
+  _armMotorBottom.SetPIDFF(P, I, D, F);
+  _armMotorBottom.ConfigSmartMotion(MAX_VEL, MAX_ACCEL, TOLERANCE);
 
-  frc::SmartDashboard::PutData("Arm/Arm Motor 2: ", (wpi::Sendable*)&_armMotor2);
-  _armMotor2.SetConversionFactor(1 / GEAR_RATIO_2);
-  _armMotor2.SetPIDFF(P_2, I_2, D_2, F_2);
-  _armMotor2.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
+  frc::SmartDashboard::PutData("Arm/Arm Motor Top: ", (wpi::Sendable*)&_armMotorTop);
+  _armMotorTop.SetConversionFactor(1 / GEAR_RATIO_2);
+  _armMotorTop.SetPIDFF(P_2, I_2, D_2, F_2);
+  _armMotorTop.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
 
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
 
-  // _armMotor1Follow.Follow(_armMotor1);
-  _armMotor1.SetInverted(true);
+  _armMotorBottomFollow.Follow(_armMotorBottom);
+  _armMotorTopFollow.Follow(_armMotorTop);
 }
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
-  frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotor1.GetBusVoltage());
-  frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotor1.GetOutputCurrent());
-  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotor1Follow.GetBusVoltage());
-  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotor1Follow.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotorBottom.GetBusVoltage());
+  frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotorBottom.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotorBottomFollow.GetBusVoltage());
+  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotorBottomFollow.GetOutputCurrent());
   
   DashboardInput();
 }
@@ -59,8 +59,8 @@ void SubArm::DashboardInput(){
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
   targetTopAngle = topAngle;
   targetBottomAngle = bottomAngle;
-  _armMotor1.SetSmartMotionTarget(bottomAngle);
-  _armMotor2.SetSmartMotionTarget(topAngle);
+  _armMotorBottom.SetSmartMotionTarget(bottomAngle);
+  _armMotorTop.SetSmartMotionTarget(topAngle);
 }
 
 std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
@@ -102,31 +102,31 @@ void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
 void SubArm::CubeConeSwitch() {}
 
 void SubArm::SimulationPeriodic() {
-  _armSim.SetInputVoltage(_armMotor1.GetSimVoltage());
+  _armSim.SetInputVoltage(_armMotorBottom.GetSimVoltage());
   _armSim.Update(20_ms);
 
-  _armSim2.SetInputVoltage(_armMotor2.GetSimVoltage());
+  _armSim2.SetInputVoltage(_armMotorTop.GetSimVoltage());
   _armSim2.Update(20_ms);
 
   auto armAngle = _armSim.GetAngle();
   auto armVel = _armSim.GetVelocity();
-  _armMotor1.UpdateSimEncoder(armAngle, armVel);
+  _armMotorBottom.UpdateSimEncoder(armAngle, armVel);
 
   auto x_coord = _armSim2.GetAngle();
   auto armVel2 = _armSim2.GetVelocity();
-  _armMotor2.UpdateSimEncoder(x_coord, armVel2);
+  _armMotorTop.UpdateSimEncoder(x_coord, armVel2);
 
   _arm1Ligament->SetAngle(armAngle);
   _arm2Ligament->SetAngle(x_coord - armAngle);
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotor1.SetPosition(0_deg);
-  _armMotor2.SetPosition(0_deg);
+  _armMotorBottom.SetPosition(0_deg);
+  _armMotorTop.SetPosition(0_deg);
 }
 
 bool SubArm::CheckPosition() {
-  bool s1 = units::math::abs(_armMotor1.GetPosition() - targetBottomAngle) < 0.05_rad;
-  bool s2 = units::math::abs(_armMotor2.GetPosition() - targetTopAngle) < 0.05_rad;
+  bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
+  bool s2 = units::math::abs(_armMotorTop.GetPosition() - targetTopAngle) < 0.05_rad;
   return s1 && s2;
 }

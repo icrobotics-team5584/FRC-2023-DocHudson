@@ -81,10 +81,10 @@ class SubDriveBase : public frc2::SubsystemBase {
   const double BACK_LEFT_MAG_OFFSET = 104.326;//-149.68;//148.7;
   const double BACK_RIGHT_MAG_OFFSET = -160.225;//-44.82;//-136.05; 
 
-  SwerveModule _frontLeft{canid::DriveBaseFrontLeftDrive, canid::DriveBaseFrontLeftTurn, canid::DriveBaseFrontLeftEncoder, FRONT_LEFT_MAG_OFFSET};
-  SwerveModule _frontRight{canid::DriveBaseFrontRightDrive, canid::DriveBaseFrontRightTurn, canid::DriveBaseFrontRightEncoder, FRONT_RIGHT_MAG_OFFSET};
-  SwerveModule _backLeft{canid::DriveBaseBackLeftDrive, canid::DriveBaseBackLeftTurn, canid::DriveBaseBackLeftEncoder, BACK_LEFT_MAG_OFFSET};
-  SwerveModule _backRight{canid::DriveBaseBackRightDrive, canid::DriveBaseBackRightTurn, canid::DriveBaseBackRightEncoder, BACK_RIGHT_MAG_OFFSET};
+  SwerveModule _frontLeft{canivore::DriveBaseFrontLeftDrive, canivore::DriveBaseFrontLeftTurn, canivore::DriveBaseFrontLeftEncoder, FRONT_LEFT_MAG_OFFSET};
+  SwerveModule _frontRight{canivore::DriveBaseFrontRightDrive, canivore::DriveBaseFrontRightTurn, canivore::DriveBaseFrontRightEncoder, FRONT_RIGHT_MAG_OFFSET};
+  SwerveModule _backLeft{canivore::DriveBaseBackLeftDrive, canivore::DriveBaseBackLeftTurn, canivore::DriveBaseBackLeftEncoder, BACK_LEFT_MAG_OFFSET};
+  SwerveModule _backRight{canivore::DriveBaseBackRightDrive, canivore::DriveBaseBackRightTurn, canivore::DriveBaseBackRightEncoder, BACK_RIGHT_MAG_OFFSET};
 
   frc::SwerveDriveKinematics<4> _kinematics{
       _frontLeftLocation, _frontRightLocation, _backLeftLocation,
