@@ -41,7 +41,7 @@ namespace cmd {
             {"ClawGrabCone", ClawGrabCone().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
             {"ClawGrabCube", ClawGrabCube().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
 
-            {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
+            {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
 
             {"ArmToHigh", ArmToHighCone().Unwrap()},
             {"ArmToMid", ArmToMidCone().Unwrap()},
