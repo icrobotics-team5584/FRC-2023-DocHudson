@@ -25,8 +25,7 @@ namespace cmd {
     frc2::CommandPtr ClawGrabCube(){
         return RunOnce(
         [] {
-            SubClaw::GetInstance().OneExtended();
-            SubClaw::GetInstance().OneRetracted();
+            SubClaw::GetInstance().ClawClamped();
         }
         );
     }
@@ -77,6 +76,20 @@ frc2::CommandPtr LeftBumperExtend() {
     return StartEnd(
             [] {SubIntake::GetInstance().LeftBumperExtended();},
             [] {SubIntake::GetInstance().LeftBumperRetracted();}
+    );
+}
+
+frc2::CommandPtr RightBumperExtend() {
+    return StartEnd(
+            [] {SubIntake::GetInstance().RightBumperExtended();},
+            [] {SubIntake::GetInstance().RightBumperRetracted();}
+    );
+}
+
+frc2::CommandPtr BothBumperExtend() {
+    return StartEnd(
+            [] {SubIntake::GetInstance().BothBumperExtended();},
+            [] {SubIntake::GetInstance().BothBumperRetracted();}
     );
 }
 

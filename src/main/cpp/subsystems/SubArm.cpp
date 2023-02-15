@@ -13,12 +13,12 @@
 //./gradlew clean
 
 SubArm::SubArm() {
-  frc::SmartDashboard::PutData("Arm/Arm Motor 1: ", (wpi::Sendable*)&_armMotorBottom);
+  frc::SmartDashboard::PutData("Arm/Arm Motor Bottom: ", (wpi::Sendable*)&_armMotorBottom);
   _armMotorBottom.SetConversionFactor(1 / GEAR_RATIO);
   _armMotorBottom.SetPIDFF(P, I, D, F);
   _armMotorBottom.ConfigSmartMotion(MAX_VEL, MAX_ACCEL, TOLERANCE);
 
-  frc::SmartDashboard::PutData("Arm/Arm Motor 2: ", (wpi::Sendable*)&_armMotorTop);
+  frc::SmartDashboard::PutData("Arm/Arm Motor Top: ", (wpi::Sendable*)&_armMotorTop);
   _armMotorTop.SetConversionFactor(1 / GEAR_RATIO_2);
   _armMotorTop.SetPIDFF(P_2, I_2, D_2, F_2);
   _armMotorTop.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
@@ -59,8 +59,8 @@ void SubArm::DashboardInput(){
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
   targetTopAngle = topAngle;
   targetBottomAngle = bottomAngle;
-  _armMotor1.SetSmartMotionTarget(bottomAngle);
-  _armMotor2.SetSmartMotionTarget(topAngle);
+  _armMotorBottom.SetSmartMotionTarget(bottomAngle);
+  _armMotorTop.SetSmartMotionTarget(topAngle);
 }
 
 std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
@@ -121,12 +121,12 @@ void SubArm::SimulationPeriodic() {
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotor1.SetPosition(0_deg);
-  _armMotor2.SetPosition(0_deg);
+  _armMotorBottom.SetPosition(0_deg);
+  _armMotorTop.SetPosition(0_deg);
 }
 
 bool SubArm::CheckPosition() {
-  bool s1 = units::math::abs(_armMotor1.GetPosition() - targetBottomAngle) < 0.05_rad;
-  bool s2 = units::math::abs(_armMotor2.GetPosition() - targetTopAngle) < 0.05_rad;
+  bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
+  bool s2 = units::math::abs(_armMotorTop.GetPosition() - targetTopAngle) < 0.05_rad;
   return s1 && s2;
 }

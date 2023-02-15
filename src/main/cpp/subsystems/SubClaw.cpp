@@ -29,12 +29,6 @@ void SubClaw::SimulationPeriodic() {
     _clawMotor1.UpdateSimEncoder(_clawSim.GetAngularPosition(), _clawSim.GetAngularVelocity());
 }
 
-void SubClaw::BothExtended(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kForward);
-}
-
-
 void SubClaw::ClawClamped(){
     _clawMotor1.SetPositionTarget(0_tr);
 }

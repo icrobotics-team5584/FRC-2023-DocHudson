@@ -24,7 +24,7 @@ RobotContainer::RobotContainer() {
 
   // Configure button bindings
   ConfigureBindings();
-  // SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
+  SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
@@ -37,18 +37,6 @@ void RobotContainer::ConfigureBindings() {
 
   using namespace frc2::cmd;
   
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
-  _driverController.RightBumper().WhileTrue(cmd::ClawOpen());
-  _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-  _driverController.Y().WhileTrue(cmd::ArmToHigh());
-  _driverController.X().WhileTrue(cmd::ArmToMid());
-  _driverController.A().WhileTrue(cmd::ArmPickUp());
-  _driverController.LeftBumper().WhileTrue(cmd::Intake());
-  _driverController.RightBumper().WhileTrue(cmd::Outtake());
-  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
-
-
   //navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
