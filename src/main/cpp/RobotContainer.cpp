@@ -40,6 +40,10 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
   //arm
+  _driverController.Y().OnTrue(cmd::ArmToHigh());
+  _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
+
+  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
   
   //claw
    _driverController.RightBumper().WhileTrue(cmd::ClawClose()); //Should do --> picks up whatever is in intake and brings everything back into robot

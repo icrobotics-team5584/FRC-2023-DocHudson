@@ -27,16 +27,16 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
 
-  _armMotorTopFollow.Follow(_armMotorBottom);
-  _armMotorBottom.SetInverted(true);
+  _armMotorBottomFollow.Follow(_armMotorBottom);
+  _armMotorTopFollow.Follow(_armMotorTop);
 }
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotorBottom.GetBusVoltage());
   frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotorBottom.GetOutputCurrent());
-  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotorTopFollow.GetBusVoltage());
-  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotorTopFollow.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotorBottomFollow.GetBusVoltage());
+  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotorBottomFollow.GetOutputCurrent());
   
   //DashboardInput()
 }
