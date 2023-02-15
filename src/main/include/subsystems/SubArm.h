@@ -52,12 +52,12 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double D = 0.0;
   static constexpr double F = 30;
   
-  static constexpr double GEAR_RATIO = 210.0; // only sim
+  static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
   static constexpr units::degrees_per_second_t MAX_VEL = 7_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
-  static constexpr units::meter_t ARM_LENGTH = 0.87_m;
+  static constexpr units::meter_t ARM_LENGTH = 0.91_m;
   // static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
@@ -68,12 +68,12 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double D_2 = 0.0;
   static constexpr double F_2 = 30;
   
-  static constexpr double GEAR_RATIO_2 = 165.0; // only sim
+  static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
   static constexpr units::degrees_per_second_t MAX_VEL_2 = 7_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
-  static constexpr units::meter_t ARM_LENGTH_2 = 0.95_m;
+  static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
   // static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE_2 = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE_2 = 180_deg; // only sim
