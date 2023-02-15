@@ -38,9 +38,10 @@ class SubArm : public frc2::SubsystemBase {
 
  private:
   // motors
-  ICSparkMax<> _armMotor1{canid::armMotor1};
-  ICSparkMax<> _armMotor2{canid::armMotor2};
-  ICSparkMax<> _armMotor1Follow{canid::armMotor1Follow};
+  ICSparkMax<> _armMotorBottom{canid::armMotorBottom};
+  ICSparkMax<> _armMotorTop{canid::armMotorTop};
+  ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
+  ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
 
 
   //arm 1
