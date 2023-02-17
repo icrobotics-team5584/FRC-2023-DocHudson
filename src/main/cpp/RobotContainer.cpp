@@ -25,6 +25,7 @@ RobotContainer::RobotContainer() {
   // Initializing Commmands
   SubIntake::GetInstance();
   SubArm::GetInstance();
+  SubClaw::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();
@@ -41,20 +42,8 @@ void RobotContainer::ConfigureBindings() {
 
   using namespace frc2::cmd;
   
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
- // _driverController.RightBumper().WhileTrue(cmd::ClawExpand());
- // _driverController.B().WhileTrue(cmd::LeftBumperExtend());
-   _driverController.A().WhileTrue(cmd::ArmToHigh());
-  // _driverController.Y().WhileTrue(cmd::ArmPickUp());
-  _driverController.Y().WhileTrue(Run([]{SubDriveBase::GetInstance().DriveToPose(frc::Pose2d{1_m, 1_m, 0_deg});}));
-  _driverController.X().WhileTrue(RunOnce([]{SubDriveBase::GetInstance().SetPose(frc::Pose2d{0_m, 0_m, 0_deg});}));
-  _driverController.LeftBumper().WhileTrue(cmd::Intake());
-  _driverController.RightBumper().WhileTrue(cmd::Outtake());
-  _driverController.LeftTrigger().WhileTrue(cmd::BothBumperExtend());
-  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+  //navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  //_driverController.B().WhileTrue(cmd::AddVisionMeasurement());
 
 //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(4+1).WhileTrue(cmd::Score(grids::Column::Left, grids::Height::Low));
@@ -69,11 +58,30 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
+  //arm
+  _driverController.Y().OnTrue(cmd::ArmToHigh());
+  _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
+
+  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+  
+  //claw
+   _driverController.RightBumper().WhileTrue(cmd::ClawClose()); //Should do --> picks up whatever is in intake and brings everything back into robot
+   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+   _driverController.A().OnTrue(cmd::ClawOpen());
+   //_driverController.A().OnTrue(isConeMode = False);
+   
+   
+  //intake
+   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
+   _driverController.RightTrigger().WhileTrue(cmd::Intake());
+  
+  //arduino
+  //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
 }
   
 
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("1PreloadScore+Climb");
+  return cmd::PPDrivePath("PreConeH");
 }

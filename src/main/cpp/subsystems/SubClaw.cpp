@@ -4,27 +4,35 @@
 
 #include "subsystems/SubClaw.h"
 
-SubClaw::SubClaw() = default;
+SubClaw::SubClaw() {
+    frc::SmartDashboard::PutData("Claw/Claw Motor 1: ", (wpi::Sendable*)&_clawMotor1);
+
+     _clawMotor1.SetPIDFF(P, I, D, F);
+
+    _clawMotor1.SetPosition(0_tr);
+     
+}
 
 // This method will be called once per scheduler run
 void SubClaw::Periodic() {
+    frc::SmartDashboard::PutNumber("Claw/claw Duty cycle", _clawMotor1.GetAppliedOutput());
+    frc::SmartDashboard::PutNumber("Claw/claw Current", _clawMotor1.GetOutputCurrent());
+    frc::SmartDashboard::PutNumber("Claw/power", _clawMotor1.GetSimVoltage().value());
+    
 //frc::SmartDashboard::PutNumber("RightClawPneumatc", _solPnuematicsLeft.Get());
 //frc::SmartDashboard::PutNumber("LeftClawPneumatc", _solPnuematicsRight.Get());
 }
 
-void SubClaw::BothExtended(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kForward);
+void SubClaw::SimulationPeriodic() {
+    _clawSim.SetInputVoltage(_clawMotor1.GetSimVoltage());
+    _clawSim.Update(20_ms);
+    _clawMotor1.UpdateSimEncoder(_clawSim.GetAngularPosition(), _clawSim.GetAngularVelocity());
 }
 
-void SubClaw::BothRetracted(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kReverse);
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kReverse);
+void SubClaw::ClawClamped(){
+    _clawMotor1.SetPositionTarget(0_tr);
 }
 
-void SubClaw::OneExtended(){
-    _solPnuematicsLeft.Set(frc::DoubleSolenoid::Value::kForward);
-}
-void SubClaw::OneRetracted(){
-    _solPnuematicsRight.Set(frc::DoubleSolenoid::Value::kReverse);
+void SubClaw::ClawUnclamped(){
+    _clawMotor1.SetPositionTarget(18_tr);
 }

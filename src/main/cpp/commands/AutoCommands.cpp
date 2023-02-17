@@ -36,28 +36,32 @@ namespace cmd {
             {"StartOuttake", StartOuttake().Unwrap() },
             {"StopOuttake", StopOuttake().Unwrap() },
 
-            {"ClawExpand", ClawExpand().WithTimeout(eventTime).Unwrap() },
-            {"ClawGrabCone", ClawGrabCone().WithTimeout(eventTime).Unwrap() },
-            {"ClawGrabCube", ClawGrabCube().WithTimeout(eventTime).Unwrap() },
-            
-            {"LeftBumperExtend", LeftBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"RightBumperExtend", RightBumperExtend().WithTimeout(eventTime).Unwrap() },
-            {"BothBumperExtend", BothBumperExtend().WithTimeout(eventTime).Unwrap() },
+            {"ClawExpand", ClawExpand().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
+            {"ClawRetract", ClawRetract().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
+            {"ClawGrabCone", ClawGrabCone().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
+            {"ClawGrabCube", ClawGrabCube().AndThen(frc2::cmd::Wait(0.5_s)).Unwrap() },
 
             {"Wait", frc2::cmd::Wait(eventTime).Unwrap() },
 
-            {"ScoreLow", ArmToLowCubeOrCone().AndThen(ClawExpand()).Unwrap() },
-            {"ScoreMiddleCone", ArmToMidCone().AndThen(ClawExpand()).Unwrap() },
-            {"ScoreMiddleCube", ArmToMidCube().AndThen(ClawExpand()).Unwrap() },
-            {"ScoreHighCone", ArmToHighCone().AndThen(ClawExpand()).Unwrap() }, 
-            {"ScoreHighCube", ArmToHighCube().AndThen(ClawExpand()).Unwrap() }
+            {"ArmToHigh", ArmToHighCone().Unwrap()},
+            {"ArmToMid", ArmToMidCone().Unwrap()},
+            {"ArmToPickUp", ArmPickUp().Unwrap()},
+
+            // {"ScoreLowCube", PickUpCube().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreLowCone", PickUpCone().AndThen(ArmToLowCubeOrCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreMiddleCone", PickUpCone().AndThen(ArmToMidCone()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreMiddleCube", PickUpCube().AndThen(ArmToMidCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+            // {"ScoreHighCone", ScorePos(ArmToHighCone()).Unwrap() }, 
+            // {"ScoreHighCube", PickUpCube().AndThen(ArmToHighCube()).AndThen(ClawExpand()).AndThen(frc2::cmd::Wait(0.5_s)).AndThen(ArmPickUp()).AndThen(ClawRetract()).Unwrap() },
+
+            {"Shoot", frc2::cmd::Wait(1_s).Unwrap() }
         };
 
         static SwerveAutoBuilder autoBuilder{
             [] { return SubDriveBase::GetInstance().GetPose(); },
             [] (frc::Pose2d pose) { SubDriveBase::GetInstance().SetPose(pose); },
-            {0.1, 0, 0},
-            {1, 0, 0}, // pid value for rotation
+            {2, 0, 0},
+            {2, 0, 0}, // pid value for rotation
             [] (frc::ChassisSpeeds speeds) {
                 SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
             },
@@ -68,5 +72,14 @@ namespace cmd {
         return autoBuilder.fullAuto(pathGroup);
     }
 
+    // frc2::CommandPtr ScorePos (frc2::CommandPtr&& scoreCommand) {
+    //     using namespace frc2::cmd;
 
+    //     return RunOnce([]{ClawRetract();})
+    //         .AndThen(&scoreCommand)
+    //         .AndThen(ClawExpand())
+    //         .AndThen(frc2::cmd::Wait(0.5_s))
+    //         .AndThen(ClawRetract())
+    //         .AndThen(ArmPickUp());
+    // }
 }

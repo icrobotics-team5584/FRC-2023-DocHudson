@@ -3,4 +3,6 @@
 
 namespace cmd {
     frc2::CommandPtr PPDrivePath(std::string pathName);
+
+    frc2::CommandPtr ScorePos(frc2::CommandPtr&& scoreCommand);
 }

@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace canid {
+namespace canivore {
     // drive base id: 1 - 19
   constexpr int DriveBaseFrontLeftDrive = 7;
   constexpr int DriveBaseFrontLeftTurn = 8;
@@ -21,21 +21,29 @@ namespace canid {
   constexpr int DriveBaseBackRightDrive = 3;
   constexpr int DriveBaseBackRightTurn = 4;
   constexpr int DriveBaseBackRightEncoder = 9;
- 
+
+}
+
+namespace canid {
     // Tank Drive Values
   constexpr int TankDriveBaseBackRight = 1;
   constexpr int TankDriveBaseFrontRight = 3;
   constexpr int TankDriveBaseFrontLeft = 5;
   constexpr int TankDriveBaseBackLeft = 6;
 
-    // Intake id: 40 - 60
-  constexpr int leftMotor = 40;
-  constexpr int rightMotor = 41;
+    // Intake id: 01 - 09
+  constexpr int leftMotor = 1;
+  constexpr int rightMotor = 2;
+  constexpr int deployMotor = 3;
   
-    // Arm id: 20 - 39
-  constexpr int armMotor2 = 20;
-  constexpr int armMotor1 = 21;
-  constexpr int armMotor1Follow = 22;
+    // Arm id: 10 - 19
+  constexpr int armMotorBottom = 10;
+  constexpr int armMotorBottomFollow = 11;
+  constexpr int armMotorTop = 12;
+  constexpr int armMotorTopFollow = 13;
+
+  //Claw id: 20-29
+  constexpr int clawMotor1 = 20;
 
 }
 namespace pcm {
