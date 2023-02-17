@@ -33,21 +33,7 @@ namespace cmd {
         );
     }
 
-    frc2::CommandPtr ClawReleaseCone() {
-        return RunOnce(
-        [] {
-            SubClaw::GetInstance().BothRetracted();
-        }
-        );
-    }
-
-    frc2::CommandPtr ClawReleaseCube() {
-        return RunOnce(
-        [] {
-            SubClaw::GetInstance().BothRetracted();
-        }
-        );
-    }
+    
 
     frc2::CommandPtr Intake(){
         return StartEnd(

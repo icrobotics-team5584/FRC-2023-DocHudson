@@ -14,7 +14,6 @@ struct DrivePose
 {
    Grid grid; 
    Column column;
-   Height height;
 
    auto operator<=>(const DrivePose& other) const = default;
 };

@@ -11,8 +11,6 @@ frc2::CommandPtr Intake();
 frc2::CommandPtr StartIntake();
 frc2::CommandPtr StopIntake();
 frc2::CommandPtr Outtake();
-frc2::CommandPtr ClawReleaseCone();
-frc2::CommandPtr ClawReleaseCube();
 frc2::CommandPtr StartOuttake();
 frc2::CommandPtr StopOuttake();
 frc2::CommandPtr RightBumperExtend();
