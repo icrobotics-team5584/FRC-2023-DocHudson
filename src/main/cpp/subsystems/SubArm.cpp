@@ -27,8 +27,13 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
 
+  _armMotorTop.SetInverted(true);
+
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
+
+  _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
 
 // This method will be called once per scheduler runss
@@ -121,8 +126,8 @@ void SubArm::SimulationPeriodic() {
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotorBottom.SetPosition(0_deg);
-  _armMotorTop.SetPosition(0_deg);
+  _armMotorBottom.SetPosition(134.87_deg);
+  _armMotorTop.SetPosition(-56.19_deg);
 }
 
 bool SubArm::CheckPosition() {
