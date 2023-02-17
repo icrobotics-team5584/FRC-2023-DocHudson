@@ -39,7 +39,7 @@ _IntakeSim.Update(20_ms);
 _DeployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(), _IntakeSim.GetAngularVelocity());
 }
 void SubIntake::DeployIntake(){
-	_DeployMotor.SetPositionTarget(0_tr);
+	_DeployMotor.SetPositionTarget(166_tr);
 }
 void SubIntake::RetractIntake(){
 	_DeployMotor.SetPositionTarget(0_tr);
