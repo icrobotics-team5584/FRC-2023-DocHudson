@@ -33,6 +33,10 @@ frc::SmartDashboard::PutBoolean("Intake/SensesCone", SensesCone());
 void SubIntake::SimulationPeriodic() {
 frc::SmartDashboard::PutNumber("Intake/LeftIntakeMotor",  _leftMotor.GetSimVoltage().value());
 frc::SmartDashboard::PutNumber("Intake/RightIntakeMotor", _rightMotor.GetSimVoltage().value());
+
+_IntakeSim.SetInputVoltage(_DeployMotor.GetSimVoltage());
+_IntakeSim.Update(20_ms);
+_DeployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(), _IntakeSim.GetAngularVelocity());
 }
 void SubIntake::DeployIntake(){
 	_DeployMotor.SetPositionTarget(0_tr);

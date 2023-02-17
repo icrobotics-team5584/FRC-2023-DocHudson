@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
+#include <frc/simulation/DCMotorSim.h>
 
 class SubIntake : public frc2::SubsystemBase {
  public:
@@ -37,8 +38,10 @@ class SubIntake : public frc2::SubsystemBase {
   ICSparkMax<> _DeployMotor{canid::deployMotor};
   frc::DigitalInput _coneSensor{dio::coneSensor};
 
-  static constexpr double P = 0.5;
+  static constexpr double P = 1.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
+
+    frc::sim::DCMotorSim _IntakeSim {frc::DCMotor::NEO550(), 1, 0.0001_kg_sq_m};
 };
