@@ -55,6 +55,8 @@ namespace pcm {
   constexpr int leftBumperRetract = 1;
   constexpr int rightBumperExtend = 0;
   constexpr int rightBumperRetract = 3;
+  constexpr int intakeExtend = 8;
+  constexpr int intakeRetract = 9;
 }
  
 namespace dio {
