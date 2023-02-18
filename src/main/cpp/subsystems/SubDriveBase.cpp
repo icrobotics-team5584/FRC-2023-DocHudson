@@ -171,3 +171,10 @@ void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, unit
     }
 }
 
+void SubDriveBase::SetNeutralMode(NeutralMode mode) {
+  _frontLeft.SetNeutralMode(mode);
+  _frontRight.SetNeutralMode(mode);
+  _backLeft.SetNeutralMode(mode);
+  _backRight.SetNeutralMode(mode);
+}
+

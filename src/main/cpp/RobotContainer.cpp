@@ -16,6 +16,7 @@
 #include "utilities/Grids.h"
 #include "commands/AutoCommands.h"
 #include "commands/CmdGridCommands.h"
+#include <frc/RobotController.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -43,11 +44,11 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings() {
 
   using namespace frc2::cmd;
-  
-  //navx
+
+  // Navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
-//note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
+  // Note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(4+1).WhileTrue(cmd::Score(grids::Column::Left, grids::Height::Low));
   _secondController.Button(5+1).WhileTrue(cmd::Score(grids::Column::Middle, grids::Height::Low));
   _secondController.Button(6+1).WhileTrue(cmd::Score(grids::Column::Right, grids::Height::Low));
@@ -60,25 +61,32 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  //arm
+  
+  // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
-
   _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
   
-  //claw
-   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
-   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
-   _driverController.A().OnTrue(cmd::ClawOpen());
-   //_driverController.A().OnTrue(isConeMode = False);
-   
-   
-  //intake
-   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
-   _driverController.RightTrigger().WhileTrue(cmd::Intake());
+  // Claw
+  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
+  _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+  _driverController.A().OnTrue(cmd::ClawOpen());
   
-  //arduino
-  //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
+  // Intake
+  _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
+  _driverController.RightTrigger().WhileTrue(cmd::Intake());
+
+  // Coast mode override toggle
+  frc2::Trigger([] { return frc::RobotController::GetUserButton(); })
+      .ToggleOnTrue(StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true));
 }
   
 

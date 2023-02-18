@@ -33,10 +33,10 @@ SubArm::SubArm() {
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
 
-  _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+  _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
   // uncomment me to use absolute encoder
   // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
@@ -132,4 +132,11 @@ bool SubArm::CheckPosition() {
   bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
   bool s2 = units::math::abs(_armMotorTop.GetPosition() - targetTopAngle) < 0.05_rad;
   return s1 && s2;
+}
+
+void SubArm::SetIdleMode(rev::CANSparkMax::IdleMode idleMode) {
+  _armMotorTop.SetIdleMode(idleMode);
+  _armMotorBottom.SetIdleMode(idleMode);
+  _armMotorTopFollow.SetIdleMode(idleMode);
+  _armMotorBottomFollow.SetIdleMode(idleMode);
 }

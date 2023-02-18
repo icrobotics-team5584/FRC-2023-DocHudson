@@ -38,6 +38,8 @@ class SubArm : public frc2::SubsystemBase {
 
   bool CheckPosition();
 
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
+
 
  private:
   // motors

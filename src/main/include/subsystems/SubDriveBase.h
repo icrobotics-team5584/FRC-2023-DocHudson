@@ -65,6 +65,8 @@ class SubDriveBase : public frc2::SubsystemBase {
 
   void DisplayTrajectory(std::string name, frc::Trajectory trajectory);
 
+  void SetNeutralMode(NeutralMode mode);
+
  private:
   SubDriveBase();
   AHRS _gyro{frc::SerialPort::kMXP};
