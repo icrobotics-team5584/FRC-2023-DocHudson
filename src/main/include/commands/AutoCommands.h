@@ -4,5 +4,6 @@
 namespace cmd {
     frc2::CommandPtr PPDrivePath(std::string pathName);
 
-    frc2::CommandPtr ScorePos(frc2::CommandPtr&& scoreCommand);
+    frc2::CommandPtr ScorePos(frc2::CommandPtr && scoreCommand);
+    frc2::CommandPtr ArmToGrid(bool isCone, int pos);
 }

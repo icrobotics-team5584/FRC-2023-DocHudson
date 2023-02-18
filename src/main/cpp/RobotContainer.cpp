@@ -63,5 +63,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("PreConeH");
+  return cmd::PPDrivePath("Test2Score");
 }
