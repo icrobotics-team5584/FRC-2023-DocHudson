@@ -38,7 +38,7 @@ SubArm::SubArm() {
 
   frc2::Trigger([this] {
     return !_bottomSensor.Get();
-  }).OnTrue(frc2::cmd::RunOnce([this]{ ArmResettingPos();}));  
+  }).OnTrue(frc2::cmd::RunOnce([this]{ ArmResettingPos();}).IgnoringDisable(true));
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
 }
