@@ -29,14 +29,16 @@ SubArm::SubArm() {
 
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
+
+  _armMotorTop.SetInverted(true);
+
+  // uncomment me to use absolute encoder
+  // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
 }
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
-  frc::SmartDashboard::PutNumber("Arm/Bus Voltage", _armMotorBottom.GetBusVoltage());
-  frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotorBottom.GetOutputCurrent());
-  frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotorBottomFollow.GetBusVoltage());
-  frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotorBottomFollow.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Arm/top arm true angle", _armMotorTop.GetPosition().value() - _armMotorBottom.GetPosition().value());
   
   DashboardInput();
 }
@@ -77,29 +79,17 @@ std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::mete
   double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
   units::radian_t armBottomAngle{statement1 - statement2};
 
+  // Some X Y targets cause a bad IK output, catch them and ask the arm to keep its current target
+  if (armBottomAngle < 0_deg) {
+    return {_armMotorBottom.GetPositionTarget(), _armMotorTop.GetPositionTarget()};
+  }
   return {armTopAngle + armBottomAngle, armBottomAngle};
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
-  // double x_coord = x.value();
-  // double y_coord = y.value();
-
-  // double armTopAngleFracbottom = pow(x_coord, 2.0) + pow(y_coord, 2.0) - pow(ARM_LENGTH.value(), 2.0) - pow(ARM_LENGTH_2.value(), 2.0);
-  // double armTopAngleFractop = 2.0 * ARM_LENGTH.value() * ARM_LENGTH_2.value();
-  // units::radian_t armTopAngle{-1 * (acos(armTopAngleFracbottom / armTopAngleFractop))};
-
-  // double armBottomAngleFracbottom = ARM_LENGTH_2.value() * sin(armTopAngle.value());
-  // double armBottomAngleFractop = ARM_LENGTH.value() + ARM_LENGTH_2.value() * cos(armTopAngle.value());
-  // double statement1 = atan(y_coord / x_coord);
-  // double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
-  // units::radian_t armBottomAngle{statement1 - statement2};
-
-  // DriveTo(armBottomAngle, armTopAngle);
   auto armAngle = InverseKinmetics(x,y);
   DriveTo(armAngle.second, armAngle.first);
 }
-
-void SubArm::CubeConeSwitch() {}
 
 void SubArm::SimulationPeriodic() {
   _armSim.SetInputVoltage(_armMotorBottom.GetSimVoltage());
@@ -122,7 +112,7 @@ void SubArm::SimulationPeriodic() {
 
 void SubArm::ArmResettingPos() {
   _armMotorBottom.SetPosition(126.33_deg);
-  _armMotorTop.SetPosition(-56.19_deg);
+  _armMotorTop.SetPosition(units::degree_t{126.33 - 166.79});
 }
 
 bool SubArm::CheckPosition() {

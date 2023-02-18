@@ -14,6 +14,7 @@
 #include <frc/smartdashboard/Mechanism2d.h>
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include "utilities/ICSparkMax.h"
+#include <rev/SparkMaxAbsoluteEncoder.h>
 #include "Constants.h"
 
 class SubArm : public frc2::SubsystemBase {
@@ -31,13 +32,11 @@ class SubArm : public frc2::SubsystemBase {
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
   std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   void ArmPos(units::meter_t x, units::meter_t y);
-  void CubeConeSwitch();
   void DashboardInput();
   void ArmResettingPos();
 
   bool CheckPosition();
 
-  static constexpr units::meter_t ARM_ROOT_X = 0.05_m;
 
  private:
   // motors
@@ -46,6 +45,8 @@ class SubArm : public frc2::SubsystemBase {
   ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
   ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
 
+  // rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
+  //     rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   //arm 1
   static constexpr double P = 0.0;
@@ -58,7 +59,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr units::degrees_per_second_t MAX_VEL = 7_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
-  static constexpr units::meter_t ARM_LENGTH = 0.91_m;
+  static constexpr units::meter_t ARM_LENGTH = 0.9_m;
   // static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
