@@ -10,9 +10,9 @@
 
 SwerveModule::SwerveModule(int canDriveMotorID, int canTurnMotorID,
                            int canTurnEncoderID, double cancoderMagOffset)
-    : _canDriveMotor(canDriveMotorID),
-      _canTurnMotor(canTurnMotorID),
-      _canTurnEncoder(canTurnEncoderID) {
+    : _canDriveMotor(canDriveMotorID, "Canivore"),
+      _canTurnMotor(canTurnMotorID, "Canivore"),
+      _canTurnEncoder(canTurnEncoderID, "Canivore") {
   // Config CANCoder
   _canTurnEncoder.ConfigFactoryDefault();
   _canTurnEncoder.SetPositionToAbsolute();

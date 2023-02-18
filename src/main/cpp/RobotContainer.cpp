@@ -26,20 +26,25 @@ RobotContainer::RobotContainer() {
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
+
+  _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("Get4m", "Get4m"); 
+
+  frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
 
 void RobotContainer::ConfigureBindings() {
 
   using namespace frc2::cmd;
   
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
-
-
   //navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
   //arm
+  _driverController.Y().OnTrue(cmd::ArmToHigh());
+  _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
+
+  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
   
   //claw
    _driverController.RightBumper().WhileTrue(cmd::ClawClose()); //Should do --> picks up whatever is in intake and brings everything back into robot
@@ -58,5 +63,5 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("TestRotation");
+  return cmd::PPDrivePath("PreConeH");
 }
