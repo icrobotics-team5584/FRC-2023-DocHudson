@@ -1,6 +1,7 @@
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
+#include "RobotContainer.h"
 #include "commands/ArmCommands.h"
 
 namespace cmd {
@@ -86,11 +87,9 @@ namespace cmd {
     }
 
     frc2::CommandPtr ClawClose(){
-        return RunOnce(
-        [] {
-            SubClaw::GetInstance().ClawClamped();
-        }
-        );
+       return Either(RunOnce([]{SubClaw::GetInstance().ClawClampedCone();}), 
+                    RunOnce([]{SubClaw::GetInstance().ClawClampedCube();}),
+                    []{return RobotContainer::isConeMode;});
     }
 
         frc2::CommandPtr ClawOpen(){

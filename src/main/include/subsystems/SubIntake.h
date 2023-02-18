@@ -43,5 +43,5 @@ class SubIntake : public frc2::SubsystemBase {
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
 
-    frc::sim::DCMotorSim _IntakeSim {frc::DCMotor::NEO550(), 1, 0.0001_kg_sq_m};
+  frc::sim::DCMotorSim _IntakeSim {frc::DCMotor::NEO550(), 1, 0.0001_kg_sq_m};
 };
