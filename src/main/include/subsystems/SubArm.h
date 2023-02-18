@@ -87,7 +87,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH,
     MIN_ANGLE,
     MAX_ANGLE,
-    ARM_MASS_1,
     false,
   };
 
@@ -99,7 +98,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH_2,
     MIN_ANGLE_2,
     MAX_ANGLE_2,
-    ARM_MASS_2,
     false,
   };
 
