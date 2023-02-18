@@ -38,8 +38,10 @@ SubArm::SubArm() {
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
   frc2::Trigger([this] {
-    return _topSensor.Get() && _bottomSensor.Get();
-  }).OnTrue(frc2::cmd::RunOnce([this]{ ArmResettingPos();}));  
+    return !_bottomSensor.Get();
+  }).OnTrue(frc2::cmd::RunOnce([this] {
+              ArmResettingPos();
+            }).IgnoringDisable(true));
 }
 
 // This method will be called once per scheduler runss
