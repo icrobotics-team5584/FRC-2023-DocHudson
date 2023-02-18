@@ -9,7 +9,7 @@ SubClaw::SubClaw() {
 
      _clawMotor1.SetPIDFF(P, I, D, F);
 
-    _clawMotor1.SetPosition(0_tr);
+    _clawMotor1.SetPosition(18_tr);
      
 }
 

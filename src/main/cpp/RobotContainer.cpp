@@ -23,6 +23,8 @@ grids::Grid RobotContainer::GridSelect = grids::Grid::Neutral;
 
 RobotContainer::RobotContainer() {
   // Initializing Commmands
+ 
+
   SubIntake::GetInstance();
   SubArm::GetInstance();
   SubClaw::GetInstance();

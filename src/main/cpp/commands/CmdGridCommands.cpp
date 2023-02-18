@@ -8,6 +8,8 @@
 #include "commands/ArmCommands.h"
 #include <frc/geometry/Translation2d.h>
 #include "RobotContainer.h"
+#include <frc/DriverStation.h>
+#include "subsystems/SubDriveBase.h"
 
 /*
 
@@ -28,12 +30,20 @@ using namespace frc2::cmd;
 
 frc2::CommandPtr Score(grids::Column column, grids::Height height) {
   return DriveToPose([column] {
-      grids::DrivePose drivePose{RobotContainer::GridSelect, column};
-      return grids::ScoringLocations[drivePose];
-      })
+           auto alliance = frc::DriverStation::GetAlliance();
+           if (RobotContainer::GridSelect == grids::Grid::Neutral ||
+               alliance == frc::DriverStation::kInvalid) {
+             return SubDriveBase::GetInstance().GetPose();
+           }
+           grids::DrivePose drivePose{RobotContainer::GridSelect, column};
+           if (alliance == frc::DriverStation::kRed) {
+             return grids::ScoringLocationsRed[drivePose];
+           } else if (alliance == frc::DriverStation::kBlue) {
+             return grids::ScoringLocationsBlue[drivePose];
+           }
+         })
       .AlongWith(ArmToScoringHeight(height))
       .AndThen(ClawExpand());
 }
-
-}
- // namespace cmd
+}  // namespace cmd
+   // namespace cmd

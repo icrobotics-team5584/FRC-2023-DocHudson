@@ -130,7 +130,7 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
 
 bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   auto currentPose = _poseEstimator.GetEstimatedPosition();
-  return (currentPose.Translation().Distance(pose.Translation()) < 1_cm);
+  return (currentPose.Translation().Distance(pose.Translation()) < 5_cm);
 }
 
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
