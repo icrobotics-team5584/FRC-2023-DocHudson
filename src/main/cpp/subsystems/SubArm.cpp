@@ -8,7 +8,8 @@
 #include <iostream>
 #include "RobotContainer.h"
 #include "subsystems/SubArm.h"
-
+#include <frc2/command/commands.h>
+#include <frc2/command/button/Trigger.h>
 
 //./gradlew clean
 
@@ -34,6 +35,13 @@ SubArm::SubArm() {
 
   // uncomment me to use absolute encoder
   // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
+
+  frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
+  frc2::Trigger([this] {
+    return !_bottomSensor.Get();
+  }).OnTrue(frc2::cmd::RunOnce([this] {
+              ArmResettingPos();
+            }).IgnoringDisable(true));
 }
 
 // This method will be called once per scheduler runss
@@ -45,7 +53,7 @@ void SubArm::Periodic() {
 
 void SubArm::DashboardInput(){
   static auto prevXRequest = 0_m;
-  static auto prevYRequest = 0_m;
+  static auto prevYRequest = 0_m; 
 
   units::centimeter_t x_coord{frc::SmartDashboard::GetNumber("Arm/x_coord input: ", 0)};
   units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("Arm/y_coord input: ", 0)};

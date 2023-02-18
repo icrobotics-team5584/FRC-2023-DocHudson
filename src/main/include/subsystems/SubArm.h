@@ -16,6 +16,7 @@
 #include "utilities/ICSparkMax.h"
 #include <rev/SparkMaxAbsoluteEncoder.h>
 #include "Constants.h"
+#include <frc/DigitalInput.h>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -47,6 +48,12 @@ class SubArm : public frc2::SubsystemBase {
 
   // rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
   //     rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+
+  //sensors
+  frc::DigitalInput _topSensor{dio::armTopSensor};
+  frc::DigitalInput _bottomSensor{dio::armBottomSensor};
+
+
 
   //arm 1
   static constexpr double P = 0.0;
