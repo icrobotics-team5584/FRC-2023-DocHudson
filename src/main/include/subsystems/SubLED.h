@@ -27,7 +27,7 @@ class SubLED : public frc2::SubsystemBase {
  private:
   static constexpr int kLength = 31;
 
-  frc::AddressableLED m_led{0};
+  frc::AddressableLED m_led{9};
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
 
   int firstPixelHue = 0;
