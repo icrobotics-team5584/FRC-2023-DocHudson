@@ -35,8 +35,9 @@ SubArm::SubArm() {
 
   _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
   frc2::Trigger([this] {
-    return _topSensor.Get() && _bottomSensor.Get();
+    return !_bottomSensor.Get();
   }).OnTrue(frc2::cmd::RunOnce([this]{ ArmResettingPos();}));  
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
@@ -48,7 +49,8 @@ void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/Current Output", _armMotorBottom.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Arm/Bus Voltage Follow", _armMotorBottomFollow.GetBusVoltage());
   frc::SmartDashboard::PutNumber("Arm/Current Output Follow", _armMotorBottomFollow.GetOutputCurrent());
-  
+  frc::SmartDashboard::PutNumber("Arm/Bottom sensor input", _bottomSensor.Get());
+
   DashboardInput();
 }
 
@@ -67,19 +69,6 @@ void SubArm::DashboardInput(){
   prevXRequest = x_coord;
 }
 
-void SubArm::SensorInput() {
-  static int prev = 0;
-
-  // int curr = frc::SmartDashboard::GetNumber("Arm/BackSensor: ", 0);
-
-  int curr = (_topSensor.Get() == 1 && _bottomSensor.Get() == 1)? 1:0;
-
-  if (prev != curr && curr == 1) {
-    ArmResettingPos();
-  }
-
-  prev = curr;
-}
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
   targetTopAngle = topAngle;
@@ -146,11 +135,7 @@ void SubArm::SimulationPeriodic() {
 }
 
 void SubArm::ArmResettingPos() {
-<<<<<<< HEAD
-  _armMotorBottom.SetPosition(134.87_deg);
-=======
   _armMotorBottom.SetPosition(126.33_deg);
->>>>>>> Arm
   _armMotorTop.SetPosition(-56.19_deg);
 }
 

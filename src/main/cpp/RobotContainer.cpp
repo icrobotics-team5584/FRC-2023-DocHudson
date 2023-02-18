@@ -41,7 +41,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
   //arm
-  _driverController.Y().OnTrue(cmd::ScorePos(ArmToHigh()));
+  _driverController.Y().OnTrue(cmd::ScorePos(cmd::ArmToHigh()));
   _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
 
   _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
