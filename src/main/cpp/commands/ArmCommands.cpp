@@ -11,8 +11,8 @@ namespace cmd{
         return ArmToPos(60_cm,110_cm);
     }
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(110_cm, 135_cm));} 
-    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(105_cm,90_cm));} //gtg
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(125_cm, 125_cm));} 
+    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(95_cm,90_cm));} //gtg
 
     frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(100_cm, 97_cm));} 
     frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(58_cm, 67_cm));}
@@ -52,5 +52,18 @@ namespace cmd{
         return RunOnce([x, y]() { SubArm::GetInstance().ArmPos(x, y); })
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
+    }
+
+     frc2::CommandPtr ArmToScoringHeight(grids::Height height) {
+        switch (height) {
+            case grids::Height::High:
+                return ArmToHigh();
+            case grids::Height::Middle:
+                return ArmToMid();
+            case grids::Height::Low:
+                return ArmToLowCubeOrCone();
+            default:
+                return None();
+        };
     }
 }

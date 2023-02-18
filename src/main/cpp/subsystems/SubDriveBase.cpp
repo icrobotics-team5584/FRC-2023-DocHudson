@@ -86,15 +86,7 @@ frc::Rotation2d SubDriveBase::GetHeading() {
   return _gyro.GetRotation2d();
 }
 
-void SubDriveBase::DriveToTarget(units::meter_t xDistance, units::meter_t yDistance, units::meter_t targetDistance, units::degree_t targetRotation) {
-   double speedX = -Xcontroller.Calculate(xDistance.value(), targetDistance.value());
-   double speedY = Ycontroller.Calculate(yDistance.value(), 0);
-   double speedRot = -Rcontroller.Calculate(targetRotation, 0_deg);
-   speedX = std::clamp(speedX, -0.5, 0.5);
-   speedY = std::clamp(speedY, -0.5, 0.5);
-   speedRot = std::clamp(speedRot, -2.0, 2.0);
-   Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, false);
-}
+
 
 // Calculate robot's velocity over past time step (20 ms)
 units::meters_per_second_t SubDriveBase::GetVelocity() {
@@ -127,11 +119,18 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
   frc::Pose2d currentPosition = _poseEstimator.GetEstimatedPosition();
   double speedX = Xcontroller.Calculate(currentPosition.X().value(), targetPose.X().value());
   double speedY = Ycontroller.Calculate(currentPosition.Y().value(), targetPose.Y().value());
-  double speedRot = -Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
+  double speedRot = Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
   speedX = std::clamp(speedX, -0.5, 0.5);
   speedY = std::clamp(speedY, -0.5, 0.5);
   speedRot = std::clamp(speedRot, -2.0, 2.0);
   Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
+  frc::SmartDashboard::PutNumber( "Yspeed", speedY);
+  frc::SmartDashboard::PutNumber("Xspeed", speedX );
+}
+
+bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
+  auto currentPose = _poseEstimator.GetEstimatedPosition();
+  return (currentPose.Translation().Distance(pose.Translation()) < 5_cm);
 }
 
 void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {

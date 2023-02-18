@@ -9,7 +9,7 @@ SubClaw::SubClaw() {
 
      _clawMotor1.SetPIDFF(P, I, D, F);
 
-    _clawMotor1.SetPosition(0_tr);
+    _clawMotor1.SetPosition(18_tr);
      
 }
 
@@ -30,9 +30,9 @@ void SubClaw::SimulationPeriodic() {
 }
 
 void SubClaw::ClawClamped(){
-    _clawMotor1.SetPositionTarget(0_tr);
+    _clawMotor1.SetPositionTarget(18_tr);
 }
 
 void SubClaw::ClawUnclamped(){
-    _clawMotor1.SetPositionTarget(18_tr);
+    _clawMotor1.SetPositionTarget(0_tr);
 }
