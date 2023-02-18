@@ -9,21 +9,26 @@
 
 class SubLED : public frc2::SubsystemBase {
  public:
+  static bool autoDriving;
+
   SubLED();
 
-  static SubLED &GetInstance() {static SubLED inst; return inst;}
+  static SubLED& GetInstance() {
+    static SubLED inst;
+    return inst;
+  }
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-  void Colour();
- private:
- static constexpr int kLength = 31;
+  void SetColour();
 
- frc::AddressableLED m_led{0};
- std::array<frc::AddressableLED::LEDData, kLength>
-  m_ledBuffer;
+ private:
+  static constexpr int kLength = 31;
+
+  frc::AddressableLED m_led{0};
+  std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
 
   int firstPixelHue = 0;
   // Components (e.g. motor controllers and sensors) should generally be

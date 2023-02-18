@@ -10,6 +10,7 @@
 #include "RobotContainer.h"
 #include <frc/DriverStation.h>
 #include "subsystems/SubDriveBase.h"
+#include "subsystems/SubLED.h"
 
 /*
 
@@ -30,6 +31,7 @@ using namespace frc2::cmd;
 
 frc2::CommandPtr Score(grids::Column column, grids::Height height) {
   return DriveToPose([column] {
+       
            auto alliance = frc::DriverStation::GetAlliance();
            if (RobotContainer::GridSelect == grids::Grid::Neutral ||
                alliance == frc::DriverStation::kInvalid) {
@@ -44,6 +46,7 @@ frc2::CommandPtr Score(grids::Column column, grids::Height height) {
          })
       .AlongWith(ArmToScoringHeight(height))
       .AndThen(ClawExpand());
+      
 }
 }  // namespace cmd
    // namespace cmd

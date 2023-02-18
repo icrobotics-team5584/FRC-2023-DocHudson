@@ -7,6 +7,12 @@
 #include "commands/ArmCommands.h"
 #include "RobotContainer.h"
 
+bool SubLED::autoDriving = false;
+
+int R = std::rand() % 255;
+int G = std::rand() % 255;
+int B = std::rand() % 255;
+
 SubLED::SubLED() {
   m_led.SetLength(kLength);
   m_led.SetData(m_ledBuffer);
@@ -14,11 +20,27 @@ SubLED::SubLED() {
 }
 // This method will be called once per scheduler run
 void SubLED::Periodic() {
-    Colour();
+  SetColour();
 }
 
-void SubLED::Colour() {
-  if (RobotContainer::isConeMode == false) {
+void SubLED::SetColour() {
+  if (autoDriving == true) {
+    for (int i = 0; i < kLength; i++) {
+      m_ledBuffer[i].SetRGB(R, G, B);
+        R++;
+        G++;
+        B++;
+      if (R == 255) {
+        R = 0;
+      } else if (G == 255) {
+        G = 0;
+      } else if (B == 255) {
+        B = 0;
+      }
+    }
+  }
+
+  else if (RobotContainer::isConeMode == false) {
     for (int i = 0; i < kLength; i++) {
       m_ledBuffer[i].SetRGB(213, 17, 247);
     }
