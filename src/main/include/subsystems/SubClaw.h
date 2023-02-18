@@ -11,6 +11,7 @@
 #include "utilities/ICSparkMax.h"
 #include <units/angle.h>
 #include <rev/SparkMaxAbsoluteEncoder.h>
+#include <frc/simulation/DCMotorSim.h>
 
 class SubClaw : public frc2::SubsystemBase {
  public:
@@ -26,7 +27,7 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
   void ClawClampedCone();
   void ClawUnclamped();
 
-
+  void SimulationPeriodic() override;
 
 
 
@@ -42,8 +43,8 @@ static SubClaw &GetInstance() {static SubClaw inst; return inst;}
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
-  
 
 
-  
+  // simulation stuff
+  frc::sim::DCMotorSim _clawSim {frc::DCMotor::NEO550(), 1, 0.0001_kg_sq_m};
 };
