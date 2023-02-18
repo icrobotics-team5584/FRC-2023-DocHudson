@@ -34,13 +34,20 @@ namespace cmd {
         return StartEnd(
             [] {SubIntake::GetInstance().DeployIntake();
                SubIntake::GetInstance().IntakeLeft();
-               SubIntake::GetInstance().IntakeRight();},
-            [] {SubIntake::GetInstance().Stop();
-                SubIntake::GetInstance().RetractIntake();}
+               SubIntake::GetInstance().IntakeRight();
+               ArmPickUp();
+               SubClaw::GetInstance().ClawClamped();},
+            [] {SubIntake::GetInstance().Stop();}
         );
     }
     
-                
+
+    frc2::CommandPtr StowGamePiece() {
+        return RunOnce([] {
+            SubIntake::GetInstance().RetractIntake();
+            ArmToDefaultLocation();
+        });
+    }    
 
     frc2::CommandPtr StartIntake() {
         return RunOnce (

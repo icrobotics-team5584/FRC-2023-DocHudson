@@ -15,4 +15,5 @@ frc2::CommandPtr StartOuttake();
 frc2::CommandPtr StopOuttake();
 frc2::CommandPtr ClawOpen();
 frc2::CommandPtr ClawClose();
+frc2::CommandPtr StowGamePiece();
 }

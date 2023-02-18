@@ -121,8 +121,8 @@ void SubArm::SimulationPeriodic() {
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotorBottom.SetPosition(0_deg);
-  _armMotorTop.SetPosition(0_deg);
+  _armMotorBottom.SetPosition(126.33_deg);
+  _armMotorTop.SetPosition(-56.19_deg);
 }
 
 bool SubArm::CheckPosition() {
