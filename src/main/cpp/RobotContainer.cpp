@@ -14,6 +14,9 @@
 #include "commands/GamePieceCommands.h"
 #include "subsystems/SubArm.h"
 #include "commands/AutoCommands.h"
+#include "subsystems/SubLED.h"
+
+
 bool RobotContainer::isConeMode = true;
 
 RobotContainer::RobotContainer() {
@@ -21,6 +24,7 @@ RobotContainer::RobotContainer() {
   SubIntake::GetInstance();
   SubArm::GetInstance();
   SubClaw::GetInstance();
+  SubLED::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();
