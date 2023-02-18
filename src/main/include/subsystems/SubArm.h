@@ -15,6 +15,7 @@
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
+#include <frc/DigitalInput.h>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -33,6 +34,7 @@ class SubArm : public frc2::SubsystemBase {
   void ArmPos(units::meter_t x, units::meter_t y);
   void CubeConeSwitch();
   void DashboardInput();
+  void SensorInput();
   void ArmResettingPos();
 
   bool CheckPosition();
@@ -45,6 +47,12 @@ class SubArm : public frc2::SubsystemBase {
   ICSparkMax<> _armMotorTop{canid::armMotorTop};
   ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
   ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
+
+
+  //sensors
+  frc::DigitalInput _topSensor{dio::armTopSensor};
+  frc::DigitalInput _bottomSensor{dio::armBottomSensor};
+
 
 
   //arm 1

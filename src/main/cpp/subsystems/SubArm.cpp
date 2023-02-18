@@ -8,7 +8,8 @@
 #include <iostream>
 #include "RobotContainer.h"
 #include "subsystems/SubArm.h"
-
+#include <frc2/command/commands.h>
+#include <frc2/command/button/Trigger.h>
 
 //./gradlew clean
 
@@ -34,6 +35,11 @@ SubArm::SubArm() {
 
   _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  frc2::Trigger([this] {
+    return _topSensor.Get() && _bottomSensor.Get();
+  }).OnTrue(frc2::cmd::RunOnce([this]{ ArmResettingPos();}));  
+
+  frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
 }
 
 // This method will be called once per scheduler runss
@@ -48,7 +54,7 @@ void SubArm::Periodic() {
 
 void SubArm::DashboardInput(){
   static auto prevXRequest = 0_m;
-  static auto prevYRequest = 0_m;
+  static auto prevYRequest = 0_m; 
 
   units::centimeter_t x_coord{frc::SmartDashboard::GetNumber("Arm/x_coord input: ", 0)};
   units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("Arm/y_coord input: ", 0)};
@@ -59,6 +65,20 @@ void SubArm::DashboardInput(){
   
   prevYRequest = y_coord;
   prevXRequest = x_coord;
+}
+
+void SubArm::SensorInput() {
+  static int prev = 0;
+
+  // int curr = frc::SmartDashboard::GetNumber("Arm/BackSensor: ", 0);
+
+  int curr = (_topSensor.Get() == 1 && _bottomSensor.Get() == 1)? 1:0;
+
+  if (prev != curr && curr == 1) {
+    ArmResettingPos();
+  }
+
+  prev = curr;
 }
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
@@ -126,7 +146,11 @@ void SubArm::SimulationPeriodic() {
 }
 
 void SubArm::ArmResettingPos() {
+<<<<<<< HEAD
   _armMotorBottom.SetPosition(134.87_deg);
+=======
+  _armMotorBottom.SetPosition(126.33_deg);
+>>>>>>> Arm
   _armMotorTop.SetPosition(-56.19_deg);
 }
 
