@@ -13,9 +13,7 @@ frc2::CommandPtr StopIntake();
 frc2::CommandPtr Outtake();
 frc2::CommandPtr StartOuttake();
 frc2::CommandPtr StopOuttake();
-frc2::CommandPtr RightBumperExtend();
-frc2::CommandPtr LeftBumperExtend();
-frc2::CommandPtr BothBumperExtend();
 frc2::CommandPtr ClawOpen();
 frc2::CommandPtr ClawClose();
+frc2::CommandPtr StowGamePiece();
 }
