@@ -15,6 +15,7 @@
 #include "subsystems/SubArm.h"
 #include "utilities/Grids.h"
 #include "commands/AutoCommands.h"
+#include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
 #include <frc/RobotController.h>
 
@@ -29,6 +30,7 @@ RobotContainer::RobotContainer() {
   SubIntake::GetInstance();
   SubArm::GetInstance();
   SubClaw::GetInstance();
+  SubLED::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();
