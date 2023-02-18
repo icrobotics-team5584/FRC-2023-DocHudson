@@ -43,6 +43,7 @@ frc2::CommandPtr Score(grids::Column column, grids::Height height) {
            } else if (alliance == frc::DriverStation::kBlue) {
              return grids::ScoringLocationsBlue[drivePose];
            }
+           return SubDriveBase::GetInstance().GetPose();
          })
       .AlongWith(ArmToScoringHeight(height))
       .AndThen(ClawExpand());

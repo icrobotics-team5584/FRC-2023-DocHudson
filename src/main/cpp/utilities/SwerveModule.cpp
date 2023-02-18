@@ -119,6 +119,11 @@ void SwerveModule::StopMotors() {
   _canTurnMotor.Set(TalonFXControlMode::PercentOutput, 0);
 }
 
+void SwerveModule::SetNeutralMode(NeutralMode mode) {
+  _canTurnMotor.SetNeutralMode(mode);
+  _canDriveMotor.SetNeutralMode(mode);
+}
+
 void SwerveModule::SyncSensors() {
   double cancoderDegrees = _canTurnEncoder.GetAbsolutePosition();
   double cancoderRevolutions = cancoderDegrees/360;

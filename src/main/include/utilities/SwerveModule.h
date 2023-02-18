@@ -28,6 +28,7 @@ class SwerveModule {
   void SetDesiredAngle(units::degree_t angle);
   void SetDesiredVelocity(units::meters_per_second_t velocity);
   void StopMotors();
+  void SetNeutralMode(NeutralMode mode);
   frc::SwerveModulePosition GetPosition();
   frc::Rotation2d GetAngle();
   units::meters_per_second_t GetSpeed();

@@ -6,7 +6,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/MathUtil.h>
 #include <frc/RobotBase.h>
-#include <units/time.h>
+#include <units/time.h> 
 
 SubDriveBase::SubDriveBase(){
   _gyro.Calibrate();
@@ -169,5 +169,12 @@ void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, unit
     if (ambiguity < 0.15) {
     _poseEstimator.AddVisionMeasurement(pose, timeStamp);
     }
+}
+
+void SubDriveBase::SetNeutralMode(NeutralMode mode) {
+  _frontLeft.SetNeutralMode(mode);
+  _frontRight.SetNeutralMode(mode);
+  _backLeft.SetNeutralMode(mode);
+  _backRight.SetNeutralMode(mode);
 }
 

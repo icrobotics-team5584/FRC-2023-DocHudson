@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
+#include <frc/simulation/DCMotorSim.h>
 
 class SubIntake : public frc2::SubsystemBase {
  public:
@@ -27,21 +28,20 @@ class SubIntake : public frc2::SubsystemBase {
   void OuttakeLeft();
   void OuttakeRight();
   void Stop();
-  
-  void StopBumper();
-  void BothBumperExtended();
-  void LeftBumperExtended();
-  void LeftBumperRetracted();
-  void RightBumperRetracted();
-  void RightBumperExtended();
-  void OneBumperRetracted();
-  void BothBumperRetracted();
+  void DeployIntake();
+  void RetractIntake();
   bool SensesCone();
   
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
+  ICSparkMax<> _DeployMotor{canid::deployMotor};
   frc::DigitalInput _coneSensor{dio::coneSensor};
-  frc::DoubleSolenoid _solPneumaicsLeftBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::leftBumperExtend,pcm::rightBumperRetract};
-  frc::DoubleSolenoid _solPneumaticsRightBumper{0, frc::PneumaticsModuleType::CTREPCM,pcm::rightBumperExtend,pcm::leftBumperRetract};
+
+  static constexpr double P = 1.0;
+  static constexpr double I = 0.0;
+  static constexpr double D = 0.0;
+  static constexpr double F = 0.0;
+
+  frc::sim::DCMotorSim _IntakeSim {frc::DCMotor::NEO550(), 1, 0.0001_kg_sq_m};
 };
