@@ -243,6 +243,13 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
    */
   void UseAlternateEncoder(int countsPerRev = 8192);
 
+/**
+ * Switch to using an external absolute encoder connected to the data port on the SPARK MAX. 
+ * 
+ * @param encoder The encoder to use as a feedback sensor for closed loop control
+ */
+  void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder encoder);
+
   // Sendable setup, called automatically when this is passed into smartDashbaord::PutData()
   void InitSendable(wpi::SendableBuilder& builder) override;
 

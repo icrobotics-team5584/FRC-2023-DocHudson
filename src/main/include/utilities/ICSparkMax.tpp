@@ -148,6 +148,11 @@ void ICSparkMax<Position>::UseAlternateEncoder(int countsPerRev) {
 }
 
 template <class Position>
+void ICSparkMax<Position>::UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder encoder) {
+  _pidController.SetFeedbackDevice(encoder);
+}
+
+template <class Position>
 void ICSparkMax<Position>::SetPIDFF(double P, double I, double D, double FF) {
   _simController.SetP(P);
   _simController.SetI(I);

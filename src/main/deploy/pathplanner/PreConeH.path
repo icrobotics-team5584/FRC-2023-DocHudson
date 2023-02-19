@@ -17,10 +17,10 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "ArmToHigh",
-          "ClawExpand",
           "ClawRetract",
-          "ArmToPickUp"
+          "ArmToHigh",
+          "Wait",
+          "ClawExpand"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

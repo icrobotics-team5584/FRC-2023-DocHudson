@@ -1,12 +1,15 @@
 #pragma once
 
 #include <frc2/command/commands.h>
+#include "utilities/Grids.h"
 
 namespace cmd {
+
     frc2::CommandPtr ArmToHighCube();
     frc2::CommandPtr ArmToMidCube();
     frc2::CommandPtr ArmToHighCone();
     frc2::CommandPtr ArmToMidCone();
+    frc2::CommandPtr ArmToScoringHeight(grids::Height height);
 
     frc2::CommandPtr ArmToLoadingStation();
     frc2::CommandPtr ArmToLowCubeOrCone();
