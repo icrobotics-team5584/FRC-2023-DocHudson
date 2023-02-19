@@ -6,6 +6,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/AddressableLED.h>
+#include <array>
 
 class SubLED : public frc2::SubsystemBase {
  public:
