@@ -13,7 +13,8 @@ namespace grids {
         {{Grid::Middle, Column::Right}, {14.74_m, 2.16_m, 0_deg}},
         {{Grid::Right, Column::Left}, {14.74_m, 1.59_m, 0_deg}}, 
         {{Grid::Right, Column::Middle}, {14.74_m, 1.06_m, 0_deg}}, 
-        {{Grid::Right, Column::Right}, {14.74_m, 0.43_m, 0_deg}} 
+        {{Grid::Right, Column::Right}, {14.74_m, 0.43_m, 0_deg}},
+        {{Grid::LS, Column::LS}, {0.76_m, 7.42_m, 0_deg}}
         
         
     };
@@ -27,7 +28,8 @@ namespace grids {
         {{Grid::Middle, Column::Right}, {1.84_m, 2.16_m, 180_deg}},
         {{Grid::Right, Column::Left}, {1.84_m, 1.59_m, 180_deg}}, 
         {{Grid::Right, Column::Middle}, {1.84_m, 1.06_m, 180_deg}}, 
-        {{Grid::Right, Column::Right}, {1.84_m, 0.43_m, 180_deg}} 
+        {{Grid::Right, Column::Right}, {1.84_m, 0.43_m, 180_deg}},
+        {{Grid::LS, Column::LS}, {15.8_m, 7.33_m, 180_deg}}
         
         
     };

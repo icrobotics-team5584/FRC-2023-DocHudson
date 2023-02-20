@@ -60,6 +60,9 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
+  _driverController.X().OnTrue(RunOnce([] {GridSelect = grids::Grid::LS}).AndThen(cmd::Score(grids::Column::LS)).AndThen(SubClaw::ClawClamped()));
+
+
   //arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());

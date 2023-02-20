@@ -5,9 +5,9 @@
 
 namespace grids {
 
-enum class Grid { Neutral, Left, Middle, Right };
-enum class Column { Left, Middle, Right };
-enum class Height { High, Middle, Low };
+enum class Grid { LS, Left, Middle, Right };
+enum class Column { Left, Middle, Right, LS};
+enum class Height { High, Middle, Low, LS };
 
 struct DrivePose {
   Grid grid;
