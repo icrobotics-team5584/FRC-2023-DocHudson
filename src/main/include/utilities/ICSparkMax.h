@@ -248,7 +248,9 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
  * 
  * @param encoder The encoder to use as a feedback sensor for closed loop control
  */
-  void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder encoder);
+  void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder& encoder);
+
+  void EnableSensorWrapping(double min, double max);
 
   // Sendable setup, called automatically when this is passed into smartDashbaord::PutData()
   void InitSendable(wpi::SendableBuilder& builder) override;
