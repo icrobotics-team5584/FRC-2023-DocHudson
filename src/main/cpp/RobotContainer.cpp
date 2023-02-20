@@ -70,7 +70,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
   
   //claw
-   _driverController.RightBumper().WhileTrue(cmd::ClawClose()); //Should do --> picks up whatever is in intake and brings everything back into robot
+   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
    _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
    _driverController.A().OnTrue(cmd::ClawOpen());
    //_driverController.A().OnTrue(isConeMode = False);
