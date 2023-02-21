@@ -36,7 +36,7 @@ class SubArm : public frc2::SubsystemBase {
   void DashboardInput();
   void SensorInput();
   void ArmResettingPos();
-
+  frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
 
   static constexpr units::meter_t ARM_ROOT_X = 0.05_m;

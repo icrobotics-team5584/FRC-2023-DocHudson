@@ -134,6 +134,14 @@ void SubArm::SimulationPeriodic() {
   _arm2Ligament->SetAngle(x_coord - armAngle);
 }
 
+frc::Translation2d SubArm::GetEndEffectorPosition() {
+  frc::Rotation2d topRotation {units::radian_t{_armMotorTop.GetPosition()}};
+  frc::Rotation2d bottomRotation {units::radian_t{_armMotorBottom.GetPosition()}};
+  frc::Translation2d topPos {ARM_LENGTH_2, topRotation};
+  frc::Translation2d bottomPos { ARM_LENGTH, bottomRotation };
+  return topPos + bottomPos;
+}
+
 void SubArm::ArmResettingPos() {
   _armMotorBottom.SetPosition(126.33_deg);
   _armMotorTop.SetPosition(-56.19_deg);
