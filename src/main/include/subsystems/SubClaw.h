@@ -37,8 +37,7 @@ class SubClaw : public frc2::SubsystemBase {
 
   ICSparkMax<> _clawMotor1{canid::clawMotor1};
 
-  // uncomment me to use absolute encoder
-  // rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+  rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   static constexpr double P = 4.5;
   static constexpr double I = 0.0;
