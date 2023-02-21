@@ -250,6 +250,13 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
  */
   void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder& encoder);
 
+  /**
+   * Set the minimum and maximum input value for PID Wrapping with position closed loop
+   * control.
+   *
+   * @param max The maximum input value
+   * @param min The minimum input value
+   */
   void EnableSensorWrapping(double min, double max);
 
   // Sendable setup, called automatically when this is passed into smartDashbaord::PutData()
