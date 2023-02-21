@@ -8,6 +8,7 @@ SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
+  _clawMotor1.SetClosedLoopControlType(rev::CANSparkMax::ControlType::kPosition);
   _clawMotor1.SetPIDFF(P, I, D, F);
 
   _clawMotor1.UseAbsoluteEncoder(_clawEncoder);
@@ -18,6 +19,8 @@ SubClaw::SubClaw() {
 // This method will be called once per scheduler runte
 void SubClaw::Periodic() {
   frc::SmartDashboard::PutNumber("Claw/Abs encoder pos", _clawEncoder.GetPosition());
+  frc::SmartDashboard::PutNumber("Claw/current", _clawMotor1.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Claw/duty cycle", _clawMotor1.GetAppliedOutput());
 }
 
 void SubClaw::SimulationPeriodic() {
