@@ -31,13 +31,13 @@ void SubClaw::SimulationPeriodic() {
 }
 
 void SubClaw::ClawClampedCube() {
-  _clawMotor1.SetPositionTarget(0.059440_tr);
+  _clawMotor1.SetPositionTarget(0.271152_tr);
 }
 
 void SubClaw::ClawClampedCone() {
-  _clawMotor1.SetPositionTarget(0.944409_tr);
+  _clawMotor1.SetPositionTarget(0.397968_tr);
 }
 
 void SubClaw::ClawUnclamped() {
-  _clawMotor1.SetPositionTarget(0.872247_tr);
+  _clawMotor1.SetPositionTarget(0.225265_tr);
 }
