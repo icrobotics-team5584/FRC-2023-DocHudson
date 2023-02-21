@@ -56,4 +56,17 @@ namespace cmd{
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
+
+     frc2::CommandPtr ArmToScoringHeight(grids::Height height) {
+        switch (height) {
+            case grids::Height::High:
+                return ArmToHigh();
+            case grids::Height::Middle:
+                return ArmToMid();
+            case grids::Height::Low:
+                return ArmToLowCubeOrCone();
+            default:
+                return None();
+        };
+    }
 }

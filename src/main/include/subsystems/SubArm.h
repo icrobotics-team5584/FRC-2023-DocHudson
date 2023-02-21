@@ -14,6 +14,7 @@
 #include <frc/smartdashboard/Mechanism2d.h>
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include "utilities/ICSparkMax.h"
+#include <rev/SparkMaxAbsoluteEncoder.h>
 #include "Constants.h"
 #include <frc/DigitalInput.h>
 
@@ -32,14 +33,13 @@ class SubArm : public frc2::SubsystemBase {
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
   std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   void ArmPos(units::meter_t x, units::meter_t y);
-  void CubeConeSwitch();
   void DashboardInput();
-  void SensorInput();
   void ArmResettingPos();
   frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
 
-  static constexpr units::meter_t ARM_ROOT_X = 0.05_m;
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
+
 
  private:
   // motors
@@ -48,6 +48,8 @@ class SubArm : public frc2::SubsystemBase {
   ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
   ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
 
+  // rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
+  //     rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   //sensors
   frc::DigitalInput _topSensor{dio::armTopSensor};
@@ -66,7 +68,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr units::degrees_per_second_t MAX_VEL = 7_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
-  static constexpr units::meter_t ARM_LENGTH = 0.91_m;
+  static constexpr units::meter_t ARM_LENGTH = 0.9_m;
   // static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
@@ -95,7 +97,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH,
     MIN_ANGLE,
     MAX_ANGLE,
-    ARM_MASS_1,
     false,
   };
 
@@ -107,7 +108,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH_2,
     MIN_ANGLE_2,
     MAX_ANGLE_2,
-    ARM_MASS_2,
     false,
   };
 
