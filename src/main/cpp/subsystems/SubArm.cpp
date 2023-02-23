@@ -52,7 +52,9 @@ SubArm::SubArm() {
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/top arm true angle", _armMotorTop.GetPosition().value() - _armMotorBottom.GetPosition().value());
-  
+  auto EEPos = GetEndEffectorPosition();
+  frc::SmartDashboard::PutNumber("Arm/Current X", EEPos.X().value());
+  frc::SmartDashboard::PutNumber("Arm/Current Y", EEPos.Y().value());
   DashboardInput();
 }
 
