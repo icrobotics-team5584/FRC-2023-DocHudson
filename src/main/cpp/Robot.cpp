@@ -7,6 +7,7 @@
 #include <frc2/command/CommandScheduler.h>
 #include "frc/DataLogManager.h"
 #include <frc/DriverStation.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit() {
 frc::DataLogManager::Start();
@@ -23,6 +24,7 @@ frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog(),true);
  */
 void Robot::RobotPeriodic() { 
   frc2::CommandScheduler::GetInstance().Run();
+  frc::SmartDashboard::PutBoolean("Is Cone Mode", RobotContainer::isConeMode);
 }
 
 /**
