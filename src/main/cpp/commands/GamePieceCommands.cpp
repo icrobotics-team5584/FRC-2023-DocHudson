@@ -33,9 +33,8 @@ frc2::CommandPtr Intake() {
            SubIntake::GetInstance().DeployIntake();
            SubIntake::GetInstance().IntakeLeft();
            SubIntake::GetInstance().IntakeRight();
-           SubClaw::GetInstance().ClawUnclamped();
          })
-      .AlongWith(ArmPickUp());
+      .AlongWith(ClawGrabCone().AndThen(ArmPickUp()).AndThen(ClawExpand()));
 }
 
 frc2::CommandPtr StowGamePiece() {

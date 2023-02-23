@@ -38,7 +38,9 @@ class SubIntake : public frc2::SubsystemBase {
   ICSparkMax<> _DeployMotor{canid::deployMotor, 2_A};
   frc::DigitalInput _coneSensor{dio::coneSensor};
 
-  static constexpr double P = 0.2;
+  static constexpr units::turn_t DEPLOY_POS = -13.14289_tr;
+
+  static constexpr double P = 3;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
