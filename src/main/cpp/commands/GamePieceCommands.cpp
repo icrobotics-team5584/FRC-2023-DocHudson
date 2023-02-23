@@ -23,6 +23,11 @@ frc2::CommandPtr ClawGrabCube() {
   return RunOnce([] { SubClaw::GetInstance().ClawClampedCube(); });
 }
 
+frc2::CommandPtr ClawToggle() {
+  return Either(ClawClose(), ClawExpand(),
+                [] { return SubClaw::GetInstance().IsTryingToUnclamp(); });
+}
+
 frc2::CommandPtr Intake() {
   return RunOnce([] {
            SubIntake::GetInstance().DeployIntake();

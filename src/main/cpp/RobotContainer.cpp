@@ -72,7 +72,7 @@ void RobotContainer::ConfigureBindings() {
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
-  _driverController.A().OnTrue(cmd::ClawOpen());
+  _driverController.A().OnTrue(cmd::ClawToggle());
   
   // Intake
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
