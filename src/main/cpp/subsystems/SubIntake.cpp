@@ -12,13 +12,16 @@ SubIntake::SubIntake() {
 
   frc::SmartDashboard::PutData("Intake/Deploy Motor 1: ", (wpi::Sendable*)&_DeployMotor);
   _DeployMotor.SetPIDFF(P, I, D, F);
-  _DeployMotor.SetPosition(0_tr);
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side current", _rightMotor.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
+
+  if (_DeployMotor.GetPositionTarget() == DEPLOY_POS && _DeployMotor.GetPosError() < 5_deg) {
+    _DeployMotor.Set(0);
+  }
 }
 
 void SubIntake::SimulationPeriodic() {
@@ -29,19 +32,19 @@ void SubIntake::SimulationPeriodic() {
 }
 
 void SubIntake::DeployIntake() {
-  _DeployMotor.SetPositionTarget(-25_tr);
+  _DeployMotor.SetPositionTarget(DEPLOY_POS);
 }
 
 void SubIntake::RetractIntake() {
-  _DeployMotor.SetPositionTarget(-3_tr);
+  _DeployMotor.SetPositionTarget(0_tr);
 }
 
 void SubIntake::IntakeLeft() {
-  _leftMotor.Set(-1);
+  _leftMotor.Set(-0.3);
 }
 
 void SubIntake::IntakeRight() {
-  _rightMotor.Set(1);
+  _rightMotor.Set(0.3);
 }
 
 void SubIntake::OuttakeLeft() {

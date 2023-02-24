@@ -17,7 +17,7 @@
 #include "commands/AutoCommands.h"
 #include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
-#include <frc/RobotController.h>
+#include <frc/DriverStation.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -66,13 +66,13 @@ void RobotContainer::ConfigureBindings() {
   
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
-  _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
+  _driverController.B().OnTrue(cmd::ArmPickUp());
   _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
-  
+
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
-  _driverController.A().OnTrue(cmd::ClawOpen());
+  _driverController.A().OnTrue(cmd::ClawToggle());
   
   // Intake
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
@@ -89,12 +89,24 @@ void RobotContainer::ConfigureBindings() {
           [] {
             SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
             SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-          }).IgnoringDisable(true));
-}
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
+
   
+  frc2::Trigger([this] { return _breakModeSwitch.Get(); })
+      .ToggleOnTrue(StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
+}
+
 
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("PreConeH");
+  return cmd::PPDrivePath("Test");
 }

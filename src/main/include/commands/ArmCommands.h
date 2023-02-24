@@ -20,10 +20,8 @@ namespace cmd {
     frc2::CommandPtr ArmToMid();
 
     frc2::CommandPtr ArmPickUp(); 
-    frc2::CommandPtr PickUpCube();
-    frc2::CommandPtr PickUpCone();
-    frc2::CommandPtr PickUpUprightCone();
-    frc2::CommandPtr PickUpSlantedCone();
 
     frc2::CommandPtr ArmToPos(auto x, auto y);
+
+    frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed);
 }
