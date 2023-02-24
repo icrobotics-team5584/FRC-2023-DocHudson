@@ -24,9 +24,11 @@ namespace cmd{
     frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(45_cm, 100_cm);}
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(70_cm, 40_cm);} //gtg
 
-    frc2::CommandPtr PickUpCube(){return ArmToPos(90_cm, 14_cm);} //gtg
-    frc2::CommandPtr PickUpUprightCone(){return ArmToPos(80_cm, 17_cm);} //gtg
-    frc2::CommandPtr PickUpSlantedCone(){return ArmToPos(90_cm, -5_cm);} //gtg
+    frc2::CommandPtr ArmPickUp(){
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2_tr, -0.26981_tr); })
+            .AndThen(WaitUntil(
+                []() { return SubArm::GetInstance().CheckPosition(); }));
+    } 
 
     frc2::CommandPtr CubeConeSwitch(){
         return RunOnce([]{
@@ -41,14 +43,6 @@ namespace cmd{
 
     frc2::CommandPtr ArmToMid(){
         return Either(ArmToMidCone(), ArmToMidCube(), []{return RobotContainer::isConeMode;});
-    }
-
-    frc2::CommandPtr ArmPickUp(){
-        return Either( PickUpCone(), PickUpCube(), []{return RobotContainer::isConeMode;});
-    }
-
-    frc2::CommandPtr PickUpCone(){
-        return Either( PickUpUprightCone(), PickUpSlantedCone(), []{return SubIntake::GetInstance().SensesCone();});
     }
 
     frc2::CommandPtr ArmToPos(auto x, auto y) {
@@ -68,5 +62,13 @@ namespace cmd{
             default:
                 return None();
         };
+    }
+
+    frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed) {
+        return Run([xSpeed, ySpeed]{
+            auto eePos = SubArm::GetInstance().GetEndEffectorPosition();
+            eePos = eePos + frc::Translation2d(xSpeed*1_mm, ySpeed*1_mm);
+            SubArm::GetInstance().ArmPos(eePos.X(), eePos.Y());
+        });
     }
 }

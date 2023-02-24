@@ -55,7 +55,8 @@ namespace pcm {
 }
  
 namespace dio {
-    constexpr int armBottomSensor = 0;
+    constexpr int armBottomSensor = 9;
+    constexpr int breakModeSwitch = 8;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
 }
