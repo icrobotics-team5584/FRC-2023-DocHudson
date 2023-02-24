@@ -148,8 +148,15 @@ void ICSparkMax<Position>::UseAlternateEncoder(int countsPerRev) {
 }
 
 template <class Position>
-void ICSparkMax<Position>::UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder encoder) {
+void ICSparkMax<Position>::UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder& encoder) {
   _pidController.SetFeedbackDevice(encoder);
+}
+
+template <class Position>
+void ICSparkMax<Position>::EnableSensorWrapping(double min, double max) {
+  _pidController.SetPositionPIDWrappingMaxInput(max);
+  _pidController.SetPositionPIDWrappingMinInput(min);
+  _pidController.SetPositionPIDWrappingEnabled(true);
 }
 
 template <class Position>

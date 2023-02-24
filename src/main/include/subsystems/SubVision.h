@@ -40,8 +40,7 @@ std::shared_ptr<photonlib::PhotonCamera> _camera{new photonlib::PhotonCamera{"li
   const units::degree_t CAMERA_PITCH = 2_deg;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-
-  frc::Transform3d _camToBot{{-11.5_cm, -11_cm, -45_cm}, {}};
+  frc::Transform3d _camToBot{{-115_mm, 30_mm, -665_mm}, {}};
 
   std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory()+"/AprilTags.json"}};
 

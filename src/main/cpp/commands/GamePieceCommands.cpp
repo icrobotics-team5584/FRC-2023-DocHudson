@@ -23,18 +23,18 @@ frc2::CommandPtr ClawGrabCube() {
   return RunOnce([] { SubClaw::GetInstance().ClawClampedCube(); });
 }
 
+frc2::CommandPtr ClawToggle() {
+  return Either(ClawClose(), ClawExpand(),
+                [] { return SubClaw::GetInstance().IsTryingToUnclamp(); });
+}
+
 frc2::CommandPtr Intake() {
   return RunOnce([] {
            SubIntake::GetInstance().DeployIntake();
            SubIntake::GetInstance().IntakeLeft();
            SubIntake::GetInstance().IntakeRight();
-           SubClaw::GetInstance().ClawUnclamped();
          })
-      .AlongWith(ArmPickUp())
-      .HandleInterrupt([] {
-        static auto stopCommand = ClawClose().AlongWith(ClawClose());
-        stopCommand.Schedule();
-      });
+      .AlongWith(ClawGrabCone().AndThen(ArmPickUp()).AndThen(ClawExpand()));
 }
 
 frc2::CommandPtr StowGamePiece() {

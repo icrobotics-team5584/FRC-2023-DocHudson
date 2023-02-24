@@ -35,8 +35,10 @@ class SubArm : public frc2::SubsystemBase {
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
   void ArmResettingPos();
-
+  frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
+
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
 
 
  private:
@@ -95,7 +97,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH,
     MIN_ANGLE,
     MAX_ANGLE,
-    ARM_MASS_1,
     false,
   };
 
@@ -107,7 +108,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH_2,
     MIN_ANGLE_2,
     MAX_ANGLE_2,
-    ARM_MASS_2,
     false,
   };
 

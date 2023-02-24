@@ -25,11 +25,6 @@ namespace canivore {
 }
 
 namespace canid {
-    // Tank Drive Values
-  constexpr int TankDriveBaseBackRight = 1;
-  constexpr int TankDriveBaseFrontRight = 3;
-  constexpr int TankDriveBaseFrontLeft = 5;
-  constexpr int TankDriveBaseBackLeft = 6;
 
     // Intake id: 01 - 09
   constexpr int leftMotor = 1;
@@ -60,7 +55,8 @@ namespace pcm {
 }
  
 namespace dio {
-    constexpr int armBottomSensor = 0;
+    constexpr int armBottomSensor = 9;
+    constexpr int breakModeSwitch = 8;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
 }

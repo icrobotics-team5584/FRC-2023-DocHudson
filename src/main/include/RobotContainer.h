@@ -21,6 +21,10 @@
 #include <frc2/command/InstantCommand.h>
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
+#include "utilities/Grids.h"
+#include <frc/DigitalInput.h>
+
+
 
 class RobotContainer {
  public:
@@ -31,11 +35,14 @@ class RobotContainer {
   frc2::CommandPtr GetAutonomousCommand();
 
   static bool isConeMode;
+  static grids::Grid GridSelect;
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController _driverController{0};
   frc2::CommandGenericHID _secondController{1};
+
+  frc::DigitalInput _breakModeSwitch{dio::breakModeSwitch};
   
   void ConfigureBindings();
   void SetConeMode();

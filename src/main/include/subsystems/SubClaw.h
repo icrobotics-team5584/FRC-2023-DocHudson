@@ -28,6 +28,7 @@ class SubClaw : public frc2::SubsystemBase {
   void ClawClampedCube();
   void ClawClampedCone();
   void ClawUnclamped();
+  bool IsTryingToUnclamp();
 
   void SimulationPeriodic() override;
 
@@ -37,9 +38,13 @@ class SubClaw : public frc2::SubsystemBase {
 
   ICSparkMax<> _clawMotor1{canid::clawMotor1};
 
-  // uncomment me to use absolute encoder
-  // rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
+  rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+
+  static constexpr units::turn_t CONE_CLAMPED_POS = 0.397968_tr;
+  static constexpr units::turn_t CUBE_CLAMPED_POS = 0.271152_tr;
+  static constexpr units::turn_t UNCLAMPED_POS = 0.225265_tr;
+   
   static constexpr double P = 4.5;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
