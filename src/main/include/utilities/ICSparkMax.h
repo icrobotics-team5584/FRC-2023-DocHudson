@@ -243,12 +243,31 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
    */
   void UseAlternateEncoder(int countsPerRev = 8192);
 
-/**
- * Switch to using an external absolute encoder connected to the data port on the SPARK MAX. 
- * 
- * @param encoder The encoder to use as a feedback sensor for closed loop control
- */
-  void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder encoder);
+  /**
+   * Switch to using an external absolute encoder connected to the data port on the SPARK MAX. 
+   * 
+   * @param encoder The encoder to use as a feedback sensor for closed loop control
+   */
+  void UseAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder& encoder);
+
+  /**
+   * Set the minimum and maximum input value for PID Wrapping with position closed loop
+   * control.
+   *
+   * @param max The maximum input value
+   * @param min The minimum input value
+   */
+  void EnableSensorWrapping(double min, double max);
+
+  /**
+   * Set the control type before giving the controller any targets. Run this before setting PIDF
+   * gain so the ICSparkMax can convert your PIDF gains into the correct position or velocity units.
+   * 
+   * @param controlType The control type. Options include position, velocity, smartmotion, etc.
+   */
+  void SetClosedLoopControlType(rev::CANSparkMax::ControlType controlType) {
+    SetInternalControlType(controlType);
+  }
 
   // Sendable setup, called automatically when this is passed into smartDashbaord::PutData()
   void InitSendable(wpi::SendableBuilder& builder) override;
@@ -309,8 +328,8 @@ class ICSparkMax : public rev::CANSparkMax, wpi::Sendable {
   frc::sim::SimDeviceSim _simDeviceSim{"SPARK MAX ", GetDeviceId()};
   hal::SimInt _simControlMode = _simDeviceSim.GetInt("Control Mode");
 
-double _minPidOutput = -1;
-double _maxPidOutput = 1;
+  double _minPidOutput = -1;
+  double _maxPidOutput = 1;
 
 };
 

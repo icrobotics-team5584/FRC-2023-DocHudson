@@ -8,15 +8,20 @@ SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
+  _clawMotor1.SetClosedLoopControlType(rev::CANSparkMax::ControlType::kPosition);
   _clawMotor1.SetPIDFF(P, I, D, F);
 
-  // uncomment me to use absolute encoder
-  // _clawMotor1.UseAbsoluteEncoder(_clawEncoder);
+  _clawMotor1.UseAbsoluteEncoder(_clawEncoder);
+  _clawMotor1.EnableSensorWrapping(0, 1);
   _clawMotor1.SetPosition(0_tr);
 }
 
 // This method will be called once per scheduler runte
-void SubClaw::Periodic() {}
+void SubClaw::Periodic() {
+  frc::SmartDashboard::PutNumber("Claw/Abs encoder pos", _clawEncoder.GetPosition());
+  frc::SmartDashboard::PutNumber("Claw/current", _clawMotor1.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Claw/duty cycle", _clawMotor1.GetAppliedOutput());
+}
 
 void SubClaw::SimulationPeriodic() {
   _clawSim.SetInputVoltage(_clawMotor1.GetSimVoltage());
@@ -26,13 +31,13 @@ void SubClaw::SimulationPeriodic() {
 }
 
 void SubClaw::ClawClampedCube() {
-  _clawMotor1.SetPositionTarget(-15_tr);
+  _clawMotor1.SetPositionTarget(0.271152_tr);
 }
 
 void SubClaw::ClawClampedCone() {
-  _clawMotor1.SetPositionTarget(0_deg);
+  _clawMotor1.SetPositionTarget(0.397968_tr);
 }
 
 void SubClaw::ClawUnclamped() {
-  _clawMotor1.SetPositionTarget(-18_tr);
+  _clawMotor1.SetPositionTarget(0.225265_tr);
 }

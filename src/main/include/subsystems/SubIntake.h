@@ -35,10 +35,10 @@ class SubIntake : public frc2::SubsystemBase {
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
-  ICSparkMax<> _DeployMotor{canid::deployMotor};
+  ICSparkMax<> _DeployMotor{canid::deployMotor, 2_A};
   frc::DigitalInput _coneSensor{dio::coneSensor};
 
-  static constexpr double P = 1.0;
+  static constexpr double P = 0.2;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;

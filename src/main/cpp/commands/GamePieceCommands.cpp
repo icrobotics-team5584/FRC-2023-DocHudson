@@ -30,11 +30,7 @@ frc2::CommandPtr Intake() {
            SubIntake::GetInstance().IntakeRight();
            SubClaw::GetInstance().ClawUnclamped();
          })
-      .AlongWith(ArmPickUp())
-      .HandleInterrupt([] {
-        static auto stopCommand = ClawClose().AlongWith(ClawClose());
-        stopCommand.Schedule();
-      });
+      .AlongWith(ArmPickUp());
 }
 
 frc2::CommandPtr StowGamePiece() {
