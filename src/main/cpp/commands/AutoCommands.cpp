@@ -16,7 +16,7 @@ namespace cmd {
         std::unordered_map<std::string, std::vector<PathConstraints>> {
         };
 
-        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{4_mps, 2_mps_sq}, {4_mps, 2_mps_sq}});
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{2_mps, 2_mps_sq}, {2_mps, 2_mps_sq}});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -58,8 +58,8 @@ namespace cmd {
             [MirrorPose] (frc::Pose2d pose) {
                 SubDriveBase::GetInstance().SetPose(MirrorPose(pose));
             },
-            {1.5, 0, 0},
-            {1.5, 0, 0}, // pid value for rotation
+            {2, 0, 0},
+            {1, 0, 0}, // pid value for rotation
             [MirrorPose] (frc::ChassisSpeeds speeds) {
                 if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) {
                     SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
