@@ -31,6 +31,7 @@ class SubIntake : public frc2::SubsystemBase {
   void DeployIntake();
   void RetractIntake();
   bool SensesCone();
+  bool CheckReach();
   
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
