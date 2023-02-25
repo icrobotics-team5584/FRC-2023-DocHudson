@@ -85,6 +85,7 @@ namespace cmd {
             .AndThen(ClawExpand())
             .AndThen(frc2::cmd::Wait(0.5_s))
             .AndThen(ClawRetract())
+            .AndThen(ArmToSafePosition())
             .AndThen(ArmPickUp());
     }
 }

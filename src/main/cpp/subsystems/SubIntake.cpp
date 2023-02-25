@@ -63,3 +63,7 @@ void SubIntake::Stop() {
 bool SubIntake::SensesCone() {
   return _coneSensor.Get();
 }
+
+bool SubIntake::CheckReach() {
+  return units::math::abs(_DeployMotor.GetPosError()) < 1_tr;
+}
