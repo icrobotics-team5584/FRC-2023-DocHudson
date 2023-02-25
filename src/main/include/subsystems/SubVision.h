@@ -26,30 +26,35 @@ struct Measurement {
 class SubVision : public frc2::SubsystemBase {
  public:
   SubVision();
-  static SubVision &GetInstance() {static SubVision inst; return inst;}
+  static SubVision& GetInstance() {
+    static SubVision inst;
+    return inst;
+  }
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
   void SimulationPeriodic() override;
-  std::optional <Measurement> GetMeasurement();
- private:
+  std::optional<Measurement> GetMeasurement();
 
-std::shared_ptr<photonlib::PhotonCamera> _camera{new photonlib::PhotonCamera{"limelight"}};
+ private:
+  std::shared_ptr<photonlib::PhotonCamera> _camera{
+      new photonlib::PhotonCamera{"limelight"}};
   const units::meter_t CAMERA_HEIGHT = 665_mil;
   const units::degree_t CAMERA_PITCH = 2_deg;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   frc::Transform3d _camToBot{{-115_mm, 30_mm, -665_mm}, {}};
 
-  std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory()+"/AprilTags.json"}};
+  std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{
+      new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory() +
+                                   "/AprilTags.json"}};
 
   photonlib::RobotPoseEstimator _visionPoseEstimator{
-    _tagLayout, 
-  photonlib::PoseStrategy::LOWEST_AMBIGUITY,
-  {{_camera, _camToBot.Inverse()}}
-};
+      _tagLayout,
+      photonlib::PoseStrategy::CLOSEST_TO_REFERENCE_POSE,
+      {{_camera, _camToBot.Inverse()}}};
 
-photonlib::SimVisionSystem _visionSim{"limelight", 45_deg, _camToBot, 15_m, 360, 240, 0.0001};
-
+  photonlib::SimVisionSystem _visionSim{"limelight", 45_deg, _camToBot, 15_m,
+                                        360,         240,    0.0001};
 };

@@ -9,7 +9,7 @@ namespace cmd{
 
     frc2::CommandPtr ArmToSafePosition() {
         if (SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm) {
-            return ArmToPos(60_cm,110_cm);
+            return ArmToPos(50_cm,110_cm);
         }
         return None();
     }

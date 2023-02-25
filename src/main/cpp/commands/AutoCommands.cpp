@@ -13,9 +13,6 @@ namespace cmd {
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
 
-        std::unordered_map<std::string, std::vector<PathConstraints>> {
-        };
-
         auto pathGroup = PathPlanner::loadPathGroup(pathName , {{2_mps, 2_mps_sq}, {2_mps, 2_mps_sq}});
 
         int pathNum = 0;
@@ -31,6 +28,8 @@ namespace cmd {
             {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
             {"StartOuttake", Outtake().Unwrap() },
             {"StopOuttake", StopOuttake().Unwrap() },
+            {"ClawClose", ClawClose().Unwrap()},
+            {"ClawExpand", ClawExpand().Unwrap()},
 
             {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
 
@@ -79,7 +78,7 @@ namespace cmd {
     frc2::CommandPtr ScorePos (frc2::CommandPtr && scoreCommand) {
         using namespace frc2::cmd;
 
-        return RunOnce([]{ClawRetract();})
+        return ClawClose()
             .AndThen(std::forward<frc2::CommandPtr>(scoreCommand))
             .AndThen(frc2::cmd::Wait(0.5_s))
             .AndThen(ClawExpand())
