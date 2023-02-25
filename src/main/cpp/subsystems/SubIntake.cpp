@@ -40,11 +40,11 @@ void SubIntake::RetractIntake() {
 }
 
 void SubIntake::IntakeLeft() {
-  _leftMotor.Set(-0.3);
+  _leftMotor.Set(-0.5);
 }
 
 void SubIntake::IntakeRight() {
-  _rightMotor.Set(0.3);
+  _rightMotor.Set(0.5);
 }
 
 void SubIntake::OuttakeLeft() {
