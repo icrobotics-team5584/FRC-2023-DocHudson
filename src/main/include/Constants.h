@@ -5,7 +5,6 @@
 #pragma once
 
 namespace canivore {
-    // drive base id: 1 - 19
   constexpr int DriveBaseFrontLeftDrive = 7;
   constexpr int DriveBaseFrontLeftTurn = 8;
   constexpr int DriveBaseFrontLeftEncoder = 10;
@@ -21,17 +20,15 @@ namespace canivore {
   constexpr int DriveBaseBackRightDrive = 3;
   constexpr int DriveBaseBackRightTurn = 4;
   constexpr int DriveBaseBackRightEncoder = 9;
-
 }
 
 namespace canid {
-
-    // Intake id: 01 - 09
+  // Intake id: 01 - 09
   constexpr int leftMotor = 1;
   constexpr int rightMotor = 2;
   constexpr int deployMotor = 3;
   
-    // Arm id: 10 - 19
+  // Arm id: 10 - 19
   constexpr int armMotorBottom = 10;
   constexpr int armMotorBottomFollow = 11;
   constexpr int armMotorTop = 12;
@@ -39,19 +36,6 @@ namespace canid {
 
   //Claw id: 20-29
   constexpr int clawMotor1 = 20;
-
-}
-namespace pcm {
-  constexpr int ClawGrabLeft = 4; 
-  constexpr int ClawGrabRight = 5;
-  constexpr int ClawRealeseLeft = 6;
-  constexpr int ClawRealeseRight = 7;
-  constexpr int leftBumperExtend = 2;
-  constexpr int leftBumperRetract = 1;
-  constexpr int rightBumperExtend = 0;
-  constexpr int rightBumperRetract = 3;
-  constexpr int intakeExtend = 8;
-  constexpr int intakeRetract = 9;
 }
  
 namespace dio {
@@ -59,4 +43,8 @@ namespace dio {
     constexpr int breakModeSwitch = 8;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
+}
+
+namespace pwm {
+  constexpr int LEDs = 0;
 }
