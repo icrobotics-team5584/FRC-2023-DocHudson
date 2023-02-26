@@ -4,6 +4,7 @@
 #include "utilities/Grids.h"
 #include "RobotContainer.h"
 #include "subsystems/SubLED.h"
+#include <frc/DriverStation.h>
 
 namespace cmd {
 using namespace frc2::cmd;
@@ -12,7 +13,7 @@ frc2::CommandPtr AddVisionMeasurement() {
   return Run(
       [] {
         auto result = SubVision::GetInstance().GetMeasurement();
-        if (result.has_value()) {
+        if (result.has_value() && frc::DriverStation::IsTeleop()) {
           auto [pose, timeStamp, ambiguity] = result.value();
           SubDriveBase::GetInstance().AddVisionMeasurement(
               pose.ToPose2d(), ambiguity, timeStamp);
