@@ -11,7 +11,7 @@
 #include <frc/apriltag/AprilTagFieldLayout.h>
 #include <frc/apriltag/AprilTagFields.h>
 #include <map>
-#include <photonlib/RobotPoseEstimator.h>
+#include <photonlib/PhotonPoseEstimator.h>
 #include <photonlib/SimPhotonCamera.h>
 #include <photonlib/SimVisionSystem.h>
 #include <photonlib/SimVisionTarget.h>
@@ -32,24 +32,22 @@ class SubVision : public frc2::SubsystemBase {
    */
   void Periodic() override;
   void SimulationPeriodic() override;
-  std::optional <Measurement> GetMeasurement();
+  std::optional<photonlib::EstimatedRobotPose> GetMeasurement();
+
  private:
+  std::string CAM_NAME = "arducam";
 
-std::shared_ptr<photonlib::PhotonCamera> _camera{new photonlib::PhotonCamera{"limelight"}};
-  const units::meter_t CAMERA_HEIGHT = 665_mil;
-  const units::degree_t CAMERA_PITCH = 2_deg;
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
-  frc::Transform3d _camToBot{{-115_mm, 30_mm, -665_mm}, {}};
+  // frc::Transform3d _camToBot{{-112_mm, 48_mm, -643_mm}, {}}; // limelight
+  frc::Transform3d _camToBot{{-112_mm, 41_mm, -680_mm}, {}}; // arducam
+  
+  frc::AprilTagFieldLayout _tagLayout{frc::filesystem::GetDeployDirectory() + "/AprilTags.json"};
 
-  std::shared_ptr<frc::AprilTagFieldLayout> _tagLayout{new frc::AprilTagFieldLayout{frc::filesystem::GetDeployDirectory()+"/AprilTags.json"}};
+  photonlib::PhotonPoseEstimator _visionPoseEstimator{
+      _tagLayout,
+      photonlib::PoseStrategy::MULTI_TAG_PNP,
+      photonlib::PhotonCamera{CAM_NAME},
+      _camToBot.Inverse()};
 
-  photonlib::RobotPoseEstimator _visionPoseEstimator{
-    _tagLayout, 
-  photonlib::PoseStrategy::LOWEST_AMBIGUITY,
-  {{_camera, _camToBot.Inverse()}}
-};
-
-photonlib::SimVisionSystem _visionSim{"limelight", 45_deg, _camToBot, 15_m, 360, 240, 0.0001};
-
+  photonlib::SimVisionSystem _visionSim{CAM_NAME, 45_deg, _camToBot, 15_m,
+                                        360,         240,    0.0001};
 };

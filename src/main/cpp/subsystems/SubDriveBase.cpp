@@ -133,7 +133,7 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
   if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed) {
     Drive(-speedX*1_mps, -speedY*1_mps, speedRot*1_rad_per_s, true);
   } else {
-  Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
+    Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
   }
 }
 
@@ -169,10 +169,8 @@ void SubDriveBase::DisplayTrajectory(std::string name, frc::Trajectory trajector
 }
   
 void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t timeStamp){
-    DisplayPose("EstimatedPose", pose);
-    if (ambiguity < 0.15) {
-    _poseEstimator.AddVisionMeasurement(pose, timeStamp);
-    }
+  frc::SmartDashboard::PutNumber("Timestamp", timeStamp.value());
+  _poseEstimator.AddVisionMeasurement(pose, timeStamp);
 }
 
 void SubDriveBase::SetNeutralMode(NeutralMode mode) {
