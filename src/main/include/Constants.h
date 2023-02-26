@@ -40,7 +40,7 @@ namespace canid {
  
 namespace dio {
     constexpr int armBottomSensor = 9;
-    constexpr int breakModeSwitch = 8;
+    constexpr int breakModeSwitch = 6;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
 }
