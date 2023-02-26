@@ -26,10 +26,6 @@ frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
              [=] {
                SubLED::autoDriving = true;
                SubDriveBase::GetInstance().DriveToPose(targetPoseGetter());
-               frc::SmartDashboard::PutNumber("X Pose",
-                                              targetPoseGetter().X().value());
-               frc::SmartDashboard::PutNumber("Y Pose",
-                                              targetPoseGetter().Y().value());
              },
              {&SubDriveBase::GetInstance()})
       .Until([=] {
