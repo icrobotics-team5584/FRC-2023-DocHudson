@@ -22,6 +22,7 @@
 #include "subsystems/SubClaw.h"
 #include "subsystems/SubIntake.h"
 #include "utilities/Grids.h"
+#include <frc/DigitalInput.h>
 
 
 
@@ -40,6 +41,8 @@ class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController _driverController{0};
   frc2::CommandGenericHID _secondController{1};
+
+  frc::DigitalInput _breakModeSwitch{dio::breakModeSwitch};
   
   void ConfigureBindings();
   void SetConeMode();

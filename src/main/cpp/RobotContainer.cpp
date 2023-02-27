@@ -15,7 +15,9 @@
 #include "subsystems/SubArm.h"
 #include "utilities/Grids.h"
 #include "commands/AutoCommands.h"
+#include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
+#include <frc/DriverStation.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -28,6 +30,7 @@ RobotContainer::RobotContainer() {
   SubIntake::GetInstance();
   SubArm::GetInstance();
   SubClaw::GetInstance();
+  SubLED::GetInstance();
 
   // Configure button bindings
   ConfigureBindings();
@@ -43,11 +46,11 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings() {
 
   using namespace frc2::cmd;
-  
-  //navx
+
+  // Navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
-//note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
+  // Note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(4+1).WhileTrue(cmd::Score(grids::Column::Left, grids::Height::Low));
   _secondController.Button(5+1).WhileTrue(cmd::Score(grids::Column::Middle, grids::Height::Low));
   _secondController.Button(6+1).WhileTrue(cmd::Score(grids::Column::Right, grids::Height::Low));
@@ -62,31 +65,49 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
   _driverController.X().OnTrue(RunOnce([] {GridSelect = grids::Grid::LS}).AndThen(cmd::Score(grids::Column::LS)).AndThen(SubClaw::ClawClamped()));
 
-
-  //arm
+  // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
-  _driverController.B().OnTrue(cmd::ArmToLowCubeOrCone());
-
+  _driverController.B().OnTrue(cmd::ArmPickUp());
   _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+
+  // Claw
+  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
+  _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+  _driverController.A().OnTrue(cmd::ClawToggle());
   
-  //claw
-   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
-   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
-   _driverController.A().OnTrue(cmd::ClawOpen());
-   //_driverController.A().OnTrue(isConeMode = False);
-   
-   
-  //intake
-   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
-   _driverController.RightTrigger().WhileTrue(cmd::Intake());
+  // Intake
+  _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
+  _driverController.RightTrigger().OnTrue(cmd::Intake());
+  _driverController.RightTrigger().OnFalse(cmd::ClawClose().AlongWith(cmd::StopIntake()));
+
+  // Coast mode override toggle
+  frc2::Trigger([] { return frc::RobotController::GetUserButton(); })
+      .ToggleOnTrue(StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
+
   
-  //arduino
-  //note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
+  frc2::Trigger([this] { return _breakModeSwitch.Get(); })
+      .ToggleOnTrue(StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
 }
-  
+
 
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("PreConeH");
+  return cmd::PPDrivePath("Test");
 }

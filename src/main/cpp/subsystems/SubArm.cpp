@@ -33,10 +33,10 @@ SubArm::SubArm() {
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
 
-  _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-  _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+  _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
   // uncomment me to use absolute encoder
   // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
@@ -52,7 +52,9 @@ SubArm::SubArm() {
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/top arm true angle", _armMotorTop.GetPosition().value() - _armMotorBottom.GetPosition().value());
-  
+  auto EEPos = GetEndEffectorPosition();
+  frc::SmartDashboard::PutNumber("Arm/Current X", EEPos.X().value());
+  frc::SmartDashboard::PutNumber("Arm/Current Y", EEPos.Y().value());
   DashboardInput();
 }
 
@@ -123,6 +125,14 @@ void SubArm::SimulationPeriodic() {
   _arm2Ligament->SetAngle(x_coord - armAngle);
 }
 
+frc::Translation2d SubArm::GetEndEffectorPosition() {
+  frc::Rotation2d topRotation {units::radian_t{_armMotorTop.GetPosition()}};
+  frc::Rotation2d bottomRotation {units::radian_t{_armMotorBottom.GetPosition()}};
+  frc::Translation2d topPos {ARM_LENGTH_2, topRotation};
+  frc::Translation2d bottomPos { ARM_LENGTH, bottomRotation };
+  return topPos + bottomPos;
+}
+
 void SubArm::ArmResettingPos() {
   _armMotorBottom.SetPosition(126.33_deg);
   _armMotorTop.SetPosition(units::degree_t{126.33 - 166.79});
@@ -132,4 +142,11 @@ bool SubArm::CheckPosition() {
   bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
   bool s2 = units::math::abs(_armMotorTop.GetPosition() - targetTopAngle) < 0.05_rad;
   return s1 && s2;
+}
+
+void SubArm::SetIdleMode(rev::CANSparkMax::IdleMode idleMode) {
+  _armMotorTop.SetIdleMode(idleMode);
+  _armMotorBottom.SetIdleMode(idleMode);
+  _armMotorTopFollow.SetIdleMode(idleMode);
+  _armMotorBottomFollow.SetIdleMode(idleMode);
 }

@@ -3,6 +3,8 @@
 #include "subsystems/SubVision.h"
 #include "utilities/Grids.h"
 #include "RobotContainer.h"
+#include "subsystems/SubLED.h"
+#include <frc/DriverStation.h>
 
 namespace cmd {
 using namespace frc2::cmd;
@@ -11,7 +13,7 @@ frc2::CommandPtr AddVisionMeasurement() {
   return Run(
       [] {
         auto result = SubVision::GetInstance().GetMeasurement();
-        if (result.has_value()) {
+        if (result.has_value() && frc::DriverStation::IsTeleop()) {
           auto [pose, timeStamp, ambiguity] = result.value();
           SubDriveBase::GetInstance().AddVisionMeasurement(
               pose.ToPose2d(), ambiguity, timeStamp);
@@ -20,16 +22,21 @@ frc2::CommandPtr AddVisionMeasurement() {
       {&SubVision::GetInstance()});
 }
 
-
 frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
-  return Run([=] { SubDriveBase::GetInstance().DriveToPose(targetPoseGetter()); 
-                    frc::SmartDashboard::PutNumber("X Pose", targetPoseGetter().X().value());
-                    frc::SmartDashboard::PutNumber("Y Pose", targetPoseGetter().Y().value());
-},
+  return Run(
+             [=] {
+               SubLED::autoDriving = true;
+               SubDriveBase::GetInstance().DriveToPose(targetPoseGetter());
+               frc::SmartDashboard::PutNumber("X Pose",
+                                              targetPoseGetter().X().value());
+               frc::SmartDashboard::PutNumber("Y Pose",
+                                              targetPoseGetter().Y().value());
+             },
              {&SubDriveBase::GetInstance()})
       .Until([=] {
         return SubDriveBase::GetInstance().IsAtPose(targetPoseGetter());
-      });
+      })
+      .FinallyDo([](bool _) { SubLED::autoDriving = false; });
 }
 
 }  // namespace cmd

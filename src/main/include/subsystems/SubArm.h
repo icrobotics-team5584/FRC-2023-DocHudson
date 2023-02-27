@@ -35,8 +35,10 @@ class SubArm : public frc2::SubsystemBase {
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
   void ArmResettingPos();
-
+  frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
+
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
 
 
  private:
@@ -63,7 +65,7 @@ class SubArm : public frc2::SubsystemBase {
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL = 7_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL = 9_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 0.9_m;
@@ -79,7 +81,7 @@ class SubArm : public frc2::SubsystemBase {
   
   static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL_2 = 7_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL_2 = 9_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
@@ -95,7 +97,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH,
     MIN_ANGLE,
     MAX_ANGLE,
-    ARM_MASS_1,
     false,
   };
 
@@ -107,7 +108,6 @@ class SubArm : public frc2::SubsystemBase {
     ARM_LENGTH_2,
     MIN_ANGLE_2,
     MAX_ANGLE_2,
-    ARM_MASS_2,
     false,
   };
 
