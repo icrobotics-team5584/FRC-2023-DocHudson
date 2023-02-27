@@ -12,11 +12,18 @@ using namespace frc2::cmd;
 frc2::CommandPtr AddVisionMeasurement() {
   return Run(
       [] {
-        auto result = SubVision::GetInstance().GetMeasurement();
-        if (result.has_value() && frc::DriverStation::IsTeleop()) {
-          auto [pose, timeStamp, ambiguity] = result.value();
+        auto estimatedPose = SubVision::GetInstance().GetMeasurement();
+        frc::SmartDashboard::PutBoolean("Vision/is teleop", frc::DriverStation::IsTeleop());
+        frc::SmartDashboard::PutBoolean("Vision/has value", estimatedPose.has_value());
+        if (estimatedPose.has_value() && frc::DriverStation::IsTeleop()) {
+          auto estimatedPoseValue = estimatedPose.value();
           SubDriveBase::GetInstance().AddVisionMeasurement(
-              pose.ToPose2d(), ambiguity, timeStamp);
+              estimatedPoseValue.estimatedPose.ToPose2d(), 0,
+              estimatedPoseValue.timestamp);
+          SubDriveBase::GetInstance().DisplayPose(
+              "EstimatedPose", estimatedPoseValue.estimatedPose.ToPose2d());
+        } else {
+          SubDriveBase::GetInstance().DisplayPose("EstimatedPose", {});
         }
       },
       {&SubVision::GetInstance()});
@@ -27,10 +34,6 @@ frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
              [=] {
                SubLED::autoDriving = true;
                SubDriveBase::GetInstance().DriveToPose(targetPoseGetter());
-               frc::SmartDashboard::PutNumber("X Pose",
-                                              targetPoseGetter().X().value());
-               frc::SmartDashboard::PutNumber("Y Pose",
-                                              targetPoseGetter().Y().value());
              },
              {&SubDriveBase::GetInstance()})
       .Until([=] {

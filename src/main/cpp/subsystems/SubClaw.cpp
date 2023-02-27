@@ -8,6 +8,8 @@ SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
+  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+
   _clawMotor1.SetClosedLoopControlType(rev::CANSparkMax::ControlType::kPosition);
   _clawMotor1.SetPIDFF(P, I, D, F);
 

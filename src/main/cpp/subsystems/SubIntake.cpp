@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/SubIntake.h"
-
+#include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 SubIntake::SubIntake() {
@@ -39,12 +39,16 @@ void SubIntake::RetractIntake() {
   _DeployMotor.SetPositionTarget(0_tr);
 }
 
+double SubIntake::GetIntakeSpeed() {
+  return RobotContainer::isConeMode ? 1 : 0.5;
+}
+
 void SubIntake::IntakeLeft() {
-  _leftMotor.Set(-0.5);
+  _leftMotor.Set(-GetIntakeSpeed());
 }
 
 void SubIntake::IntakeRight() {
-  _rightMotor.Set(0.5);
+  _rightMotor.Set(GetIntakeSpeed());
 }
 
 void SubIntake::OuttakeLeft() {
