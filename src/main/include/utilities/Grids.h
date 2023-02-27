@@ -5,7 +5,7 @@
 
 namespace grids {
 
-enum class Grid { LS, Left, Middle, Right };
+enum class Grid { LS, Left, Middle, Right, Neutral};
 enum class Column { Left, Middle, Right, LS};
 enum class Height { High, Middle, Low, LS };
 
