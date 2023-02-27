@@ -1,8 +1,10 @@
 #include "commands/ArmCommands.h"
 #include "subsystems/SubArm.h"
+#include "subsystems/SubIntake.h"
+#include "subsystems/SubDrivebase.h"
 #include "units/length.h"
 #include "RobotContainer.h"
-#include "subsystems/SubIntake.h"
+#include <frc/DriverStation.h>
 
 namespace cmd{
     using namespace frc2::cmd;
@@ -70,5 +72,17 @@ namespace cmd{
             eePos = eePos + frc::Translation2d(xSpeed*1_mm, ySpeed*1_mm);
             SubArm::GetInstance().ArmPos(eePos.X(), eePos.Y());
         });
+    }
+
+    frc2::CommandPtr CoastModeOverride() {
+        return StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();});
     }
 }

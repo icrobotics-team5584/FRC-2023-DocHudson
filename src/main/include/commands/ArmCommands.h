@@ -25,4 +25,6 @@ namespace cmd {
     frc2::CommandPtr ArmToPos(auto x, auto y);
 
     frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed);
+
+    frc2::CommandPtr CoastModeOverride();
 }

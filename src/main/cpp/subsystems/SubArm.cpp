@@ -27,6 +27,8 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/Bottom grav comp", 0);
+  frc::SmartDashboard::PutNumber("Arm/Top grav comp", 0);
 
   _armMotorTop.SetInverted(true);
 
@@ -40,6 +42,11 @@ SubArm::SubArm() {
 
   // uncomment me to use absolute encoder
   // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
+
+  _bottomArmGravFFMap.insert(0_tr, 1_V);      // When top arm is at 0_tr, bottom arm uses 1_V as its grav FF
+  _bottomArmGravFFMap.insert(-0.1_tr, 0.7_V); // When top arm is at 0.1_tr, bottom arm uses 0.7_V as its grav FF
+  _bottomArmGravFFMap.insert(-0.2_tr, 0.4_V); // etc..
+  _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
   frc2::Trigger([this] {
@@ -56,6 +63,22 @@ void SubArm::Periodic() {
   frc::SmartDashboard::PutNumber("Arm/Current X", EEPos.X().value());
   frc::SmartDashboard::PutNumber("Arm/Current Y", EEPos.Y().value());
   DashboardInput();
+
+  // Update gravity comp FF
+  // Use zero for vel factor since we are only using these feedforward objects
+  // for the gravity factor. Vel and accel is handeled by Spark Max Smart Motion.
+  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", 0)*1_V;
+  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", 0)*1_V;
+  //_bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
+  auto topGravFF = _topArmGravityFF.Calculate(_armMotorTop.GetPosition(), 0_rad_per_s);
+  auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
+  if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
+    _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
+    _armMotorBottom.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), bottomGravFF);
+  } else {
+    _armMotorTop.SetVelocityTarget(0_rad_per_s, topGravFF);
+    _armMotorBottom.SetVelocityTarget(0_rad_per_s, bottomGravFF);
+  } 
 }
 
 void SubArm::DashboardInput(){
