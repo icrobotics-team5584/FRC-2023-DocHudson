@@ -7,6 +7,7 @@
 #include <frc/MathUtil.h>
 #include <frc/RobotBase.h>
 #include <units/time.h> 
+#include <frc/DriverStation.h>
 
 SubDriveBase::SubDriveBase(){
   _gyro.Calibrate();
@@ -116,26 +117,29 @@ void SubDriveBase::UpdateOdometry() {
 }
 
 void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
+  DisplayPose("targetPose", targetPose);
+
   frc::Pose2d currentPosition = _poseEstimator.GetEstimatedPosition();
   double speedX = Xcontroller.Calculate(currentPosition.X().value(), targetPose.X().value());
   double speedY = Ycontroller.Calculate(currentPosition.Y().value(), targetPose.Y().value());
   double speedRot = Rcontroller.Calculate(currentPosition.Rotation().Radians(), targetPose.Rotation().Radians()); 
+  
   speedX = std::clamp(speedX, -0.5, 0.5);
   speedY = std::clamp(speedY, -0.5, 0.5);
   speedRot = std::clamp(speedRot, -2.0, 2.0);
-  Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
-  frc::SmartDashboard::PutNumber( "Yspeed", speedY);
-  frc::SmartDashboard::PutNumber("Xspeed", speedX );
+
+  // Drive speeds are relative to your alliance wall. Flip if we are on red, 
+  // since we are using global coordinates (blue alliance at 0,0)
+  if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed) {
+    Drive(-speedX*1_mps, -speedY*1_mps, speedRot*1_rad_per_s, true);
+  } else {
+    Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
+  }
 }
 
 bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   auto currentPose = _poseEstimator.GetEstimatedPosition();
-  return (currentPose.Translation().Distance(pose.Translation()) < 5_cm);
-}
-
-void SubDriveBase::DriveToPathPoint(frc::Pose2d& pos, units::meters_per_second_t vel, frc::Rotation2d& rot) {
-  auto driveSpeeds = _driveController.Calculate(_poseEstimator.GetEstimatedPosition(), pos, vel, rot);
-  Drive(driveSpeeds.vx, driveSpeeds.vy, driveSpeeds.omega, true);
+  return (currentPose.Translation().Distance(pose.Translation()) < 3_cm);
 }
 
 void SubDriveBase::ResetGyroHeading() {
@@ -165,10 +169,8 @@ void SubDriveBase::DisplayTrajectory(std::string name, frc::Trajectory trajector
 }
   
 void SubDriveBase::AddVisionMeasurement(frc::Pose2d pose, double ambiguity, units::second_t timeStamp){
-    DisplayPose("EstimatedPose", pose);
-    if (ambiguity < 0.15) {
-    _poseEstimator.AddVisionMeasurement(pose, timeStamp);
-    }
+  frc::SmartDashboard::PutNumber("Timestamp", timeStamp.value());
+  _poseEstimator.AddVisionMeasurement(pose, timeStamp);
 }
 
 void SubDriveBase::SetNeutralMode(NeutralMode mode) {

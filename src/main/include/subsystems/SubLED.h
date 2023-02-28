@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/AddressableLED.h>
 #include <array>
+#include <constants.h>
 
 class SubLED : public frc2::SubsystemBase {
  public:
@@ -28,7 +29,7 @@ class SubLED : public frc2::SubsystemBase {
  private:
   static constexpr int kLength = 31;
 
-  frc::AddressableLED m_led{9};
+  frc::AddressableLED m_led{pwm::LEDs};
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
 
   int firstPixelHue = 0;
