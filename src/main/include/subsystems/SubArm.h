@@ -33,25 +33,28 @@ class SubArm : public frc2::SubsystemBase {
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
-  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
   void ArmResettingPos();
+
+  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
-
-  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
-
+  units::turn_t GetBottomToTopArmAngle();
+  units::turn_t GetGroundToTopArmAngle();
 
  private:
+  units::turn_t TopArmAngleToEncoderAngle(units::turn_t topArmAngle);
+
   // motors
   ICSparkMax<> _armMotorBottom{canid::armMotorBottom};
   ICSparkMax<> _armMotorTop{canid::armMotorTop};
   ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
   ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
 
-  // rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
-  //     rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+  rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
+      rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   //sensors
   frc::DigitalInput _topSensor{dio::armTopSensor};
@@ -64,9 +67,11 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 30;
-  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
-  // make a map from angles of top arm to grav FF values to use on bottom arm:
+
+  // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
+  // on the position of the top arm and the Gravity FF Map.
   wpi::interpolating_map<units::degree_t, units::volt_t> _bottomArmGravFFMap; 
+  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim

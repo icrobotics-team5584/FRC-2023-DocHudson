@@ -31,8 +31,8 @@ namespace canid {
   // Arm id: 10 - 19
   constexpr int armMotorBottom = 10;
   constexpr int armMotorBottomFollow = 11;
-  constexpr int armMotorTop = 12;
-  constexpr int armMotorTopFollow = 13;
+  constexpr int armMotorTop = 13;
+  constexpr int armMotorTopFollow = 12;
 
   //Claw id: 20-29
   constexpr int clawMotor1 = 20;
@@ -43,6 +43,7 @@ namespace dio {
     constexpr int breakModeSwitch = 6;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
+    constexpr int clawSensor = 8;
 }
 
 namespace pwm {
