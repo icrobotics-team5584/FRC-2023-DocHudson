@@ -3,26 +3,43 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/SubClaw.h"
+#include <frc2/command/commands.h>
+#include <frc2/command/button/Trigger.h>
 
 SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
-  _clawMotor1.SetClosedLoopControlType(rev::CANSparkMax::ControlType::kPosition);
+  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+
+  _clawMotor1.SetClosedLoopControlType(
+      rev::CANSparkMax::ControlType::kPosition);
   _clawMotor1.SetPIDFF(P, I, D, F);
 
-  _clawMotor1.UseAbsoluteEncoder(_clawEncoder);
-  _clawMotor1.EnableSensorWrapping(0, 1);
+  // uncomment me to use absolute encoder
+  //_clawMotor1.UseAbsoluteEncoder(_clawEncoder);
+  //_clawMotor1.EnableSensorWrapping(0, 1);
+
   _clawMotor1.SetPosition(0_tr);
+
+  frc2::Trigger([this] {
+    return _clawLocatingSwitch.Get();
+  }).OnTrue(frc2::cmd::RunOnce([this] {
+              LocateClawOnSwitch();
+            }).IgnoringDisable(true));
 }
 
 // This method will be called once per scheduler runte
 void SubClaw::Periodic() {
-  frc::SmartDashboard::PutNumber("Claw/Abs encoder pos", _clawEncoder.GetPosition());
-  frc::SmartDashboard::PutNumber("Claw/current", _clawMotor1.GetOutputCurrent());
-  frc::SmartDashboard::PutNumber("Claw/duty cycle", _clawMotor1.GetAppliedOutput());
-  frc::SmartDashboard::PutNumber("Claw/is open", IsTryingToUnclamp());
-  frc::SmartDashboard::PutNumber("Claw/distance from open", std::abs(_clawEncoder.GetPosition() - CONE_CLAMPED_POS.value()));
+  frc::SmartDashboard::PutNumber("Claw/current",
+                                 _clawMotor1.GetOutputCurrent());
+  frc::SmartDashboard::PutNumber("Claw/duty cycle",
+                                 _clawMotor1.GetAppliedOutput());
+  frc::SmartDashboard::PutNumber("Claw/is unclamped", IsTryingToUnclamp());
+
+  // uncomment me to use absolute encoder
+  // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
+  // _clawEncoder.GetPosition());
 }
 
 void SubClaw::SimulationPeriodic() {
@@ -45,5 +62,9 @@ void SubClaw::ClawUnclamped() {
 }
 
 bool SubClaw::IsTryingToUnclamp() {
-  return _clawMotor1.GetPositionTarget() == UNCLAMPED_POS; 
+  return _clawMotor1.GetPositionTarget() == UNCLAMPED_POS;
+}
+
+void SubClaw::LocateClawOnSwitch() {
+  _clawMotor1.SetPosition(0_tr);
 }
