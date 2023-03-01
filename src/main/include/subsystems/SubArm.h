@@ -17,6 +17,8 @@
 #include <rev/SparkMaxAbsoluteEncoder.h>
 #include "Constants.h"
 #include <frc/DigitalInput.h>
+#include <frc/controller/ArmFeedforward.h>
+#include <wpi/interpolating_map.h>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -31,25 +33,28 @@ class SubArm : public frc2::SubsystemBase {
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
-  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
+  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
   void ArmResettingPos();
+
+  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
-
-  void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
-
+  units::turn_t GetBottomToTopArmAngle();
+  units::turn_t GetGroundToTopArmAngle();
 
  private:
+  units::turn_t TopArmAngleToEncoderAngle(units::turn_t topArmAngle);
+
   // motors
   ICSparkMax<> _armMotorBottom{canid::armMotorBottom};
   ICSparkMax<> _armMotorTop{canid::armMotorTop};
   ICSparkMax<> _armMotorTopFollow{canid::armMotorTopFollow};
   ICSparkMax<> _armMotorBottomFollow{canid::armMotorBottomFollow};
 
-  // rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
-  //     rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+  rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
+      rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
   //sensors
   frc::DigitalInput _topSensor{dio::armTopSensor};
@@ -62,14 +67,18 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 30;
+
+  // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
+  // on the position of the top arm and the Gravity FF Map.
+  wpi::interpolating_map<units::degree_t, units::volt_t> _bottomArmGravFFMap; 
+  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL = 7_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL = 9_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 0.9_m;
-  // static constexpr units::kilogram_square_meter_t MOI = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE = 180_deg; // only sim
 
@@ -77,15 +86,15 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 30;
+  static constexpr double F_2 = 15;
+  frc::ArmFeedforward _topArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL_2 = 7_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL_2 = 9_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
-  // static constexpr units::kilogram_square_meter_t MOI_2 = 1_kg_sq_m; // only sim
   static constexpr units::degree_t MIN_ANGLE_2 = -180_deg; // only sim
   static constexpr units::degree_t MAX_ANGLE_2 = 180_deg; // only sim
 
