@@ -29,12 +29,16 @@ frc2::CommandPtr ClawToggle() {
 }
 
 frc2::CommandPtr Intake() {
+  return ClawGrabCone().AndThen(ArmPickUp())
+      .AlongWith(DeployIntake().AndThen(ClawExpand()));
+}
+
+frc2::CommandPtr DeployIntake(){
   return RunOnce([] {
            SubIntake::GetInstance().DeployIntake();
            SubIntake::GetInstance().IntakeLeft();
            SubIntake::GetInstance().IntakeRight();
-         })
-      .AlongWith(ClawGrabCone().AndThen(ArmPickUp()).AndThen(ClawExpand()));
+         }).AndThen(WaitUntil( [] { return SubIntake::GetInstance().CheckReach();}));
 }
 
 frc2::CommandPtr StowGamePiece() {

@@ -25,15 +25,13 @@ bool RobotContainer::isConeMode = true;
 grids::Grid RobotContainer::GridSelect = grids::Grid::Neutral;
 
 RobotContainer::RobotContainer() {
-  // Initializing Commmands
- 
-
+  // Initializing Subsystems
   SubIntake::GetInstance();
   SubArm::GetInstance();
   SubClaw::GetInstance();
   SubLED::GetInstance();
 
-  // Configure button bindings
+  // Configure command bindings
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
@@ -94,28 +92,9 @@ void RobotContainer::ConfigureBindings() {
   _driverController.RightTrigger().OnFalse(cmd::ClawClose().AlongWith(cmd::StopIntake()));
 
   // Coast mode override toggle
-  frc2::Trigger([] { return frc::RobotController::GetUserButton(); })
-      .ToggleOnTrue(StartEnd(
-          [] {
-            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
-            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-          },
-          [] {
-            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
-            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
-
-  
-  frc2::Trigger([this] { return _breakModeSwitch.Get(); })
-      .ToggleOnTrue(StartEnd(
-          [] {
-            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
-            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-          },
-          [] {
-            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
-            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();}));
+  frc2::Trigger([&] {
+    return frc::RobotController::GetUserButton() || _breakModeSwitch.Get();
+  }).ToggleOnTrue(cmd::CoastModeOverride());
 }
 
 

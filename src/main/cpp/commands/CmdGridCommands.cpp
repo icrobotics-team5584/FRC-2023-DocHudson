@@ -45,9 +45,7 @@ frc2::CommandPtr Score(grids::Column column, grids::Height height) {
            }
            return SubDriveBase::GetInstance().GetPose();
          })
-      .AlongWith(ArmToScoringHeight(height))
-      .AndThen(ClawExpand());
-      
+      .AlongWith(ArmToScoringHeight(height));
 }
 }  // namespace cmd
    // namespace cmd

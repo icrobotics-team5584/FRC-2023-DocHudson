@@ -6,31 +6,25 @@
 #include "subsystems/SubDriveBase.h"
 #include <fmt/format.h>
 
-
-
 SubVision::SubVision() {
-     for (int i=0; i<=8; i++) {
-    auto pose = _tagLayout->GetTagPose(i);
+  _visionPoseEstimator.SetMultiTagFallbackStrategy(photonlib::LOWEST_AMBIGUITY);
+  for (int i = 0; i <= 8; i++) {
+    auto pose = _tagLayout.GetTagPose(i);
     if (pose.has_value()) {
       photonlib::SimVisionTarget simTag{pose.value(), 8_in, 8_in, i};
       _visionSim.AddSimVisionTarget(simTag);
-     SubDriveBase::GetInstance().DisplayPose(fmt::format("tag{}", i), pose.value().ToPose2d());
+      SubDriveBase::GetInstance().DisplayPose(fmt::format("tag{}", i),
+                                              pose.value().ToPose2d());
     }
   }
-  }
-
-std::optional <Measurement> SubVision::GetMeasurement(){
-if (_camera->GetLatestResult().HasTargets()) {
-  auto [pose, timeStamp] = _visionPoseEstimator.Update();
-  auto ambiguity = _camera->GetLatestResult().GetBestTarget().GetPoseAmbiguity(); 
-  Measurement UpdateMeasurement {pose, timeStamp, ambiguity};
-  return {UpdateMeasurement};
-} else {return {};}
 }
+
+std::optional<photonlib::EstimatedRobotPose> SubVision::GetMeasurement() {
+  return _visionPoseEstimator.Update();
+}
+
 // This method will be called once per scheduler run
-void SubVision::Periodic() {
-
-}
+void SubVision::Periodic() {}
 
 void SubVision::SimulationPeriodic() {
   _visionSim.ProcessFrame(SubDriveBase::GetInstance().GetPose());

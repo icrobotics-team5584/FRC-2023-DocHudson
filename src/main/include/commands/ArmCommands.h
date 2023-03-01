@@ -10,6 +10,7 @@ namespace cmd {
     frc2::CommandPtr ArmToHighCone();
     frc2::CommandPtr ArmToMidCone();
     frc2::CommandPtr ArmToScoringHeight(grids::Height height);
+    frc2::CommandPtr ArmToSafePosition();
 
     frc2::CommandPtr ArmToLoadingStation();
     frc2::CommandPtr ArmToLowCubeOrCone();
@@ -24,4 +25,6 @@ namespace cmd {
     frc2::CommandPtr ArmToPos(auto x, auto y);
 
     frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed);
+
+    frc2::CommandPtr CoastModeOverride();
 }

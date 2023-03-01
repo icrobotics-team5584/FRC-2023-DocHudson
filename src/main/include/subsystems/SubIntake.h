@@ -31,12 +31,15 @@ class SubIntake : public frc2::SubsystemBase {
   void DeployIntake();
   void RetractIntake();
   bool SensesCone();
+  bool CheckReach();
   
  private:
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
   ICSparkMax<> _DeployMotor{canid::deployMotor, 2_A};
   frc::DigitalInput _coneSensor{dio::coneSensor};
+
+  double GetIntakeSpeed();
 
   static constexpr units::turn_t DEPLOY_POS = -13.14289_tr;
 
