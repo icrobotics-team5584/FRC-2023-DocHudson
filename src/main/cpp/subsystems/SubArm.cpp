@@ -167,7 +167,7 @@ units::turn_t SubArm::GetBottomToTopArmAngle() {
 }
 
 units::turn_t SubArm::GetGroundToTopArmAngle() {
-  return _armMotorBottom.GetPosition() - GetBottomToTopArmAngle();
+  return _armMotorBottom.GetPosition() + GetBottomToTopArmAngle();
 }
 
 units::turn_t SubArm::TopArmAngleToEncoderAngle(units::turn_t topArmAngle) {

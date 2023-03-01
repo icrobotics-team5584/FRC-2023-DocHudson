@@ -19,7 +19,7 @@
         "names": [
           "ScoreHighCone"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -201,5 +201,13 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 1.0181818181818176,
+      "names": [
+        "ArmToPickUp",
+        "StartIntake"
+      ]
+    }
+  ]
 }
