@@ -171,7 +171,9 @@ units::turn_t SubArm::GetGroundToTopArmAngle() {
 }
 
 units::turn_t SubArm::TopArmAngleToEncoderAngle(units::turn_t topArmAngle) {
-  return frc::InputModulus(topArmAngle+1_tr, 0_tr, 1_tr);
+  return frc::RobotBase::IsSimulation()
+             ? topArmAngle
+             : frc::InputModulus(topArmAngle + 1_tr, 0_tr, 1_tr);
 }
 
 frc::Translation2d SubArm::GetEndEffectorPosition() {
@@ -188,9 +190,13 @@ void SubArm::ArmResettingPos() {
 }
 
 bool SubArm::CheckPosition() {
-  bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
-  bool s2 = units::math::abs(_topEncoder.GetPosition()*1_tr - targetTopAngle) < 0.05_rad;
-  return s1 && s2;
+  auto topArmError = frc::RobotBase::IsSimulation()
+          ? _armMotorTop.GetPosError()
+          : _topEncoder.GetPosition() * 1_tr - _armMotorTop.GetPositionTarget();
+          
+  bool bottomOnTarget = units::math::abs(_armMotorBottom.GetPosError()) < 0.05_rad;
+  bool topOnTarget = units::math::abs(topArmError) < 0.05_rad;
+  return bottomOnTarget && topOnTarget;
 }
 
 void SubArm::SetIdleMode(rev::CANSparkMax::IdleMode idleMode) {
