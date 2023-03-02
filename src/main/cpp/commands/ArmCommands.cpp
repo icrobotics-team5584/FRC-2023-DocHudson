@@ -84,4 +84,10 @@ namespace cmd{
             SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
           }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();});
     }
+
+    frc2::CommandPtr DriveBottomArmToSwitch() {
+        return StartEnd([] { SubArm::GetInstance().DriveBottomAt(0.3); },
+                        [] { SubArm::GetInstance().DriveBottomAt(0); })
+            .Until([] { return SubArm::GetInstance().LocatingSwitchIsHit(); });
+    }
 }

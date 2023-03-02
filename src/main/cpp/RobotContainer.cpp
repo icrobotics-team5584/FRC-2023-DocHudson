@@ -65,7 +65,7 @@ void RobotContainer::ConfigureBindings() {
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmPickUp());
-  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+  _driverController.Back().WhileTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
 
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot

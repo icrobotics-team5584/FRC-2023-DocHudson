@@ -30,7 +30,9 @@ class SubIntake : public frc2::SubsystemBase {
   void Stop();
   void DeployIntake();
   void RetractIntake();
-  void LocateIntakeOnSwitch();
+  void ZeroDeployMotor();
+  void DriveDeployMotor(double power);
+  bool LocatingSwitchIsHit();
   bool CheckReach();
   
  private:

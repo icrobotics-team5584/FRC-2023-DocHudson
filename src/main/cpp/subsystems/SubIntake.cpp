@@ -16,9 +16,9 @@ SubIntake::SubIntake() {
   _deployMotor.SetPIDFF(P, I, D, F);
 
   frc2::Trigger([this] {
-    return _locatingSwitch.Get();
+    return LocatingSwitchIsHit();
   }).OnTrue(frc2::cmd::RunOnce([this] {
-              LocateIntakeOnSwitch();
+              ZeroDeployMotor();
             }).IgnoringDisable(true));
 }
 
@@ -72,8 +72,16 @@ void SubIntake::Stop() {
   _rightMotor.Set(0);
 }
 
-void SubIntake::LocateIntakeOnSwitch() {
+void SubIntake::ZeroDeployMotor() {
   _deployMotor.SetPosition(0_tr);
+}
+
+void SubIntake::DriveDeployMotor(double power) {
+  _deployMotor.Set(power);
+}
+
+bool SubIntake::LocatingSwitchIsHit() {
+  return _locatingSwitch.Get();
 }
 
 bool SubIntake::CheckReach() {

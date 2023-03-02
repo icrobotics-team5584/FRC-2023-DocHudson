@@ -89,4 +89,10 @@ frc2::CommandPtr ClawOpen() {
   return ClawExpand();
 }
 
+frc2::CommandPtr DriveIntakeToSwitch() {
+  return StartEnd([] { SubIntake::GetInstance().DriveDeployMotor(0.3); },
+                  [] { SubIntake::GetInstance().DriveDeployMotor(0); })
+      .Until([] { return SubIntake::GetInstance().LocatingSwitchIsHit(); });
+}
+
 }  // namespace cmd
