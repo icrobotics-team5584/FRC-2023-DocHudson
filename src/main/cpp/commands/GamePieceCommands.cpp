@@ -66,7 +66,6 @@ frc2::CommandPtr Outtake() {
       },
       [] {
         SubIntake::GetInstance().Stop();
-        SubIntake::GetInstance().RetractIntake();
       });
 }
 

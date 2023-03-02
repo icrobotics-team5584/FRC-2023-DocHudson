@@ -5,13 +5,21 @@
 #include "subsystems/SubIntake.h"
 #include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/commands.h>
+#include <frc2/command/button/Trigger.h>
 
 SubIntake::SubIntake() {
   _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  frc::SmartDashboard::PutData("Intake/Deploy Motor 1: ", (wpi::Sendable*)&_DeployMotor);
-  _DeployMotor.SetPIDFF(P, I, D, F);
+  frc::SmartDashboard::PutData("Intake/Deploy Motor: ", (wpi::Sendable*)&_deployMotor);
+  _deployMotor.SetPIDFF(P, I, D, F);
+
+  frc2::Trigger([this] {
+    return _locatingSwitch.Get();
+  }).OnTrue(frc2::cmd::RunOnce([this] {
+              LocateIntakeOnSwitch();
+            }).IgnoringDisable(true));
 }
 
 // This method will be called once per scheduler run
@@ -19,24 +27,24 @@ void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side current", _rightMotor.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
 
-  if (_DeployMotor.GetPositionTarget() == DEPLOY_POS && _DeployMotor.GetPosError() < 5_deg) {
-    _DeployMotor.Set(0);
+  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && _deployMotor.GetPosError() < 5_deg) {
+    _deployMotor.Set(0);
   }
 }
 
 void SubIntake::SimulationPeriodic() {
-  _IntakeSim.SetInputVoltage(_DeployMotor.GetSimVoltage());
+  _IntakeSim.SetInputVoltage(_deployMotor.GetSimVoltage());
   _IntakeSim.Update(20_ms);
-  _DeployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(),
+  _deployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(),
                                 _IntakeSim.GetAngularVelocity());
 }
 
 void SubIntake::DeployIntake() {
-  _DeployMotor.SetPositionTarget(DEPLOY_POS);
+  _deployMotor.SetPositionTarget(DEPLOY_POS);
 }
 
 void SubIntake::RetractIntake() {
-  _DeployMotor.SetPositionTarget(0_tr);
+  _deployMotor.SetPositionTarget(STOWED_POS);
 }
 
 double SubIntake::GetIntakeSpeed() {
@@ -64,10 +72,10 @@ void SubIntake::Stop() {
   _rightMotor.Set(0);
 }
 
-bool SubIntake::SensesCone() {
-  return _coneSensor.Get();
+void SubIntake::LocateIntakeOnSwitch() {
+  _deployMotor.SetPosition(0_tr);
 }
 
 bool SubIntake::CheckReach() {
-  return units::math::abs(_DeployMotor.GetPosError()) < 1_tr;
+  return units::math::abs(_deployMotor.GetPosError()) < 1_tr;
 }
