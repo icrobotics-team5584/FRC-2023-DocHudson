@@ -29,7 +29,7 @@ frc2::CommandPtr ClawToggle() {
 }
 
 frc2::CommandPtr Intake() {
-  return ClawGrabCone().AndThen(ArmPickUp())
+  return ClawClose().AndThen(ArmPickUp())
       .AlongWith(DeployIntake().AndThen(ClawExpand()));
 }
 
