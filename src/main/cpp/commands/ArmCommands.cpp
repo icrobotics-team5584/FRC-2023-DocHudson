@@ -60,6 +60,8 @@ namespace cmd{
                 return ArmToMid();
             case grids::Height::Low:
                 return ArmToLowCubeOrCone();
+            case grids::Height::LS:
+                return ArmToLoadingStation();
             default:
                 return None();
         };
