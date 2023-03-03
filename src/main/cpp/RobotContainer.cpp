@@ -18,6 +18,7 @@
 #include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
 #include <frc/DriverStation.h>
+#include <frc2/command/button/POVButton.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -66,6 +67,19 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmPickUp());
   _driverController.Back().WhileTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
+
+  // _driverController.POV(90, cmd::Outtake()); // Secondary Stage go up
+  // _driverController.POVDown; // Secondary Stage down
+  // _driverController.POVLeft; // Arm goes in 
+
+  // _driverController.POVDown().
+  // _driverController.POVRight; // Arm goes out
+  frc2::POVButton armUp{&_driverController, 0, 0};
+  armUp.WhileTrue(cmd::ManualArmMove(1, 0));
+
+  frc2::POVButton armDown{&_driverController, 180, 0};
+  armDown.WhileTrue(cmd::ManualArmMove(-1, 0));
+  
 
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
