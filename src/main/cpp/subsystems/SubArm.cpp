@@ -71,9 +71,9 @@ void SubArm::Periodic() {
   // Use zero for vel factor since we are only using these feedforward objects
   // for the gravity factor. Vel and accel is handeled by Spark Max Smart Motion.
   _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", 0)*1_V;
-  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", 0)*1_V;
-  //_bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
-  auto topGravFF = _topArmGravityFF.Calculate(_armMotorTop.GetPosition(), 0_rad_per_s);
+  // _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", 0)*1_V;
+  // _bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
+  auto topGravFF = _topArmGravityFF.Calculate(GetGroundToTopArmAngle(), 0_rad_per_s);
   // auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
   if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
     _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);

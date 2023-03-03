@@ -10,9 +10,13 @@ namespace cmd{
     using namespace frc2::cmd;
 
     frc2::CommandPtr ArmToSafePosition() {
-      return Either(ArmToPos(50_cm, 110_cm), None(), [] {
-        return SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm;
-      });
+      return Either(
+          ArmToPos(50_cm, 110_cm).Until([] {
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() > 70_cm;
+          }),
+          None(), [] {
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm;
+          });
     }
 
     frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(125_cm, 125_cm));} 
