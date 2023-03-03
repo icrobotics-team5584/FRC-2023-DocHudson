@@ -18,6 +18,7 @@
 #include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
 #include <frc/DriverStation.h>
+#include <frc2/command/button/POVButton.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -61,11 +62,25 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  
+  _driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::LS, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmPickUp());
-  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+  _driverController.Back().WhileTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
+
+  // _driverController.POV(90, cmd::Outtake()); // Secondary Stage go up
+  // _driverController.POVDown; // Secondary Stage down
+  // _driverController.POVLeft; // Arm goes in 
+
+  // _driverController.POVDown().
+  // _driverController.POVRight; // Arm goes out
+  frc2::POVButton armUp{&_driverController, 0, 0};
+  armUp.WhileTrue(cmd::ManualArmMove(1, 0));
+
+  frc2::POVButton armDown{&_driverController, 180, 0};
+  armDown.WhileTrue(cmd::ManualArmMove(-1, 0));
+  
 
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
@@ -87,5 +102,6 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("Test");
+  return cmd::PPDrivePath("PreConeH+ScoreH(1)");
 }
+  

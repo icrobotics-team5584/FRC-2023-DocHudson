@@ -40,7 +40,7 @@ SubArm::SubArm() {
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  _topEncoder.SetInverted(false);
+  _topEncoder.SetInverted(true);
   _armMotorTop.UseAbsoluteEncoder(_topEncoder);
 
   _bottomArmGravFFMap.insert(0_tr, 1_V);      // When top arm is at 0_tr, bottom arm uses 1_V as its grav FF
@@ -50,7 +50,7 @@ SubArm::SubArm() {
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
   frc2::Trigger([this] {
-    return !_bottomSensor.Get();
+    return LocatingSwitchIsHit();
   }).OnTrue(frc2::cmd::RunOnce([this] {
               ArmResettingPos();
             }).IgnoringDisable(true));
@@ -78,9 +78,6 @@ void SubArm::Periodic() {
   // if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
   //   _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
   //   _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
-  // } else {
-  //   _armMotorTop.SetVelocityTarget(0_rad_per_s, topGravFF);
-  //   _armMotorBottom.SetVelocityTarget(0_rad_per_s, bottomGravFF);
   // } 
 
   // Update mech2d display
@@ -105,12 +102,14 @@ void SubArm::DashboardInput(){
 }
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
-  targetTopAngle = TopArmAngleToEncoderAngle(topAngle);
-  targetBottomAngle = bottomAngle;
   _armMotorBottom.SetSmartMotionTarget(bottomAngle);
   frc::SmartDashboard::PutNumber("Arm/Top target before addition", topAngle.value());
   frc::SmartDashboard::PutNumber("Arm/Top target after addition", (topAngle+360_deg).convert<units::turns>().value());
   _armMotorTop.SetSmartMotionTarget(TopArmAngleToEncoderAngle(topAngle));
+}
+
+void SubArm::DriveBottomAt(double bottomPower) {
+  _armMotorBottom.Set(bottomPower);
 }
 
 std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
@@ -150,13 +149,9 @@ void SubArm::SimulationPeriodic() {
   auto armVel = _armSim.GetVelocity();
   _armMotorBottom.UpdateSimEncoder(armAngle, armVel);
 
-  auto x_coord = _armSim2.GetAngle();
+  auto armAngle2 = _armSim2.GetAngle();
   auto armVel2 = _armSim2.GetVelocity();
-  _armMotorTop.UpdateSimEncoder(x_coord, armVel2);
-
-  // auto armAngle2 = _armSim2.GetAngle();
-  // auto armVel2 = _armSim2.GetVelocity();
-  // _armMotorTop.UpdateSimEncoder(armAngle2, armVel2);
+  _armMotorTop.UpdateSimEncoder(armAngle2, armVel2);
 }
 
 units::turn_t SubArm::GetBottomToTopArmAngle() {
@@ -167,11 +162,13 @@ units::turn_t SubArm::GetBottomToTopArmAngle() {
 }
 
 units::turn_t SubArm::GetGroundToTopArmAngle() {
-  return _armMotorBottom.GetPosition() - GetBottomToTopArmAngle();
+  return _armMotorBottom.GetPosition() + GetBottomToTopArmAngle();
 }
 
 units::turn_t SubArm::TopArmAngleToEncoderAngle(units::turn_t topArmAngle) {
-  return frc::InputModulus(topArmAngle+1_tr, 0_tr, 1_tr);
+  return frc::RobotBase::IsSimulation()
+             ? topArmAngle
+             : frc::InputModulus(topArmAngle + 1_tr, 0_tr, 1_tr);
 }
 
 frc::Translation2d SubArm::GetEndEffectorPosition() {
@@ -188,9 +185,17 @@ void SubArm::ArmResettingPos() {
 }
 
 bool SubArm::CheckPosition() {
-  bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
-  bool s2 = units::math::abs(_topEncoder.GetPosition()*1_tr - targetTopAngle) < 0.05_rad;
-  return s1 && s2;
+  auto topArmError = frc::RobotBase::IsSimulation()
+          ? _armMotorTop.GetPosError()
+          : _topEncoder.GetPosition() * 1_tr - _armMotorTop.GetPositionTarget();
+          
+  bool bottomOnTarget = units::math::abs(_armMotorBottom.GetPosError()) < 0.05_rad;
+  bool topOnTarget = units::math::abs(topArmError) < 0.05_rad;
+  return bottomOnTarget && topOnTarget;
+}
+
+bool SubArm::LocatingSwitchIsHit() {
+  return !_bottomSensor.Get();
 }
 
 void SubArm::SetIdleMode(rev::CANSparkMax::IdleMode idleMode) {
