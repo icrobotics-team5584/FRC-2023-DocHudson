@@ -10,6 +10,7 @@
 #include "subsystems/SubArm.h"
 #include <frc2/command/commands.h>
 #include <frc2/command/button/Trigger.h>
+#include <frc/MathUtil.h>
 
 //./gradlew clean
 
@@ -27,9 +28,10 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
+  frc::SmartDashboard::PutNumber("Arm/Bottom grav comp", 0);
+  frc::SmartDashboard::PutNumber("Arm/Top grav comp", 0);
 
   _armMotorTop.SetInverted(true);
-
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
 
@@ -38,8 +40,13 @@ SubArm::SubArm() {
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  // uncomment me to use absolute encoder
-  // _armMotorTop.UseAbsoluteEncoder(_topEncoder);
+  _topEncoder.SetInverted(false);
+  _armMotorTop.UseAbsoluteEncoder(_topEncoder);
+
+  _bottomArmGravFFMap.insert(0_tr, 1_V);      // When top arm is at 0_tr, bottom arm uses 1_V as its grav FF
+  _bottomArmGravFFMap.insert(-0.1_tr, 0.7_V); // When top arm is at 0.1_tr, bottom arm uses 0.7_V as its grav FF
+  _bottomArmGravFFMap.insert(-0.2_tr, 0.4_V); // etc..
+  _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
   frc2::Trigger([this] {
@@ -51,11 +58,35 @@ SubArm::SubArm() {
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
-  frc::SmartDashboard::PutNumber("Arm/top arm true angle", _armMotorTop.GetPosition().value() - _armMotorBottom.GetPosition().value());
+  frc::SmartDashboard::PutNumber("Arm/bottom to top arm turns", GetBottomToTopArmAngle().value());
+  frc::SmartDashboard::PutNumber("Arm/ground to top arm turns", GetGroundToTopArmAngle().value());
+  frc::SmartDashboard::PutNumber("Arm/top arm encoder", _topEncoder.GetPosition());
+  
   auto EEPos = GetEndEffectorPosition();
   frc::SmartDashboard::PutNumber("Arm/Current X", EEPos.X().value());
   frc::SmartDashboard::PutNumber("Arm/Current Y", EEPos.Y().value());
   DashboardInput();
+
+  // Update gravity comp FF
+  // Use zero for vel factor since we are only using these feedforward objects
+  // for the gravity factor. Vel and accel is handeled by Spark Max Smart Motion.
+  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", 0)*1_V;
+  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", 0)*1_V;
+  //_bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
+  // auto topGravFF = _topArmGravityFF.Calculate(_armMotorTop.GetPosition(), 0_rad_per_s);
+  // auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
+  // if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
+  //   _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
+  //   _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
+  // } else {
+  //   _armMotorTop.SetVelocityTarget(0_rad_per_s, topGravFF);
+  //   _armMotorBottom.SetVelocityTarget(0_rad_per_s, bottomGravFF);
+  // } 
+
+  // Update mech2d display
+  _arm1Ligament->SetAngle(_armMotorBottom.GetPosition());
+  _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
+
 }
 
 void SubArm::DashboardInput(){
@@ -74,10 +105,12 @@ void SubArm::DashboardInput(){
 }
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
-  targetTopAngle = topAngle;
+  targetTopAngle = TopArmAngleToEncoderAngle(topAngle);
   targetBottomAngle = bottomAngle;
   _armMotorBottom.SetSmartMotionTarget(bottomAngle);
-  _armMotorTop.SetSmartMotionTarget(topAngle);
+  frc::SmartDashboard::PutNumber("Arm/Top target before addition", topAngle.value());
+  frc::SmartDashboard::PutNumber("Arm/Top target after addition", (topAngle+360_deg).convert<units::turns>().value());
+  _armMotorTop.SetSmartMotionTarget(TopArmAngleToEncoderAngle(topAngle));
 }
 
 std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
@@ -98,7 +131,7 @@ std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::mete
   if (armBottomAngle < 0_deg) {
     return {_armMotorBottom.GetPositionTarget(), _armMotorTop.GetPositionTarget()};
   }
-  return {armTopAngle + armBottomAngle, armBottomAngle};
+  return {armTopAngle, armBottomAngle};
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
@@ -121,26 +154,42 @@ void SubArm::SimulationPeriodic() {
   auto armVel2 = _armSim2.GetVelocity();
   _armMotorTop.UpdateSimEncoder(x_coord, armVel2);
 
-  _arm1Ligament->SetAngle(armAngle);
-  _arm2Ligament->SetAngle(x_coord - armAngle);
+  // auto armAngle2 = _armSim2.GetAngle();
+  // auto armVel2 = _armSim2.GetVelocity();
+  // _armMotorTop.UpdateSimEncoder(armAngle2, armVel2);
+}
+
+units::turn_t SubArm::GetBottomToTopArmAngle() {
+  auto topAngle = frc::RobotBase::IsSimulation() ? _armMotorTop.GetPosition()
+                                                 : _topEncoder.GetPosition()*1_tr;
+  return frc::InputModulus(topAngle + 1_tr, -0.5_tr,
+                           0.5_tr);
+}
+
+units::turn_t SubArm::GetGroundToTopArmAngle() {
+  return _armMotorBottom.GetPosition() - GetBottomToTopArmAngle();
+}
+
+units::turn_t SubArm::TopArmAngleToEncoderAngle(units::turn_t topArmAngle) {
+  return frc::InputModulus(topArmAngle+1_tr, 0_tr, 1_tr);
 }
 
 frc::Translation2d SubArm::GetEndEffectorPosition() {
-  frc::Rotation2d topRotation {units::radian_t{_armMotorTop.GetPosition()}};
-  frc::Rotation2d bottomRotation {units::radian_t{_armMotorBottom.GetPosition()}};
-  frc::Translation2d topPos {ARM_LENGTH_2, topRotation};
-  frc::Translation2d bottomPos { ARM_LENGTH, bottomRotation };
+  frc::Rotation2d groundToTop {units::radian_t{GetGroundToTopArmAngle()}};
+  frc::Rotation2d groundToBottom {units::radian_t{_armMotorBottom.GetPosition()}};
+  frc::Translation2d topPos {ARM_LENGTH_2, groundToTop};
+  frc::Translation2d bottomPos { ARM_LENGTH, groundToBottom };
   return topPos + bottomPos;
 }
 
 void SubArm::ArmResettingPos() {
   _armMotorBottom.SetPosition(126.33_deg);
-  _armMotorTop.SetPosition(units::degree_t{126.33 - 166.79});
+  // No need to set the top arm position since we are using an absolute encoder
 }
 
 bool SubArm::CheckPosition() {
   bool s1 = units::math::abs(_armMotorBottom.GetPosition() - targetBottomAngle) < 0.05_rad;
-  bool s2 = units::math::abs(_armMotorTop.GetPosition() - targetTopAngle) < 0.05_rad;
+  bool s2 = units::math::abs(_topEncoder.GetPosition()*1_tr - targetTopAngle) < 0.05_rad;
   return s1 && s2;
 }
 

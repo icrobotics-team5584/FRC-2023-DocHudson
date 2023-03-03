@@ -39,19 +39,17 @@
         66,
         56
       ],
-      "povCount": 0
-    },
-    {
-      "axisConfig": [
+      "povConfig": [
         {
-          "decKey": 74,
-          "incKey": 76
-        },
-        {
-          "decKey": 73,
-          "incKey": 75
+          "key0": 73,
+          "key180": 75,
+          "key270": 74,
+          "key90": 76
         }
       ],
+      "povCount": 1
+    },
+    {
       "axisCount": 2,
       "buttonCount": 4,
       "buttonKeys": [

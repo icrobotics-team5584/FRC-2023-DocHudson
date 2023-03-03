@@ -1,17 +1,18 @@
 #include "commands/ArmCommands.h"
 #include "subsystems/SubArm.h"
+#include "subsystems/SubIntake.h"
+#include "subsystems/SubDrivebase.h"
 #include "units/length.h"
 #include "RobotContainer.h"
-#include "subsystems/SubIntake.h"
+#include <frc/DriverStation.h>
 
 namespace cmd{
     using namespace frc2::cmd;
 
     frc2::CommandPtr ArmToSafePosition() {
-        if (SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm) {
-            return ArmToPos(50_cm,110_cm);
-        }
-        return None();
+      return Either(ArmToPos(50_cm, 110_cm), None(), [] {
+        return SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm;
+      });
     }
 
     frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(125_cm, 125_cm));} 
@@ -25,7 +26,7 @@ namespace cmd{
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(70_cm, 40_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2_tr, -0.26981_tr); })
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2_tr, -0.355_tr); })
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     } 
@@ -72,5 +73,17 @@ namespace cmd{
             eePos = eePos + frc::Translation2d(xSpeed*1_mm, ySpeed*1_mm);
             SubArm::GetInstance().ArmPos(eePos.X(), eePos.Y());
         });
+    }
+
+    frc2::CommandPtr CoastModeOverride() {
+        return StartEnd(
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Coast);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+          },
+          [] {
+            SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);
+            SubArm::GetInstance().SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+          }).IgnoringDisable(true).Until([]{return frc::DriverStation::IsEnabled();});
     }
 }
