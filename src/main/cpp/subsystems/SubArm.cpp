@@ -40,7 +40,7 @@ SubArm::SubArm() {
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  _topEncoder.SetInverted(false);
+  _topEncoder.SetInverted(true);
   _armMotorTop.UseAbsoluteEncoder(_topEncoder);
 
   _bottomArmGravFFMap.insert(0_tr, 1_V);      // When top arm is at 0_tr, bottom arm uses 1_V as its grav FF

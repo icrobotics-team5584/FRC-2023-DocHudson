@@ -40,7 +40,7 @@ class SubClaw : public frc2::SubsystemBase {
 
   frc::DigitalInput _clawLocatingSwitch{dio::clawSensor};
 
-  ICSparkMax<> _clawMotor1{canid::clawMotor1};
+  ICSparkMax<> _clawMotor1{canid::clawMotor1, 30_A};
 
   // uncomment me to use absolute encoder
   //rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};

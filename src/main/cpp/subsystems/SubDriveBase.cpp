@@ -142,7 +142,7 @@ bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   auto rotError = currentPose.Rotation() - pose.Rotation();
   auto posError = currentPose.Translation().Distance(pose.Translation());
   
-  if (units::math::abs(rotError.Degrees()) < 3_deg && posError < 3_cm) {
+  if (units::math::abs(rotError.Degrees()) < 1_deg && posError < 1_cm) {
      return true;
   } else {return false;}
 }
