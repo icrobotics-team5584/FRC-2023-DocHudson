@@ -139,7 +139,12 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
 
 bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   auto currentPose = _poseEstimator.GetEstimatedPosition();
-  return (currentPose.Translation().Distance(pose.Translation()) < 3_cm);
+  auto rotError = currentPose.Rotation() - pose.Rotation();
+  auto posError = currentPose.Translation().Distance(pose.Translation());
+  
+  if (units::math::abs(rotError.Degrees()) < 3_deg && posError < 3_cm) {
+     return true;
+  } else {return false;}
 }
 
 void SubDriveBase::ResetGyroHeading() {
