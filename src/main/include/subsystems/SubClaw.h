@@ -31,7 +31,8 @@ class SubClaw : public frc2::SubsystemBase {
   void ClawUnclamped();
   bool IsTryingToUnclamp();
   void LocateClawOnSwitch();
-
+  bool OnUnclampedSwitch();
+  void Stop();
   void SimulationPeriodic() override;
 
  private:
@@ -47,7 +48,7 @@ class SubClaw : public frc2::SubsystemBase {
 
   static constexpr units::turn_t CONE_CLAMPED_POS = 0_tr;//0_tr;//0.397968_tr;
   static constexpr units::turn_t CUBE_CLAMPED_POS = -4.81_tr;//-12.8_tr;//0.271152_tr;
-  static constexpr units::turn_t UNCLAMPED_POS = -7.43_tr;//-17.21_tr;//0.225265_tr;
+  static constexpr units::turn_t UNCLAMPED_POS = -7.5_tr;//-17.21_tr;//0.225265_tr;
    
   static constexpr double P = 4.5;
   static constexpr double I = 0.0;

@@ -16,7 +16,10 @@ frc2::CommandPtr ClawRetract() {
 }
 
 frc2::CommandPtr ClawGrabCone() {
-  return RunOnce([] { SubClaw::GetInstance().ClawClampedCone(); });
+  return Run([] { SubClaw::GetInstance().ClawClampedCone(); })
+      .AndThen(
+          WaitUntil([] { return SubClaw::GetInstance().OnUnclampedSwitch(); }))
+      .AndThen(RunOnce([] {SubClaw::GetInstance().Stop();}));
 }
 
 frc2::CommandPtr ClawGrabCube() {
