@@ -66,7 +66,6 @@ frc2::CommandPtr Outtake() {
       },
       [] {
         SubIntake::GetInstance().Stop();
-        SubIntake::GetInstance().RetractIntake();
       });
 }
 
@@ -88,6 +87,12 @@ frc2::CommandPtr ClawClose() {
 
 frc2::CommandPtr ClawOpen() {
   return ClawExpand();
+}
+
+frc2::CommandPtr DriveIntakeToSwitch() {
+  return StartEnd([] { SubIntake::GetInstance().DriveDeployMotor(0.3); },
+                  [] { SubIntake::GetInstance().DriveDeployMotor(0); })
+      .Until([] { return SubIntake::GetInstance().LocatingSwitchIsHit(); });
 }
 
 }  // namespace cmd

@@ -130,7 +130,7 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
 
   // Drive speeds are relative to your alliance wall. Flip if we are on red, 
   // since we are using global coordinates (blue alliance at 0,0)
-  if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed) {
+  if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed && frc::RobotBase::IsReal()) {
     Drive(-speedX*1_mps, -speedY*1_mps, speedRot*1_rad_per_s, true);
   } else {
     Drive(speedX*1_mps, speedY*1_mps, speedRot*1_rad_per_s, true);
@@ -139,11 +139,17 @@ void SubDriveBase::DriveToPose(frc::Pose2d targetPose) {
 
 bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   auto currentPose = _poseEstimator.GetEstimatedPosition();
-  return (currentPose.Translation().Distance(pose.Translation()) < 3_cm);
+  auto rotError = currentPose.Rotation() - pose.Rotation();
+  auto posError = currentPose.Translation().Distance(pose.Translation());
+  
+  if (units::math::abs(rotError.Degrees()) < 1_deg && posError < 1_cm) {
+     return true;
+  } else {return false;}
 }
 
-void SubDriveBase::ResetGyroHeading() {
+void SubDriveBase::ResetGyroHeading(units::degree_t startingAngle) {
   _gyro.Reset();
+  _gyro.SetAngleAdjustment(startingAngle.value());
 }
 
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}
