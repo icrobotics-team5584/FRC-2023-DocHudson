@@ -73,7 +73,7 @@ class SubArm : public frc2::SubsystemBase {
   // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
   // on the position of the top arm and the Gravity FF Map.
   wpi::interpolating_map<units::degree_t, units::volt_t> _bottomArmGravFFMap; 
-  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim

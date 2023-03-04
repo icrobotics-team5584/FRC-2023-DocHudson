@@ -28,8 +28,8 @@ SubArm::SubArm() {
   frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
   frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
   frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/Bottom grav comp", 0);
-  frc::SmartDashboard::PutNumber("Arm/Top grav comp", 0);
+  frc::SmartDashboard::PutNumber("Arm/Bottom grav comp", _bottomArmGravityFF.kG.value());
+  frc::SmartDashboard::PutNumber("Arm/Top grav comp", _topArmGravityFF.kG.value());
 
   _armMotorTop.SetInverted(true);
   _armMotorBottomFollow.Follow(_armMotorBottom);
@@ -43,6 +43,8 @@ SubArm::SubArm() {
   _topEncoder.SetInverted(true);
   _armMotorTop.UseAbsoluteEncoder(_topEncoder);
 
+  // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
+  // by gravity)
   _bottomArmGravFFMap.insert(0_tr, 1_V);      // When top arm is at 0_tr, bottom arm uses 1_V as its grav FF
   _bottomArmGravFFMap.insert(-0.1_tr, 0.7_V); // When top arm is at 0.1_tr, bottom arm uses 0.7_V as its grav FF
   _bottomArmGravFFMap.insert(-0.2_tr, 0.4_V); // etc..
@@ -70,14 +72,14 @@ void SubArm::Periodic() {
   // Update gravity comp FF
   // Use zero for vel factor since we are only using these feedforward objects
   // for the gravity factor. Vel and accel is handeled by Spark Max Smart Motion.
-  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", 0)*1_V;
-  // _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", 0)*1_V;
+  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", _topArmGravityFF.kG.value())*1_V;
+  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", _bottomArmGravityFF.kG.value())*1_V;
   // _bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
   auto topGravFF = _topArmGravityFF.Calculate(GetGroundToTopArmAngle(), 0_rad_per_s);
-  // auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
+  auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
   if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
     _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
-  //   _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
+    _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
   } 
 
   // Update mech2d display
