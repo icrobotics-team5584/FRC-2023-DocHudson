@@ -19,6 +19,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/controller/ArmFeedforward.h>
 #include <wpi/interpolating_map.h>
+#include <optional>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -28,6 +29,10 @@ class SubArm : public frc2::SubsystemBase {
     static SubArm inst;
     return inst;
   }
+  struct IKResult {
+    units::radian_t bottomAngle;
+    units::radian_t topAngle;
+  };
 
   SubArm();
   void Periodic() override;
@@ -39,8 +44,9 @@ class SubArm : public frc2::SubsystemBase {
   void DashboardInput();
   void ArmResettingPos();
 
-  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
+  std::optional<IKResult> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
+  frc::Translation2d GetEndEffectorTarget();
   bool CheckPosition();
   bool LocatingSwitchIsHit();
   units::turn_t GetBottomToTopArmAngle();
@@ -62,7 +68,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::DigitalInput _topSensor{dio::armTopSensor};
   frc::DigitalInput _bottomSensor{dio::armBottomSensor};
 
-
+  frc::Translation2d _endEffectorTarget{0.5_m, 0.5_m};
 
   //arm 1
   static constexpr double P = 0.0;

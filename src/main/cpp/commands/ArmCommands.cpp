@@ -73,7 +73,7 @@ namespace cmd{
 
     frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed) {
         return Run([xSpeed, ySpeed]{
-            auto eePos = SubArm::GetInstance().GetEndEffectorPosition();
+            auto eePos = SubArm::GetInstance().GetEndEffectorTarget();
             eePos = eePos + frc::Translation2d(xSpeed*1_mm, ySpeed*1_mm);
             SubArm::GetInstance().ArmPos(eePos.X(), eePos.Y());
         });

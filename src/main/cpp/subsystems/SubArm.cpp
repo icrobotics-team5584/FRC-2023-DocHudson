@@ -114,7 +114,7 @@ void SubArm::DriveBottomAt(double bottomPower) {
   _armMotorBottom.Set(bottomPower);
 }
 
-std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
+std::optional<SubArm::IKResult> SubArm::InverseKinmetics(units::meter_t x, units::meter_t y) {
   double x_coord = x.value();
   double y_coord = y.value();
 
@@ -128,16 +128,20 @@ std::pair<units::radian_t, units::radian_t> SubArm::InverseKinmetics(units::mete
   double statement2 = atan(armBottomAngleFracbottom / armBottomAngleFractop);
   units::radian_t armBottomAngle{statement1 - statement2};
 
-  // Some X Y targets cause a bad IK output, catch them and ask the arm to keep its current target
-  if (armBottomAngle < 0_deg) {
-    return {_armMotorBottom.GetPositionTarget(), _armMotorTop.GetPositionTarget()};
+  // Some X Y targets cause a bad IK output since the arm can't reach there, catch them here
+  if (isnan(armBottomAngle.value()) || isnan(armTopAngle.value())) {
+    return {};
   }
-  return {armTopAngle, armBottomAngle};
+  return IKResult{armBottomAngle, armTopAngle};
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
-  auto armAngle = InverseKinmetics(x,y);
-  DriveTo(armAngle.second, armAngle.first);
+  auto ikResult = InverseKinmetics(x,y);
+  if (ikResult.has_value()) {
+    auto [bottomAngle, topAngle] = ikResult.value();
+    _endEffectorTarget = {x, y};
+    DriveTo(bottomAngle, topAngle);
+  }
 }
 
 void SubArm::SimulationPeriodic() {
@@ -179,6 +183,10 @@ frc::Translation2d SubArm::GetEndEffectorPosition() {
   frc::Translation2d topPos {ARM_LENGTH_2, groundToTop};
   frc::Translation2d bottomPos { ARM_LENGTH, groundToBottom };
   return topPos + bottomPos;
+}
+
+frc::Translation2d SubArm::GetEndEffectorTarget() {
+  return _endEffectorTarget;
 }
 
 void SubArm::ArmResettingPos() {
