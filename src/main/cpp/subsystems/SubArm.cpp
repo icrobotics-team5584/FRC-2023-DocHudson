@@ -129,7 +129,7 @@ std::optional<SubArm::IKResult> SubArm::InverseKinmetics(units::meter_t x, units
   units::radian_t armBottomAngle{statement1 - statement2};
 
   // Some X Y targets cause a bad IK output since the arm can't reach there, catch them here
-  if (isnan(armBottomAngle.value()) || isnan(armTopAngle.value())) {
+  if (std::isnan(armBottomAngle.value()) || std::isnan(armTopAngle.value())) {
     return {};
   }
   return IKResult{armBottomAngle, armTopAngle};
