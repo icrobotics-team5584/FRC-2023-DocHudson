@@ -23,7 +23,7 @@ namespace cmd{
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
     frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(45_cm, 100_cm);}
-	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(70_cm, 40_cm);} //gtg
+	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 0_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
         return RunOnce([]() { SubArm::GetInstance().DriveTo(0.195_tr, -0.43_tr); })

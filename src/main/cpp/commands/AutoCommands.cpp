@@ -41,7 +41,11 @@ namespace cmd {
             {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() },
 
             {"ArmPickUp", ArmPickUp().Unwrap()},
-            {"ArmToSafePosition", ArmToSafePosition().Unwrap()}
+            {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
+
+            {"StowGamePiece", StowGamePiece().Unwrap()},
+    
+            {"DoNothing", frc2::cmd::None().Unwrap()}
         };
 
         auto MirrorPose = [] (frc::Pose2d pose) -> frc::Pose2d {
