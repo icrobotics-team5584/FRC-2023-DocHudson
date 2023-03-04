@@ -18,6 +18,7 @@
 #include "subsystems/SubLED.h"
 #include "commands/CmdGridCommands.h"
 #include <frc/DriverStation.h>
+#include "utilities/POVHelper.h"
 #include <frc2/command/button/POVButton.h>
 
 
@@ -67,20 +68,11 @@ void RobotContainer::ConfigureBindings() {
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmPickUp());
-  _driverController.Back().WhileTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
-
-  // _driverController.POV(90, cmd::Outtake()); // Secondary Stage go up
-  // _driverController.POVDown; // Secondary Stage down
-  // _driverController.POVLeft; // Arm goes in 
-
-  // _driverController.POVDown().
-  // _driverController.POVRight; // Arm goes out
-  frc2::POVButton armUp{&_driverController, 0, 0};
-  armUp.WhileTrue(cmd::ManualArmMove(1, 0));
-
-  frc2::POVButton armDown{&_driverController, 180, 0};
-  armDown.WhileTrue(cmd::ManualArmMove(-1, 0));
-  
+  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
+  POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 0.001));
+  POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -0.001));
+  POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(0.001, 0)); //forward
+  POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-0.001, 0)); //backward
 
   // Claw
   _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot

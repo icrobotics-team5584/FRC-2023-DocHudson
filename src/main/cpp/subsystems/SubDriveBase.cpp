@@ -147,8 +147,9 @@ bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   } else {return false;}
 }
 
-void SubDriveBase::ResetGyroHeading() {
+void SubDriveBase::ResetGyroHeading(units::degree_t startingAngle) {
   _gyro.Reset();
+  _gyro.SetAngleAdjustment(startingAngle.value());
 }
 
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}
