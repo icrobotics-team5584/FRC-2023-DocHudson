@@ -38,7 +38,11 @@ RobotContainer::RobotContainer() {
   SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
-  _autoChooser.AddOption("Get4m", "Get4m"); 
+  _autoChooser.AddOption("PreConeH+ScoreH(1)", "PreConeH+ScoreH(1)");   
+  _autoChooser.AddOption("PreConeH+ScoreH(3)", "PreConeH+ScoreH(3)");   
+  _autoChooser.AddOption("PreConeH", "PreConeH");   
+  _autoChooser.AddOption("PreConeH+C", "PreConeH+C");
+  _autoChooser.AddOption("PreConeH+1ho+C", "PreConeH+1ho+C");
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
@@ -94,6 +98,7 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("PreConeH+ScoreH(1)");
+  _autoSelected = _autoChooser.GetSelected();
+  return cmd::PPDrivePath(_autoSelected);
 }
   
