@@ -142,8 +142,9 @@ bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   return (currentPose.Translation().Distance(pose.Translation()) < 3_cm);
 }
 
-void SubDriveBase::ResetGyroHeading() {
+void SubDriveBase::ResetGyroHeading(units::degree_t startingAngle) {
   _gyro.Reset();
+  _gyro.SetAngleAdjustment(startingAngle.value());
 }
 
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}

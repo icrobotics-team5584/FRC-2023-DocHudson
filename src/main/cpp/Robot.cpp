@@ -8,9 +8,11 @@
 #include "frc/DataLogManager.h"
 #include <frc/DriverStation.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <cameraserver/CameraServer.h>
 
 void Robot::RobotInit() {
 frc::DataLogManager::Start();
+frc::CameraServer::StartAutomaticCapture();
 frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog(),true);
 }
 
