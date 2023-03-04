@@ -19,6 +19,7 @@
 #include "commands/CmdGridCommands.h"
 #include <frc/DriverStation.h>
 #include "utilities/POVHelper.h"
+#include <frc2/command/button/POVButton.h>
 
 
 bool RobotContainer::isConeMode = true;
@@ -62,7 +63,8 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  
+  _driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::LS, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   _driverController.B().OnTrue(cmd::ArmPickUp());
@@ -92,5 +94,6 @@ void RobotContainer::ConfigureBindings() {
 
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
-  return cmd::PPDrivePath("Test");
+  return cmd::PPDrivePath("PreConeH+ScoreH(1)");
 }
+  

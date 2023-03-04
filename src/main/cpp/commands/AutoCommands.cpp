@@ -13,7 +13,7 @@ namespace cmd {
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
 
-        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{2_mps, 2_mps_sq}, {2_mps, 2_mps_sq}});
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{3_mps, 2_mps_sq}, {3_mps, 2_mps_sq}});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -38,7 +38,10 @@ namespace cmd {
             {"ScoreMidCone", ScorePos(ArmToMidCone()).Unwrap() },
             {"ScoreMidCube", ScorePos(ArmToMidCube()).Unwrap() },
             {"ScoreHighCone", ScorePos(ArmToHighCone()).Unwrap() }, 
-            {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() }
+            {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() },
+
+            {"ArmPickUp", ArmPickUp().Unwrap()},
+            {"ArmToSafePosition", ArmToSafePosition().Unwrap()}
         };
 
         auto MirrorPose = [] (frc::Pose2d pose) -> frc::Pose2d {
@@ -82,10 +85,6 @@ namespace cmd {
         return ClawClose()
             .AndThen(std::forward<frc2::CommandPtr>(scoreCommand))
             .AndThen(frc2::cmd::Wait(0.5_s))
-            .AndThen(ClawExpand())
-            .AndThen(frc2::cmd::Wait(0.5_s))
-            .AndThen(ClawRetract())
-            .AndThen(ArmToSafePosition())
-            .AndThen(ArmPickUp());
+            .AndThen(ClawExpand());
     }
 }

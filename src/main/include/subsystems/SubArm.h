@@ -33,6 +33,7 @@ class SubArm : public frc2::SubsystemBase {
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
+  void DriveBottomAt(double bottomPower);
   void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
@@ -41,6 +42,7 @@ class SubArm : public frc2::SubsystemBase {
   std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
   bool CheckPosition();
+  bool LocatingSwitchIsHit();
   units::turn_t GetBottomToTopArmAngle();
   units::turn_t GetGroundToTopArmAngle();
 
@@ -125,8 +127,5 @@ class SubArm : public frc2::SubsystemBase {
   frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 1, 1); //root x and y
   frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
   frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
-
-  units::angle::degree_t targetTopAngle;
-  units::angle::degree_t targetBottomAngle;
 };
 
