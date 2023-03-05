@@ -67,7 +67,8 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  _driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::LS, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+  _driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Left, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+  _driverController.B().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Right, grids::Height::LS)).AndThen(cmd::ClawExpand()));
 
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
@@ -79,7 +80,7 @@ void RobotContainer::ConfigureBindings() {
   POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
 
   // Claw
-  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
+  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); 
   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
   _driverController.A().OnTrue(cmd::ClawToggle());
   
