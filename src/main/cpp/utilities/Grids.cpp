@@ -14,8 +14,8 @@ namespace grids {
         {{Grid::Left, Column::Right}, {14.55_m, 1.59_m, 0_deg}}, 
         {{Grid::Left, Column::Middle}, {14.55_m, 1.06_m, 0_deg}}, 
         {{Grid::Left, Column::Left}, {14.55_m, 0.43_m, 0_deg}},
-        {{Grid::LS, Column::Left}, {0.68_m, 7.47_m, 180_deg}},
-        {{Grid::LS, Column::Right}, {0.68_m, 6.15_m, 180_deg}},
+        {{Grid::LS, Column::Right}, {0.68_m, 7.47_m, 180_deg}},
+        {{Grid::LS, Column::Left}, {0.68_m, 6.15_m, 180_deg}},
         
         
     };
