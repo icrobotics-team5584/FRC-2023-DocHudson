@@ -77,10 +77,11 @@ void SubArm::Periodic() {
   // _bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
   auto topGravFF = _topArmGravityFF.Calculate(GetGroundToTopArmAngle(), 0_rad_per_s);
   auto bottomGravFF = _bottomArmGravityFF.Calculate(_armMotorBottom.GetPosition(), 0_rad_per_s);
-  if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
+  if (_armMotorTop.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion &&
+      _armMotorBottom.GetControlType() == rev::CANSparkMax::ControlType::kSmartMotion) {
     _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
     _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
-  } 
+  }
 
   // Update mech2d display
   _arm1Ligament->SetAngle(_armMotorBottom.GetPosition());

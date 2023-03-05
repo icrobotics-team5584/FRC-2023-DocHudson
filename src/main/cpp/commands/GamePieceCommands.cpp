@@ -16,9 +16,9 @@ frc2::CommandPtr ClawRetract() {
 }
 
 frc2::CommandPtr ClawGrabCone() {
-  return Run([] { SubClaw::GetInstance().ClawClampedCone(); })
+  return RunOnce([] { SubClaw::GetInstance().ClawClampedCone(); })
       .AndThen(
-          WaitUntil([] { return SubClaw::GetInstance().OnUnclampedSwitch(); }))
+          WaitUntil([] { return SubClaw::GetInstance().OnClampedSwitch(); }))
       .AndThen(RunOnce([] {SubClaw::GetInstance().Stop();}));
 }
 
@@ -32,8 +32,8 @@ frc2::CommandPtr ClawToggle() {
 }
 
 frc2::CommandPtr Intake() {
-  return ClawClose().AndThen(ArmPickUp())
-      .AlongWith(DeployIntake().AndThen(ClawExpand()));
+  return ArmPickUp().AlongWith(DeployIntake());
+  //ClawClose().AndThen(ArmPickUp()).AlongWith(DeployIntake().AndThen(ClawExpand()));
 }
 
 frc2::CommandPtr DeployIntake(){

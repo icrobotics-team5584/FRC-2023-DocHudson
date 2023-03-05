@@ -21,7 +21,7 @@ SubClaw::SubClaw() {
   //_clawMotor1.EnableSensorWrapping(0, 1);
 
   frc2::Trigger([this] {
-    return _clawLocatingSwitch.Get();
+    return OnClampedSwitch();
   }).OnTrue(frc2::cmd::RunOnce([this] {
               LocateClawOnSwitch();
               Stop();
@@ -35,7 +35,8 @@ void SubClaw::Periodic() {
   frc::SmartDashboard::PutNumber("Claw/duty cycle",
                                  _clawMotor1.GetAppliedOutput());
   frc::SmartDashboard::PutNumber("Claw/is trying to unclamp", IsTryingToUnclamp());
-  frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", _clawLocatingSwitch.Get());
+  frc::SmartDashboard::PutNumber("Claw/Clamp Switch", OnClampedSwitch());
+  frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", !_clawUnclampedSwitch.Get());
 
   // uncomment me to use absolute encoder
   // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
@@ -69,8 +70,8 @@ void SubClaw::LocateClawOnSwitch() {
   _clawMotor1.SetPosition(0_tr);
 }
 
-bool SubClaw::OnUnclampedSwitch() {
-  return _clawLocatingSwitch.Get();
+bool SubClaw::OnClampedSwitch() {
+  return !_clawClampedSwitch.Get();
 }
 
 void SubClaw::Stop() {

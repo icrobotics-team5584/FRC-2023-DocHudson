@@ -48,7 +48,7 @@ void SubIntake::RetractIntake() {
 }
 
 double SubIntake::GetIntakeSpeed() {
-  return RobotContainer::isConeMode ? 1 : 0.5;
+  return RobotContainer::isConeMode ? CONE_INTAKE_SPEED : CUBE_INTAKE_SPEED;
 }
 
 void SubIntake::IntakeLeft() {

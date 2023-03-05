@@ -46,6 +46,9 @@ class SubIntake : public frc2::SubsystemBase {
   static constexpr units::turn_t DEPLOY_POS = -13.14289_tr;
   static constexpr units::turn_t STOWED_POS = 0_tr;
 
+  static constexpr double CONE_INTAKE_SPEED = 0.5;
+  static constexpr double CUBE_INTAKE_SPEED = 0.5;
+
   static constexpr double P = 3;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
