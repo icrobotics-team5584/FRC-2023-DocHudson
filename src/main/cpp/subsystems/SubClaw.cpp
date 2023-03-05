@@ -10,7 +10,7 @@ SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
-  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
   _clawMotor1.SetClosedLoopControlType(
       rev::CANSparkMax::ControlType::kPosition);
@@ -36,7 +36,7 @@ void SubClaw::Periodic() {
                                  _clawMotor1.GetAppliedOutput());
   frc::SmartDashboard::PutNumber("Claw/is trying to unclamp", IsTryingToUnclamp());
   frc::SmartDashboard::PutNumber("Claw/Clamp Switch", OnClampedSwitch());
-  frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", !_clawUnclampedSwitch.Get());
+  frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", OnUnClampedSwitch());
 
   // uncomment me to use absolute encoder
   // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
@@ -52,18 +52,21 @@ void SubClaw::SimulationPeriodic() {
 
 void SubClaw::ClawClampedCube() {
   _clawMotor1.SetPositionTarget(CUBE_CLAMPED_POS);
+  _isTryingToUnclamp = false;
 }
 
 void SubClaw::ClawClampedCone() {
   _clawMotor1.Set(0.5);
+  _isTryingToUnclamp = false;
 }
 
 void SubClaw::ClawUnclamped() {
-  _clawMotor1.SetPositionTarget(UNCLAMPED_POS);
+  _clawMotor1.Set(-0.4);
+  _isTryingToUnclamp = true;
 }
 
 bool SubClaw::IsTryingToUnclamp() {
-  return _clawMotor1.GetPositionTarget() == UNCLAMPED_POS;
+  return _isTryingToUnclamp;
 }
 
 void SubClaw::LocateClawOnSwitch() {
@@ -72,6 +75,10 @@ void SubClaw::LocateClawOnSwitch() {
 
 bool SubClaw::OnClampedSwitch() {
   return !_clawClampedSwitch.Get();
+}
+
+bool SubClaw::OnUnClampedSwitch() {
+  return !_clawUnclampedSwitch.Get();
 }
 
 void SubClaw::Stop() {

@@ -32,12 +32,15 @@ class SubClaw : public frc2::SubsystemBase {
   bool IsTryingToUnclamp();
   void LocateClawOnSwitch();
   bool OnClampedSwitch();
+  bool OnUnClampedSwitch();
   void Stop();
   void SimulationPeriodic() override;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+  bool _isTryingToUnclamp = false;
 
   frc::DigitalInput _clawClampedSwitch{dio::clawClosedSensor};
   frc::DigitalInput _clawUnclampedSwitch{dio::clawOpenSensor};
