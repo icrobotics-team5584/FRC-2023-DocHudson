@@ -22,6 +22,9 @@ class SubClaw : public frc2::SubsystemBase {
     static SubClaw inst;
     return inst;
   }
+
+  enum State {UNCLAMPED, CONE_CLAMP, CUBE_CLAMP, IDLE};
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -39,7 +42,7 @@ class SubClaw : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-
+  State _state = IDLE;
   bool _isTryingToUnclamp = false;
 
   frc::DigitalInput _clawClampedSwitch{dio::clawClosedSensor};

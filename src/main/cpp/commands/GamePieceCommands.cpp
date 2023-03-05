@@ -8,17 +8,11 @@ namespace cmd {
 using namespace frc2::cmd;
 
 frc2::CommandPtr ClawExpand() {
-  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); })
-      .AndThen(
-          WaitUntil([] { return SubClaw::GetInstance().OnUnClampedSwitch(); }))
-      .AndThen(RunOnce([] {SubClaw::GetInstance().Stop();}));
+  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); });
 }
 
 frc2::CommandPtr ClawGrabCone() {
-  return RunOnce([] { SubClaw::GetInstance().ClawClampedCone(); })
-      .AndThen(
-          WaitUntil([] { return SubClaw::GetInstance().OnClampedSwitch(); }))
-      .AndThen(RunOnce([] {SubClaw::GetInstance().Stop();}));
+  return RunOnce([] { SubClaw::GetInstance().ClawClampedCone(); });
 }
 
 frc2::CommandPtr ClawGrabCube() {
@@ -31,7 +25,11 @@ frc2::CommandPtr ClawToggle() {
 }
 
 frc2::CommandPtr Intake() {
-  return ClawClose().AndThen(ArmPickUp()).AlongWith(DeployIntake().AndThen(ClawExpand()));
+  return Sequence(
+    ClawClose().AndThen(Wait(0.2_s)),
+    ArmPickUp().AlongWith(DeployIntake()),
+    ClawExpand()
+  );
 }
 
 frc2::CommandPtr DeployIntake(){

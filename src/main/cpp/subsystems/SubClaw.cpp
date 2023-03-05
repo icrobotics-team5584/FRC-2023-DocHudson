@@ -41,6 +41,33 @@ void SubClaw::Periodic() {
   // uncomment me to use absolute encoder
   // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
   // _clawEncoder.GetPosition());
+
+  switch (_state) {
+    case UNCLAMPED:
+      if (OnUnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(-0.4);
+      }
+      break;
+
+    case CONE_CLAMP:
+      if (OnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(0.5);
+      }
+      break;
+
+    case CUBE_CLAMP:
+      _clawMotor1.SetPositionTarget(CUBE_CLAMPED_POS);
+      break;
+      
+    case IDLE:
+      _clawMotor1.Set(0);
+    default:
+      break;
+  }
 }
 
 void SubClaw::SimulationPeriodic() {
@@ -51,22 +78,19 @@ void SubClaw::SimulationPeriodic() {
 }
 
 void SubClaw::ClawClampedCube() {
-  _clawMotor1.SetPositionTarget(CUBE_CLAMPED_POS);
-  _isTryingToUnclamp = false;
+  _state = CUBE_CLAMP;
 }
 
 void SubClaw::ClawClampedCone() {
-  _clawMotor1.Set(0.5);
-  _isTryingToUnclamp = false;
+  _state = CONE_CLAMP;
 }
 
 void SubClaw::ClawUnclamped() {
-  _clawMotor1.Set(-0.4);
-  _isTryingToUnclamp = true;
+  _state = UNCLAMPED;
 }
 
 bool SubClaw::IsTryingToUnclamp() {
-  return _isTryingToUnclamp;
+  return _state == UNCLAMPED;
 }
 
 void SubClaw::LocateClawOnSwitch() {
@@ -83,4 +107,5 @@ bool SubClaw::OnUnClampedSwitch() {
 
 void SubClaw::Stop() {
   _clawMotor1.Set(0);
+  _state = IDLE;
 }

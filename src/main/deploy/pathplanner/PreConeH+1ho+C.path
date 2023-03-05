@@ -155,6 +155,12 @@
       "names": [
         "StartIntake"
       ]
+    },
+    {
+      "position": 0.07272727272725825,
+      "names": [
+        "StowGamePiece"
+      ]
     }
   ]
 }
