@@ -55,14 +55,18 @@ void SubClaw::Periodic() {
       if (OnClampedSwitch()) {
         _clawMotor1.Set(0);
       } else {
-        _clawMotor1.Set(0.5);
+        _clawMotor1.Set(0.6);
       }
       break;
 
     case CUBE_CLAMP:
-      _clawMotor1.SetPositionTarget(CUBE_CLAMPED_POS);
+      if (OnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(0.3);
+      }
       break;
-      
+
     case IDLE:
       _clawMotor1.Set(0);
     default:
