@@ -88,7 +88,7 @@ void RobotContainer::ConfigureBindings() {
   // Intake
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
   _driverController.RightTrigger().OnTrue(cmd::Intake());
-  _driverController.RightTrigger().OnFalse(cmd::StopIntake().AndThen(cmd::ClawClose()));
+  _driverController.RightTrigger().OnFalse(cmd::StopIntake());
 
   // Coast mode override toggle
   frc2::Trigger([&] {
