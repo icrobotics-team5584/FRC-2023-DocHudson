@@ -191,7 +191,7 @@ frc::Translation2d SubArm::GetEndEffectorTarget() {
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotorBottom.SetPosition(126.33_deg);
+  _armMotorBottom.SetPosition(124.3_deg);
   // No need to set the top arm position since we are using an absolute encoder
 }
 

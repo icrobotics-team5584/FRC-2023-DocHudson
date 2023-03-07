@@ -17,4 +17,5 @@ frc2::CommandPtr ClawClose();
 frc2::CommandPtr StowGamePiece();
 frc2::CommandPtr DeployIntake();
 frc2::CommandPtr DriveIntakeToSwitch();
+frc2::CommandPtr ClawIdle();
 }

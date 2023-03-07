@@ -24,6 +24,8 @@ frc2::CommandPtr ClawToggle() {
                 [] { return SubClaw::GetInstance().IsTryingToUnclamp(); });
 }
 
+frc2::CommandPtr ClawIdle(){return RunOnce([]{SubClaw::GetInstance().Stop();});}
+
 frc2::CommandPtr Intake() {
   return Sequence(
     ClawClose().AndThen(Wait(0.2_s)),
