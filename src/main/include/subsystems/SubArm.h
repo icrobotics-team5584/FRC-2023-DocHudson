@@ -95,7 +95,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
   static constexpr double F_2 = 15;
-  frc::ArmFeedforward _topArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _topArmGravityFF{0_V, -0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim

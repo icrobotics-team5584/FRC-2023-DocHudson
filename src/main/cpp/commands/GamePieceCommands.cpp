@@ -28,7 +28,8 @@ frc2::CommandPtr ClawIdle(){return RunOnce([]{SubClaw::GetInstance().Stop();});}
 
 frc2::CommandPtr Intake() {
   return Sequence(
-    ClawClose().AndThen(Wait(0.2_s)),
+    ClawClose(),
+    WaitUntil([]{return SubClaw::GetInstance().OnClampedSwitch();}).WithTimeout(0.2_s),
     ArmPickUp().AlongWith(DeployIntake()),
     ClawExpand()
   );
