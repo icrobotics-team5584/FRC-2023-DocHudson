@@ -19,11 +19,11 @@ namespace cmd{
           });
     }
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(125_cm, 125_cm));} 
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(122_cm, 125_cm));} 
     frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(95_cm,90_cm));} //gtg
 
-    frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(125_cm, 97_cm));} 
-    frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(58_cm, 67_cm));}
+    frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(122_cm, 110_cm));} 
+    frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(70_cm, 75_cm));}
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
     frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(0.498_m, 0.781_m);}
