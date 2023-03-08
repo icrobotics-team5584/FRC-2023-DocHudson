@@ -68,11 +68,11 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
   //_driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Left, grids::Height::LS)).AndThen(cmd::ClawExpand()));
-  _driverController.B().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Right, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+  _driverController.B().WhileTrue(cmd::ArmToLoadingStation().AlongWith(cmd::ClawExpand()));
 
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
-  _driverController.B().OnTrue(cmd::ArmPickUp());
+  //_driverController.B().OnTrue(cmd::ArmPickUp());
   _driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
   POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
