@@ -22,7 +22,7 @@ namespace cmd {
             pathNum++;
         }
 
-        std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
+        static std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
 
             {"StartIntake", Intake().Unwrap() },
             {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },

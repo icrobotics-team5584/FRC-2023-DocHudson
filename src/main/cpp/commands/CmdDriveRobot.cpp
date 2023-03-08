@@ -21,7 +21,7 @@ void CmdDriveRobot::Execute() {
   const auto rot = -_rotLimiter.Calculate(frc::ApplyDeadband(_controller -> GetRightX(), deadband)) * SubDriveBase::MAX_ANGULAR_VELOCITY;
   //SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);
 
-  if (_controller->GetLeftStickButtonPressed()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
+  if (_controller->GetLeftStickButton()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
   else {SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);} //true == field relative
 }
 

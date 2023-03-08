@@ -24,7 +24,6 @@ SubClaw::SubClaw() {
     return OnClampedSwitch();
   }).OnTrue(frc2::cmd::RunOnce([this] {
               LocateClawOnSwitch();
-              Stop();
             }).IgnoringDisable(true));
 }
 
@@ -38,12 +37,17 @@ void SubClaw::Periodic() {
   frc::SmartDashboard::PutNumber("Claw/Clamp Switch", OnClampedSwitch());
   frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", OnUnClampedSwitch());
 
+
+  frc::SmartDashboard::PutNumber("Claw/Claw TEMP C", _clawMotor1.GetMotorTemperature());
+
+
   // uncomment me to use absolute encoder
   // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
   // _clawEncoder.GetPosition());
 
   switch (_state) {
     case UNCLAMPED:
+      frc::SmartDashboard::PutString("Claw/STATE", "UNCLAMPED");
       if (OnUnClampedSwitch()) {
         _clawMotor1.Set(0);
       } else {
@@ -52,14 +56,16 @@ void SubClaw::Periodic() {
       break;
 
     case CONE_CLAMP:
+      frc::SmartDashboard::PutString("Claw/STATE", "CONE_CLAMP");
       if (OnClampedSwitch()) {
         _clawMotor1.Set(0);
       } else {
-        _clawMotor1.Set(0.6);
+        _clawMotor1.Set(0.8);
       }
       break;
 
     case CUBE_CLAMP:
+      frc::SmartDashboard::PutString("Claw/STATE", "CUBE_CLAMP");
       if (OnClampedSwitch()) {
         _clawMotor1.Set(0);
       } else {
@@ -68,6 +74,7 @@ void SubClaw::Periodic() {
       break;
 
     case IDLE:
+      frc::SmartDashboard::PutString("Claw/STATE", "IDLE");
       _clawMotor1.Set(0);
     default:
       break;
