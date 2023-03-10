@@ -46,7 +46,9 @@ void SubIntake::DeployIntake() {
 
 void SubIntake::RetractIntake() {
   //_deployMotor.SetPositionTarget(STOWED_POS);
-  _deployMotor.Set(0.4);
+  if (!LocatingSwitchIsHit()) {
+    _deployMotor.Set(0.4);
+  }
 }
 
 double SubIntake::GetIntakeSpeed() {
