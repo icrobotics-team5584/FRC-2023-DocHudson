@@ -19,7 +19,7 @@ namespace cmd{
           });
     }
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(122_cm, 125_cm));} 
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(125_cm, 124_cm));} 
     frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(95.5_cm,74.3_cm));} //gtg
 
     frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 95_cm));} 
@@ -30,10 +30,10 @@ namespace cmd{
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.4384_tr); })
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.436_tr); }) //x_turns = x * 360 
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
-    } 
+    }
 
     frc2::CommandPtr CubeConeSwitch(){
         return RunOnce([]{
