@@ -8,7 +8,7 @@ namespace cmd {
 using namespace frc2::cmd;
 
 frc2::CommandPtr ClawExpand() {
-  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); });
+  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); frc::SmartDashboard::PutString("log", "Claw Expanding"); });
 }
 
 frc2::CommandPtr ClawGrabCone() {
@@ -44,7 +44,7 @@ frc2::CommandPtr DeployIntake(){
 }
 
 frc2::CommandPtr StowGamePiece() {
-  return RunOnce([] { SubIntake::GetInstance().RetractIntake(); })
+  return RunOnce([] { SubIntake::GetInstance().RetractIntake(); frc::SmartDashboard::PutString("log", "StowGamePiece"); })
       .AndThen(ArmToDefaultLocation());
 }
 
@@ -56,7 +56,7 @@ frc2::CommandPtr StartIntake() {
 }
 
 frc2::CommandPtr StopIntake() {
-  return RunOnce([] { SubIntake::GetInstance().Stop(); });
+  return RunOnce([] { SubIntake::GetInstance().Stop();});
 }
 
 frc2::CommandPtr Outtake() {

@@ -74,9 +74,10 @@
   ],
   "markers": [
     {
-      "position": 0.1,
+      "position": 0.9890909090908698,
       "names": [
-        "ArmPickUp"
+        "ArmPickUp",
+        "ClawClose"
       ]
     }
   ]

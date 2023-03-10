@@ -80,12 +80,12 @@
         "y": 4.644733974472386
       },
       "prevControl": {
-        "x": 7.063067940132566,
-        "y": 4.65516743520474
+        "x": 6.75572565351568,
+        "y": 4.641477296273127
       },
       "nextControl": {
-        "x": 7.063067940132566,
-        "y": 4.65516743520474
+        "x": 6.75572565351568,
+        "y": 4.641477296273127
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -94,7 +94,9 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "StopIntake"
+          "ClawClose",
+          "Stopintake",
+          "StowGamePiece"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -151,15 +153,21 @@
   ],
   "markers": [
     {
-      "position": 2.0,
+      "position": 1.75,
+      "names": [
+        "ArmPickUp"
+      ]
+    },
+    {
+      "position": 2.15,
       "names": [
         "StartIntake"
       ]
     },
     {
-      "position": 0.07272727272725825,
+      "position": 2.8,
       "names": [
-        "StowGamePiece"
+        "ClawExpand"
       ]
     }
   ]

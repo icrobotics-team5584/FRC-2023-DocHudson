@@ -13,7 +13,7 @@ namespace cmd {
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
 
-        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{3_mps, 2_mps_sq}, {3_mps, 2_mps_sq}});
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{3_mps, 2_mps_sq}});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -25,12 +25,12 @@ namespace cmd {
         static std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
 
             {"StartIntake", Intake().Unwrap() },
-            {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
-            {"Stopintake", StopIntake().Unwrap()},
+            // {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
+            {"Stopintake", StopIntake().Unwrap()}, //
             {"StartOuttake", Outtake().Unwrap() },
             {"StopOuttake", StopOuttake().Unwrap() },
-            {"ClawClose", ClawClose().Unwrap()},
-            {"ClawExpand", ClawExpand().Unwrap()},
+            {"ClawClose", ClawClose().Unwrap()}, //
+            {"ClawExpand", ClawExpand().Unwrap()}, //
 
             {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
 
@@ -45,6 +45,7 @@ namespace cmd {
             {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
 
             {"StowGamePiece", StowGamePiece().Unwrap()},
+            {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };

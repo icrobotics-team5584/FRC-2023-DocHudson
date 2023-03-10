@@ -39,7 +39,6 @@ RobotContainer::RobotContainer() {
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
   _autoChooser.AddOption("PreConeH+ScoreH(1)", "PreConeH+ScoreH(1)");   
-  _autoChooser.AddOption("PreConeH+ScoreH(3)", "PreConeH+ScoreH(3)");   
   _autoChooser.AddOption("PreConeH", "PreConeH");   
   _autoChooser.AddOption("PreConeH+C", "PreConeH+C");
   _autoChooser.AddOption("PreConeH+1ho+C", "PreConeH+1ho+C");
