@@ -30,7 +30,8 @@ namespace cmd {
 using namespace frc2::cmd;
 
 frc2::CommandPtr Score(grids::Column column, grids::Height height) {
-  return DriveToPose([column] {
+  return ArmToScoringHeight(height);
+  /*DriveToPose([column] {
        
            auto alliance = frc::DriverStation::GetAlliance();
            if (RobotContainer::GridSelect == grids::Grid::Neutral ||
@@ -44,8 +45,9 @@ frc2::CommandPtr Score(grids::Column column, grids::Height height) {
              return grids::ScoringLocationsBlue[drivePose];
            }
            return SubDriveBase::GetInstance().GetPose();
-         })
-      .AlongWith(ArmToScoringHeight(height).AsProxy());
+         })*/
+      
+        
 }
 }  // namespace cmd
    // namespace cmd
