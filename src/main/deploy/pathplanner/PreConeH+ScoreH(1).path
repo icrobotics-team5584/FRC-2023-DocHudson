@@ -210,6 +210,12 @@
         "ArmToPickUp",
         "StartIntake"
       ]
+    },
+    {
+      "position": 3.156363636363546,
+      "names": [
+        "ClawExpand"
+      ]
     }
   ]
 }
