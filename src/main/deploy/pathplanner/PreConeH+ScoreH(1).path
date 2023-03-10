@@ -66,7 +66,7 @@
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -119,9 +119,11 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "StopIntake"
+          "ClawClose",
+          "Stopintake",
+          "StowGamePiece"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }

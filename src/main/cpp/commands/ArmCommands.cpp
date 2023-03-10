@@ -19,10 +19,10 @@ namespace cmd{
           });
     }
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(139.1_cm, 105.2_cm));} 
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(122_cm, 125_cm));} 
     frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(95.5_cm,74.3_cm));} //gtg
 
-    frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 86.8_cm));} 
+    frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 95_cm));} 
     frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(104.4_cm, 52.1_cm));}
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
@@ -30,7 +30,7 @@ namespace cmd{
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.195_tr, -0.43_tr); })
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.4384_tr); })
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     } 

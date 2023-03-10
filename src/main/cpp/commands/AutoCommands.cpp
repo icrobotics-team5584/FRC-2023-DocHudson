@@ -26,6 +26,7 @@ namespace cmd {
 
             {"StartIntake", Intake().Unwrap() },
             {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
+            {"Stopintake", StopIntake().Unwrap()},
             {"StartOuttake", Outtake().Unwrap() },
             {"StopOuttake", StopOuttake().Unwrap() },
             {"ClawClose", ClawClose().Unwrap()},
