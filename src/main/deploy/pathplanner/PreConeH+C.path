@@ -41,7 +41,7 @@
       "isReversal": false,
       "velOverride": 1.0,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -77,11 +77,11 @@
     {
       "anchorPoint": {
         "x": 5.09,
-        "y": 3.25
+        "y": 3.23
       },
       "prevControl": {
         "x": 5.09,
-        "y": 3.288212911313809
+        "y": 3.268212911313809
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
