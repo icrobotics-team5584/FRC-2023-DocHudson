@@ -46,6 +46,8 @@ namespace cmd {
 
             {"StowGamePiece", StowGamePiece().Unwrap()},
             {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
+
+            {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };
