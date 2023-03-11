@@ -67,7 +67,7 @@ namespace cmd {
             },
             [MirrorPose] (frc::Pose2d pose) {
                 auto mirroredPose = MirrorPose(pose);
-                SubDriveBase::GetInstance().ResetGyroHeading(mirroredPose.Rotation().Degrees());
+                SubDriveBase::GetInstance().ResetGyroHeading(pose.Rotation().Degrees());
                 SubDriveBase::GetInstance().SetPose(mirroredPose);
             },
             {2, 0, 0},
