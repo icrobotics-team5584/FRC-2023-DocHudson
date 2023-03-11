@@ -24,17 +24,20 @@ SubIntake::SubIntake() {
             }).IgnoringDisable(true));
 */
   _deployMotor.UseAbsoluteEncoder(_intakeEncoder);
+  _intakeEncoder.SetInverted(true);
+  _deployMotor.EnableSensorWrapping(0,1);
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side current", _rightMotor.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
+  frc::SmartDashboard::PutNumber("Intake/encoder pos", _intakeEncoder.GetPosition());
 
-  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 360_deg - _deployMotor.GetPositionTarget();
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
   intakeErrorAngle = units::math::abs(intakeErrorAngle);
 
-  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 5_deg) {
+  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 15_deg) {
     _deployMotor.Set(0);
   }
 }
@@ -92,7 +95,7 @@ bool SubIntake::LocatingSwitchIsHit() {
 }
 
 bool SubIntake::CheckReach() {
-  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 360_deg - _deployMotor.GetPositionTarget();
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
   intakeErrorAngle = units::math::abs(intakeErrorAngle);
-  return intakeErrorAngle < 3_deg;
+  return intakeErrorAngle < 15_deg;
 }

@@ -1,0 +1,60 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.8541529646877277,
+        "y": 0.46504363818938405
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.517897486685545,
+        "y": 0.46504363818938405
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "ScoreHighCone"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.039765597844181,
+        "y": 0.7771287906615771
+      },
+      "prevControl": {
+        "x": 6.039765597844181,
+        "y": 0.815341701975386
+      },
+      "nextControl": null,
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "BrakeMode"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 0.4,
+      "names": [
+        "ArmPickUp"
+      ]
+    }
+  ]
+}
