@@ -37,7 +37,7 @@ void SubIntake::Periodic() {
   auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
   intakeErrorAngle = units::math::abs(intakeErrorAngle);
 
-  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 15_deg) {
+  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 0.1_tr) {
     _deployMotor.Set(0);
   }
 }
@@ -97,5 +97,5 @@ bool SubIntake::LocatingSwitchIsHit() {
 bool SubIntake::CheckReach() {
   auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
   intakeErrorAngle = units::math::abs(intakeErrorAngle);
-  return intakeErrorAngle < 15_deg;
+  return intakeErrorAngle < 0.1_tr;
 }
