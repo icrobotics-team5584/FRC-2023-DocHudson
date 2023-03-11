@@ -69,7 +69,7 @@ void SubClaw::Periodic() {
       if (OnClampedSwitch()) {
         _clawMotor1.Set(0);
       } else {
-        _clawMotor1.Set(0.3);
+        _clawMotor1.Set(0.4);
       }
       break;
 
