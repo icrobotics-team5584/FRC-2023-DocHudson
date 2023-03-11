@@ -34,12 +34,14 @@ void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
   frc::SmartDashboard::PutNumber("Intake/encoder pos", _intakeEncoder.GetPosition());
 
+/*
   auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
   intakeErrorAngle = units::math::abs(intakeErrorAngle);
 
   if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 0.1_tr) {
     _deployMotor.Set(0);
   }
+  */
 }
 
 void SubIntake::SimulationPeriodic() {
@@ -50,10 +52,12 @@ void SubIntake::SimulationPeriodic() {
 }
 
 void SubIntake::DeployIntake() {
+  _deployMotor.SetPIDFF(P+30, I, D, F);
   _deployMotor.SetPositionTarget(DEPLOY_POS);
 }
 
 void SubIntake::RetractIntake() {
+  _deployMotor.SetPIDFF(P, I, D, F);
   _deployMotor.SetPositionTarget(STOWED_POS);
 }
 

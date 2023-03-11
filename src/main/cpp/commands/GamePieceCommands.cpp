@@ -93,4 +93,4 @@ frc2::CommandPtr DriveIntakeToSwitch() {
       .Until([] { return SubIntake::GetInstance().LocatingSwitchIsHit(); });
 }
 
-}  // namespace cmd
+}  

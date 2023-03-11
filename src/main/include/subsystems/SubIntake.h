@@ -46,13 +46,13 @@ class SubIntake : public frc2::SubsystemBase {
 
   double GetIntakeSpeed();
 
-  static constexpr units::turn_t DEPLOY_POS = 0_tr;
-  static constexpr units::turn_t STOWED_POS = 0.350_tr;
+  static constexpr units::turn_t DEPLOY_POS = 0.103_tr;
+  static constexpr units::turn_t STOWED_POS = 0.455_tr;
 
   static constexpr double CONE_INTAKE_SPEED = 0.5;
   static constexpr double CUBE_INTAKE_SPEED = 0.5;
 
-  static constexpr double P = 50;
+  static constexpr double P = 60;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;

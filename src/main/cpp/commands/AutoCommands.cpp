@@ -12,8 +12,10 @@ namespace cmd {
     using namespace pathplanner;
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
+        pathplanner::PathConstraints speed {3_mps,2_mps_sq};
+        if (pathName == "PreConeH+C") { speed = {1_mps,1_mps_sq}; }
 
-        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{3_mps, 2_mps_sq}});
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {speed});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -32,7 +34,7 @@ namespace cmd {
             {"ClawClose", ClawClose().Unwrap()}, //
             {"ClawExpand", ClawExpand().Unwrap()}, //
 
-            {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
+            {"Wait0.5", frc2::cmd::Wait(0.5_s).Unwrap() },
             {"Wait5", frc2::cmd::Wait((5_s)).Unwrap()},
 
             {"ScoreLowCone", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
