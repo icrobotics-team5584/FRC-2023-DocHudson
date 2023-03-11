@@ -33,6 +33,7 @@ namespace cmd {
             {"ClawExpand", ClawExpand().Unwrap()}, //
 
             {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
+            {"Wait5", frc2::cmd::Wait((5_s)).Unwrap()},
 
             {"ScoreLowCone", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
             {"ScoreLowCube", ScorePos(ArmToLowCubeOrCone()).Unwrap() },

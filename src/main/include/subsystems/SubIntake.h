@@ -11,6 +11,8 @@
 #include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc/simulation/DCMotorSim.h>
+#include <rev/AbsoluteEncoder.h>
+#include <rev/SparkMaxAbsoluteEncoder.h>
 
 class SubIntake : public frc2::SubsystemBase {
  public:
@@ -39,17 +41,18 @@ class SubIntake : public frc2::SubsystemBase {
   ICSparkMax<> _leftMotor{canid::leftMotor};
   ICSparkMax<> _rightMotor{canid::rightMotor};
   ICSparkMax<> _deployMotor{canid::deployMotor, 2_A};
+  rev::SparkMaxAbsoluteEncoder _intakeEncoder{_deployMotor.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
   frc::DigitalInput _locatingSwitch{dio::intakeSensor};
 
   double GetIntakeSpeed();
 
-  static constexpr units::turn_t DEPLOY_POS = -13.14289_tr;
-  static constexpr units::turn_t STOWED_POS = 0_tr;
+  static constexpr units::turn_t DEPLOY_POS = 0_tr;
+  static constexpr units::turn_t STOWED_POS = 0.350_tr;
 
   static constexpr double CONE_INTAKE_SPEED = 0.5;
   static constexpr double CUBE_INTAKE_SPEED = 0.5;
 
-  static constexpr double P = 3;
+  static constexpr double P = 50;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
   static constexpr double F = 0.0;
