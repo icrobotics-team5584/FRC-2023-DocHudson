@@ -76,6 +76,11 @@ namespace cmd {
             {2, 0, 0},
             {1, 0, 0}, // pid value for rotation
             [MirrorPose] (frc::ChassisSpeeds speeds) {
+                // auto rotation = frc::Rotation2d.fromRadian(speeds.omega);
+                // frc::Pose2d robot_pose_vel = frc::Pose2d(speeds.vx, speeds.vy, rotation);
+                // frc::Twist2d twist_vel = frc::Pose2d.log(robot_pose_vel);
+                // frc::ChassisSpeeds new_chassis_speed = frc::ChassisSpeeds();
+
                 if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) {
                     SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
                 }
