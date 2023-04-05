@@ -37,6 +37,8 @@ void SubDriveBase::Periodic() {
      _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
    });
   UpdateOdometry();
+
+  frc::SmartDashboard::PutNumber("drivebase/angle", GetHeading().Degrees().value());
 }
 
 void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 

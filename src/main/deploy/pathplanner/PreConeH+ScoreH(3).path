@@ -7,8 +7,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7544336333416153,
-        "y": 0.8989567180143617
+        "x": 2.2213119675961885,
+        "y": 0.7128759651525959
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -27,15 +27,15 @@
     {
       "anchorPoint": {
         "x": 4.5,
-        "y": 0.75
+        "y": 0.85
       },
       "prevControl": {
         "x": 3.5000000000000044,
-        "y": 0.75
+        "y": 0.85
       },
       "nextControl": {
         "x": 4.936225694018731,
-        "y": 0.75
+        "y": 0.85
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -52,15 +52,15 @@
     {
       "anchorPoint": {
         "x": 5.5,
-        "y": 0.75
+        "y": 0.85
       },
       "prevControl": {
         "x": 4.5,
-        "y": 0.75
+        "y": 0.85
       },
       "nextControl": {
         "x": 6.5,
-        "y": 0.75
+        "y": 0.85
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -94,9 +94,11 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "StopIntake"
+          "ClawClose",
+          "Stopintake",
+          "StowGamePiece"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -159,9 +161,15 @@
       ]
     },
     {
-      "position": 0.1,
+      "position": 0.40000000000001856,
       "names": [
         "ArmPickUp"
+      ]
+    },
+    {
+      "position": 2.763636363636392,
+      "names": [
+        "ClawExpand"
       ]
     }
   ]

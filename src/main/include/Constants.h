@@ -43,7 +43,8 @@ namespace dio {
     constexpr int breakModeSwitch = 6;
     constexpr int armTopSensor = 1;
     constexpr int coneSensor = 2;
-    constexpr int clawSensor = 5;
+    constexpr int clawClosedSensor = 5;
+    constexpr int clawOpenSensor = 4;
     constexpr int intakeSensor = 8;
 }
 

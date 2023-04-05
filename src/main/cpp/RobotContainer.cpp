@@ -39,10 +39,12 @@ RobotContainer::RobotContainer() {
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
   _autoChooser.AddOption("PreConeH+ScoreH(1)", "PreConeH+ScoreH(1)");   
-  _autoChooser.AddOption("PreConeH+ScoreH(3)", "PreConeH+ScoreH(3)");   
   _autoChooser.AddOption("PreConeH", "PreConeH");   
   _autoChooser.AddOption("PreConeH+C", "PreConeH+C");
   _autoChooser.AddOption("PreConeH+1ho+C", "PreConeH+1ho+C");
+  _autoChooser.AddOption("PreConeH+Leave", "PreConeH+Leave");
+
+
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
@@ -67,26 +69,28 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  _driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::LS, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+  //_driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Left, grids::Height::LS)).AndThen(cmd::ClawExpand()));
+  _driverController.B().WhileTrue(cmd::ArmToLoadingStation());
 
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
-  _driverController.B().OnTrue(cmd::ArmPickUp());
-  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}).IgnoringDisable(true));
-  POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 0.001));
-  POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -0.001));
-  POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(0.001, 0)); //forward
-  POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-0.001, 0)); //backward
+  //_driverController.B().OnTrue(cmd::ArmPickUp());
+  _driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
+  POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 20));
+  POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
+  POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
+  POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
 
   // Claw
-  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); //Should do --> picks up whatever is in intake and brings everything back into robot
+  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); 
   _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
   _driverController.A().OnTrue(cmd::ClawToggle());
+  _driverController.X().OnTrue(cmd::ClawIdle());
   
   // Intake
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
   _driverController.RightTrigger().OnTrue(cmd::Intake());
-  _driverController.RightTrigger().OnFalse(cmd::ClawClose().AlongWith(cmd::StopIntake()));
+  _driverController.RightTrigger().OnFalse(cmd::StopIntake());
 
   // Coast mode override toggle
   frc2::Trigger([&] {

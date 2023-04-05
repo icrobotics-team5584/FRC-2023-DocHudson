@@ -10,7 +10,7 @@ SubClaw::SubClaw() {
   frc::SmartDashboard::PutData("Claw/Claw Motor 1: ",
                                (wpi::Sendable*)&_clawMotor1);
 
-  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+  _clawMotor1.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
   _clawMotor1.SetClosedLoopControlType(
       rev::CANSparkMax::ControlType::kPosition);
@@ -20,10 +20,8 @@ SubClaw::SubClaw() {
   //_clawMotor1.UseAbsoluteEncoder(_clawEncoder);
   //_clawMotor1.EnableSensorWrapping(0, 1);
 
-  _clawMotor1.SetPosition(0_tr);
-
   frc2::Trigger([this] {
-    return _clawLocatingSwitch.Get();
+    return OnClampedSwitch();
   }).OnTrue(frc2::cmd::RunOnce([this] {
               LocateClawOnSwitch();
             }).IgnoringDisable(true));
@@ -35,11 +33,52 @@ void SubClaw::Periodic() {
                                  _clawMotor1.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Claw/duty cycle",
                                  _clawMotor1.GetAppliedOutput());
-  frc::SmartDashboard::PutNumber("Claw/is unclamped", IsTryingToUnclamp());
+  frc::SmartDashboard::PutNumber("Claw/is trying to unclamp", IsTryingToUnclamp());
+  frc::SmartDashboard::PutNumber("Claw/Clamp Switch", OnClampedSwitch());
+  frc::SmartDashboard::PutNumber("Claw/Unclamp Switch", OnUnClampedSwitch());
+
+
+  frc::SmartDashboard::PutNumber("Claw/Claw TEMP C", _clawMotor1.GetMotorTemperature());
+
 
   // uncomment me to use absolute encoder
   // frc::SmartDashboard::PutNumber("Claw/Abs encoder pos",
   // _clawEncoder.GetPosition());
+
+  switch (_state) {
+    case UNCLAMPED:
+      frc::SmartDashboard::PutString("Claw/STATE", "UNCLAMPED");
+      if (OnUnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(-0.4);
+      }
+      break;
+
+    case CONE_CLAMP:
+      frc::SmartDashboard::PutString("Claw/STATE", "CONE_CLAMP");
+      if (OnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(0.8);
+      }
+      break;
+
+    case CUBE_CLAMP:
+      frc::SmartDashboard::PutString("Claw/STATE", "CUBE_CLAMP");
+      if (OnClampedSwitch()) {
+        _clawMotor1.Set(0);
+      } else {
+        _clawMotor1.Set(0.4);
+      }
+      break;
+
+    case IDLE:
+      frc::SmartDashboard::PutString("Claw/STATE", "IDLE");
+      _clawMotor1.Set(0);
+    default:
+      break;
+  }
 }
 
 void SubClaw::SimulationPeriodic() {
@@ -50,21 +89,34 @@ void SubClaw::SimulationPeriodic() {
 }
 
 void SubClaw::ClawClampedCube() {
-  _clawMotor1.SetPositionTarget(CUBE_CLAMPED_POS);
+  _state = CUBE_CLAMP;
 }
 
 void SubClaw::ClawClampedCone() {
-  _clawMotor1.SetPositionTarget(CONE_CLAMPED_POS);
+  _state = CONE_CLAMP;
 }
 
 void SubClaw::ClawUnclamped() {
-  _clawMotor1.SetPositionTarget(UNCLAMPED_POS);
+  _state = UNCLAMPED;
 }
 
 bool SubClaw::IsTryingToUnclamp() {
-  return _clawMotor1.GetPositionTarget() == UNCLAMPED_POS;
+  return _state == UNCLAMPED;
 }
 
 void SubClaw::LocateClawOnSwitch() {
   _clawMotor1.SetPosition(0_tr);
+}
+
+bool SubClaw::OnClampedSwitch() {
+  return !_clawClampedSwitch.Get();
+}
+
+bool SubClaw::OnUnClampedSwitch() {
+  return !_clawUnclampedSwitch.Get();
+}
+
+void SubClaw::Stop() {
+  _clawMotor1.Set(0);
+  _state = IDLE;
 }

@@ -19,6 +19,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/controller/ArmFeedforward.h>
 #include <wpi/interpolating_map.h>
+#include <optional>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -28,6 +29,10 @@ class SubArm : public frc2::SubsystemBase {
     static SubArm inst;
     return inst;
   }
+  struct IKResult {
+    units::radian_t bottomAngle;
+    units::radian_t topAngle;
+  };
 
   SubArm();
   void Periodic() override;
@@ -39,8 +44,9 @@ class SubArm : public frc2::SubsystemBase {
   void DashboardInput();
   void ArmResettingPos();
 
-  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
+  std::optional<IKResult> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
+  frc::Translation2d GetEndEffectorTarget();
   bool CheckPosition();
   bool LocatingSwitchIsHit();
   units::turn_t GetBottomToTopArmAngle();
@@ -62,7 +68,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::DigitalInput _topSensor{dio::armTopSensor};
   frc::DigitalInput _bottomSensor{dio::armBottomSensor};
 
-
+  frc::Translation2d _endEffectorTarget{0.5_m, 0.5_m};
 
   //arm 1
   static constexpr double P = 0.0;
@@ -73,7 +79,7 @@ class SubArm : public frc2::SubsystemBase {
   // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
   // on the position of the top arm and the Gravity FF Map.
   wpi::interpolating_map<units::degree_t, units::volt_t> _bottomArmGravFFMap; 
-  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
@@ -89,7 +95,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
   static constexpr double F_2 = 15;
-  frc::ArmFeedforward _topArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _topArmGravityFF{0_V, -0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim

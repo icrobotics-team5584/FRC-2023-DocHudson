@@ -15,21 +15,33 @@ SubIntake::SubIntake() {
   frc::SmartDashboard::PutData("Intake/Deploy Motor: ", (wpi::Sendable*)&_deployMotor);
   _deployMotor.SetPIDFF(P, I, D, F);
 
+/*
   frc2::Trigger([this] {
     return LocatingSwitchIsHit();
   }).OnTrue(frc2::cmd::RunOnce([this] {
               ZeroDeployMotor();
+              _deployMotor.Set(0);
             }).IgnoringDisable(true));
+*/
+  _deployMotor.UseAbsoluteEncoder(_intakeEncoder);
+  _intakeEncoder.SetInverted(true);
+  _deployMotor.EnableSensorWrapping(0,1);
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side current", _rightMotor.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
+  frc::SmartDashboard::PutNumber("Intake/encoder pos", _intakeEncoder.GetPosition());
 
-  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && _deployMotor.GetPosError() < 5_deg) {
+/*
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
+  intakeErrorAngle = units::math::abs(intakeErrorAngle);
+
+  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 0.1_tr) {
     _deployMotor.Set(0);
   }
+  */
 }
 
 void SubIntake::SimulationPeriodic() {
@@ -40,15 +52,17 @@ void SubIntake::SimulationPeriodic() {
 }
 
 void SubIntake::DeployIntake() {
+  _deployMotor.SetPIDFF(P+30, I, D, F);
   _deployMotor.SetPositionTarget(DEPLOY_POS);
 }
 
 void SubIntake::RetractIntake() {
+  _deployMotor.SetPIDFF(P, I, D, F);
   _deployMotor.SetPositionTarget(STOWED_POS);
 }
 
 double SubIntake::GetIntakeSpeed() {
-  return RobotContainer::isConeMode ? 1 : 0.5;
+  return RobotContainer::isConeMode ? CONE_INTAKE_SPEED : CUBE_INTAKE_SPEED;
 }
 
 void SubIntake::IntakeLeft() {
@@ -85,5 +99,7 @@ bool SubIntake::LocatingSwitchIsHit() {
 }
 
 bool SubIntake::CheckReach() {
-  return units::math::abs(_deployMotor.GetPosError()) < 1_tr;
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
+  intakeErrorAngle = units::math::abs(intakeErrorAngle);
+  return intakeErrorAngle < 0.1_tr;
 }
