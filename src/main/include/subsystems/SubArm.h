@@ -19,6 +19,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/controller/ArmFeedforward.h>
 #include <wpi/interpolating_map.h>
+#include <optional>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -28,19 +29,26 @@ class SubArm : public frc2::SubsystemBase {
     static SubArm inst;
     return inst;
   }
+  struct IKResult {
+    units::radian_t bottomAngle;
+    units::radian_t topAngle;
+  };
 
   SubArm();
   void Periodic() override;
   void SimulationPeriodic() override;
   void DriveTo(units::degree_t deg1, units::degree_t deg2);
+  void DriveBottomAt(double bottomPower);
   void SetIdleMode(rev::CANSparkMax::IdleMode idleMode);
   void ArmPos(units::meter_t x, units::meter_t y);
   void DashboardInput();
   void ArmResettingPos();
 
-  std::pair<units::radian_t, units::radian_t> InverseKinmetics(units::meter_t x, units::meter_t y);
+  std::optional<IKResult> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
+  frc::Translation2d GetEndEffectorTarget();
   bool CheckPosition();
+  bool LocatingSwitchIsHit();
   units::turn_t GetBottomToTopArmAngle();
   units::turn_t GetGroundToTopArmAngle();
 
@@ -60,7 +68,7 @@ class SubArm : public frc2::SubsystemBase {
   frc::DigitalInput _topSensor{dio::armTopSensor};
   frc::DigitalInput _bottomSensor{dio::armBottomSensor};
 
-
+  frc::Translation2d _endEffectorTarget{0.5_m, 0.5_m};
 
   //arm 1
   static constexpr double P = 0.0;
@@ -71,11 +79,11 @@ class SubArm : public frc2::SubsystemBase {
   // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
   // on the position of the top arm and the Gravity FF Map.
   wpi::interpolating_map<units::degree_t, units::volt_t> _bottomArmGravFFMap; 
-  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _bottomArmGravityFF{0_V, 0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO = 218.27;
   static constexpr units::kilogram_t ARM_MASS_1 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL = 9_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL = 18_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE = 0.5_deg; 
   static constexpr units::meter_t ARM_LENGTH = 0.9_m;
@@ -87,11 +95,11 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
   static constexpr double F_2 = 15;
-  frc::ArmFeedforward _topArmGravityFF{0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
+  frc::ArmFeedforward _topArmGravityFF{0_V, -0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO_2 = 155.91;
   static constexpr units::kilogram_t ARM_MASS_2 = 1_kg; // only sim
-  static constexpr units::degrees_per_second_t MAX_VEL_2 = 9_deg_per_s;
+  static constexpr units::degrees_per_second_t MAX_VEL_2 = 24_deg_per_s;
   static constexpr units::degrees_per_second_squared_t MAX_ACCEL_2 = 90_deg_per_s_sq;
   static constexpr units::degree_t TOLERANCE_2 = 0.5_deg;
   static constexpr units::meter_t ARM_LENGTH_2 = 1_m;
@@ -125,8 +133,5 @@ class SubArm : public frc2::SubsystemBase {
   frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 1, 1); //root x and y
   frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
   frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
-
-  units::angle::degree_t targetTopAngle;
-  units::angle::degree_t targetBottomAngle;
 };
 

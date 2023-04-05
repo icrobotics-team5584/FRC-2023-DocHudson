@@ -8,11 +8,7 @@ namespace cmd {
 using namespace frc2::cmd;
 
 frc2::CommandPtr ClawExpand() {
-  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); });
-}
-
-frc2::CommandPtr ClawRetract() {
-  return ClawExpand();
+  return RunOnce([] { SubClaw::GetInstance().ClawUnclamped(); frc::SmartDashboard::PutString("log", "Claw Expanding"); });
 }
 
 frc2::CommandPtr ClawGrabCone() {
@@ -28,9 +24,15 @@ frc2::CommandPtr ClawToggle() {
                 [] { return SubClaw::GetInstance().IsTryingToUnclamp(); });
 }
 
+frc2::CommandPtr ClawIdle(){return RunOnce([]{SubClaw::GetInstance().Stop();});}
+
 frc2::CommandPtr Intake() {
-  return ClawGrabCone().AndThen(ArmPickUp())
-      .AlongWith(DeployIntake().AndThen(ClawExpand()));
+  return Sequence(
+    ClawClose(),
+    WaitUntil([]{return SubClaw::GetInstance().OnClampedSwitch();}).WithTimeout(0.2_s),
+    ArmPickUp().AlongWith(DeployIntake()),
+    ClawExpand()
+  );
 }
 
 frc2::CommandPtr DeployIntake(){
@@ -42,7 +44,7 @@ frc2::CommandPtr DeployIntake(){
 }
 
 frc2::CommandPtr StowGamePiece() {
-  return RunOnce([] { SubIntake::GetInstance().RetractIntake(); })
+  return RunOnce([] { SubIntake::GetInstance().RetractIntake(); frc::SmartDashboard::PutString("log", "StowGamePiece"); })
       .AndThen(ArmToDefaultLocation());
 }
 
@@ -54,7 +56,7 @@ frc2::CommandPtr StartIntake() {
 }
 
 frc2::CommandPtr StopIntake() {
-  return RunOnce([] { SubIntake::GetInstance().Stop(); });
+  return RunOnce([] { SubIntake::GetInstance().Stop();});
 }
 
 frc2::CommandPtr Outtake() {
@@ -66,7 +68,6 @@ frc2::CommandPtr Outtake() {
       },
       [] {
         SubIntake::GetInstance().Stop();
-        SubIntake::GetInstance().RetractIntake();
       });
 }
 
@@ -86,8 +87,10 @@ frc2::CommandPtr ClawClose() {
                 [] { return RobotContainer::isConeMode; });
 }
 
-frc2::CommandPtr ClawOpen() {
-  return ClawExpand();
+frc2::CommandPtr DriveIntakeToSwitch() {
+  return StartEnd([] { SubIntake::GetInstance().DriveDeployMotor(0.3); },
+                  [] { SubIntake::GetInstance().DriveDeployMotor(0); })
+      .Until([] { return SubIntake::GetInstance().LocatingSwitchIsHit(); });
 }
 
-}  // namespace cmd
+}  

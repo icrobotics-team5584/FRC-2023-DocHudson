@@ -12,8 +12,10 @@ namespace cmd {
     using namespace pathplanner;
 
     frc2::CommandPtr PPDrivePath(std::string pathName) {
+        pathplanner::PathConstraints speed {3_mps,2_mps_sq};
+        if (pathName == "PreConeH+C") { speed = {1_mps,1_mps_sq}; }
 
-        auto pathGroup = PathPlanner::loadPathGroup(pathName , {{2_mps, 2_mps_sq}, {2_mps, 2_mps_sq}});
+        auto pathGroup = PathPlanner::loadPathGroup(pathName , {speed});
 
         int pathNum = 0;
         for (auto path : pathGroup) {
@@ -22,23 +24,35 @@ namespace cmd {
             pathNum++;
         }
 
-        std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
+        static std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
 
             {"StartIntake", Intake().Unwrap() },
-            {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
+            // {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
+            {"Stopintake", StopIntake().Unwrap()}, //
             {"StartOuttake", Outtake().Unwrap() },
             {"StopOuttake", StopOuttake().Unwrap() },
-            {"ClawClose", ClawClose().Unwrap()},
-            {"ClawExpand", ClawExpand().Unwrap()},
+            {"ClawClose", ClawClose().Unwrap()}, //
+            {"ClawExpand", ClawExpand().Unwrap()}, //
 
-            {"Wait", frc2::cmd::Wait(1_s).Unwrap() },
+            {"Wait0.5", frc2::cmd::Wait(0.5_s).Unwrap() },
+            {"Wait5", frc2::cmd::Wait((5_s)).Unwrap()},
 
             {"ScoreLowCone", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
             {"ScoreLowCube", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
             {"ScoreMidCone", ScorePos(ArmToMidCone()).Unwrap() },
             {"ScoreMidCube", ScorePos(ArmToMidCube()).Unwrap() },
             {"ScoreHighCone", ScorePos(ArmToHighCone()).Unwrap() }, 
-            {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() }
+            {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() },
+
+            {"ArmPickUp", ArmPickUp().Unwrap()},
+            {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
+
+            {"StowGamePiece", StowGamePiece().Unwrap()},
+            {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
+
+            {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
+    
+            {"DoNothing", frc2::cmd::None().Unwrap()}
         };
 
         auto MirrorPose = [] (frc::Pose2d pose) -> frc::Pose2d {
@@ -55,7 +69,9 @@ namespace cmd {
                 return MirrorPose(SubDriveBase::GetInstance().GetPose());
             },
             [MirrorPose] (frc::Pose2d pose) {
-                SubDriveBase::GetInstance().SetPose(MirrorPose(pose));
+                auto mirroredPose = MirrorPose(pose);
+                SubDriveBase::GetInstance().ResetGyroHeading(pose.Rotation().Degrees());
+                SubDriveBase::GetInstance().SetPose(mirroredPose);
             },
             {2, 0, 0},
             {1, 0, 0}, // pid value for rotation
@@ -81,10 +97,6 @@ namespace cmd {
         return ClawClose()
             .AndThen(std::forward<frc2::CommandPtr>(scoreCommand))
             .AndThen(frc2::cmd::Wait(0.5_s))
-            .AndThen(ClawExpand())
-            .AndThen(frc2::cmd::Wait(0.5_s))
-            .AndThen(ClawRetract())
-            .AndThen(ArmToSafePosition())
-            .AndThen(ArmPickUp());
+            .AndThen(ClawExpand());
     }
 }

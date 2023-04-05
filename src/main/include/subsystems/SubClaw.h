@@ -22,6 +22,9 @@ class SubClaw : public frc2::SubsystemBase {
     static SubClaw inst;
     return inst;
   }
+
+  enum State {UNCLAMPED, CONE_CLAMP, CUBE_CLAMP, IDLE};
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -31,23 +34,28 @@ class SubClaw : public frc2::SubsystemBase {
   void ClawUnclamped();
   bool IsTryingToUnclamp();
   void LocateClawOnSwitch();
-
+  bool OnClampedSwitch();
+  bool OnUnClampedSwitch();
+  void Stop();
   void SimulationPeriodic() override;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  State _state = IDLE;
+  bool _isTryingToUnclamp = false;
 
-  frc::DigitalInput _clawLocatingSwitch{dio::clawSensor};
+  frc::DigitalInput _clawClampedSwitch{dio::clawClosedSensor};
+  frc::DigitalInput _clawUnclampedSwitch{dio::clawOpenSensor};
 
   ICSparkMax<> _clawMotor1{canid::clawMotor1, 30_A};
 
   // uncomment me to use absolute encoder
   //rev::SparkMaxAbsoluteEncoder _clawEncoder{_clawMotor1.GetAbsoluteEncoder(rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
-  static constexpr units::turn_t CONE_CLAMPED_POS = 0_tr;//0.397968_tr;
-  static constexpr units::turn_t CUBE_CLAMPED_POS = -12.8_tr;//0.271152_tr;
-  static constexpr units::turn_t UNCLAMPED_POS = -17.21_tr;//0.225265_tr;
+  static constexpr units::turn_t CONE_CLAMPED_POS = 0_tr;//0_tr;//0.397968_tr;
+  static constexpr units::turn_t CUBE_CLAMPED_POS = -4.81_tr;//-12.8_tr;//0.271152_tr;
+  static constexpr units::turn_t UNCLAMPED_POS = -7.5_tr;//-17.21_tr;//0.225265_tr;
    
   static constexpr double P = 4.5;
   static constexpr double I = 0.0;

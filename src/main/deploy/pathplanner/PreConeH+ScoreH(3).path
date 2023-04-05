@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.9,
-        "y": 4.425
+        "x": 1.85,
+        "y": 1.587565126349765
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.899999999999997,
-        "y": 4.425
+        "x": 2.2213119675961885,
+        "y": 0.7128759651525959
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "ScoreMiddleCube"
+          "ScoreHighCone"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -26,19 +26,44 @@
     },
     {
       "anchorPoint": {
-        "x": 7.1,
-        "y": 4.6
+        "x": 4.5,
+        "y": 0.85
       },
       "prevControl": {
-        "x": 5.618040437358449,
-        "y": 4.6
+        "x": 3.5000000000000044,
+        "y": 0.85
       },
       "nextControl": {
-        "x": 5.618040437358449,
-        "y": 4.6
+        "x": 4.936225694018731,
+        "y": 0.85
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.5,
+        "y": 0.85
+      },
+      "prevControl": {
+        "x": 4.5,
+        "y": 0.85
+      },
+      "nextControl": {
+        "x": 6.5,
+        "y": 0.85
       },
       "holonomicAngle": 0,
-      "isReversal": true,
+      "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -51,46 +76,48 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8988898532885377,
-        "y": 5.1
+        "x": 7.36602327704235,
+        "y": 0.7
       },
       "prevControl": {
-        "x": 5.28563637113858,
-        "y": 4.856873854033662
+        "x": 6.327843778044081,
+        "y": 0.7
       },
       "nextControl": {
-        "x": 5.28563637113858,
-        "y": 4.856873854033662
+        "x": 6.327843778044081,
+        "y": 0.7
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "ScoreMiddleCube"
+          "ClawClose",
+          "Stopintake",
+          "StowGamePiece"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 7.1,
-        "y": 3.4
+        "x": 6.4,
+        "y": 0.7
       },
       "prevControl": {
-        "x": 5.08457319690081,
-        "y": 4.216797230903125
+        "x": 7.001334039215759,
+        "y": 0.6999999999999998
       },
       "nextControl": {
-        "x": 5.08457319690081,
-        "y": 4.216797230903125
+        "x": 5.798665960784242,
+        "y": 0.7000000000000001
       },
-      "holonomicAngle": 0,
-      "isReversal": true,
+      "holonomicAngle": 180.0,
+      "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -103,22 +130,22 @@
     },
     {
       "anchorPoint": {
-        "x": 1.9,
-        "y": 3.85
+        "x": 1.71,
+        "y": 0.48
       },
       "prevControl": {
-        "x": 4.861992701277245,
-        "y": 5.795727621732787
+        "x": 3.51575497521256,
+        "y": 0.7350577771046207
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": -174.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "ScoreMiddleCube"
+          "ScoreHighCone"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -128,27 +155,21 @@
   ],
   "markers": [
     {
-      "position": 0.8,
+      "position": 2.1,
       "names": [
         "StartIntake"
       ]
     },
     {
-      "position": 1.0,
+      "position": 0.40000000000001856,
       "names": [
-        "StopIntake"
+        "ArmPickUp"
       ]
     },
     {
-      "position": 2.8,
+      "position": 2.763636363636392,
       "names": [
-        "StartIntake"
-      ]
-    },
-    {
-      "position": 3.0,
-      "names": [
-        "StopIntake"
+        "ClawExpand"
       ]
     }
   ]

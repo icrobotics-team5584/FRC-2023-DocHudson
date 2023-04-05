@@ -49,4 +49,5 @@ class RobotContainer {
   void SetCubeMode();
   
   frc::SendableChooser<std::string> _autoChooser;
+  std::string _autoSelected;
 };

@@ -5,42 +5,64 @@
 #include "subsystems/SubIntake.h"
 #include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/commands.h>
+#include <frc2/command/button/Trigger.h>
 
 SubIntake::SubIntake() {
   _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  frc::SmartDashboard::PutData("Intake/Deploy Motor 1: ", (wpi::Sendable*)&_DeployMotor);
-  _DeployMotor.SetPIDFF(P, I, D, F);
+  frc::SmartDashboard::PutData("Intake/Deploy Motor: ", (wpi::Sendable*)&_deployMotor);
+  _deployMotor.SetPIDFF(P, I, D, F);
+
+/*
+  frc2::Trigger([this] {
+    return LocatingSwitchIsHit();
+  }).OnTrue(frc2::cmd::RunOnce([this] {
+              ZeroDeployMotor();
+              _deployMotor.Set(0);
+            }).IgnoringDisable(true));
+*/
+  _deployMotor.UseAbsoluteEncoder(_intakeEncoder);
+  _intakeEncoder.SetInverted(true);
+  _deployMotor.EnableSensorWrapping(0,1);
 }
 
 // This method will be called once per scheduler run
 void SubIntake::Periodic() {
   frc::SmartDashboard::PutNumber("Intake/Right side current", _rightMotor.GetOutputCurrent());
   frc::SmartDashboard::PutNumber("Intake/Right side duty cycle", _rightMotor.GetAppliedOutput());
+  frc::SmartDashboard::PutNumber("Intake/encoder pos", _intakeEncoder.GetPosition());
 
-  if (_DeployMotor.GetPositionTarget() == DEPLOY_POS && _DeployMotor.GetPosError() < 5_deg) {
-    _DeployMotor.Set(0);
+/*
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
+  intakeErrorAngle = units::math::abs(intakeErrorAngle);
+
+  if (_deployMotor.GetPositionTarget() == DEPLOY_POS && intakeErrorAngle < 0.1_tr) {
+    _deployMotor.Set(0);
   }
+  */
 }
 
 void SubIntake::SimulationPeriodic() {
-  _IntakeSim.SetInputVoltage(_DeployMotor.GetSimVoltage());
+  _IntakeSim.SetInputVoltage(_deployMotor.GetSimVoltage());
   _IntakeSim.Update(20_ms);
-  _DeployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(),
+  _deployMotor.UpdateSimEncoder(_IntakeSim.GetAngularPosition(),
                                 _IntakeSim.GetAngularVelocity());
 }
 
 void SubIntake::DeployIntake() {
-  _DeployMotor.SetPositionTarget(DEPLOY_POS);
+  _deployMotor.SetPIDFF(P+30, I, D, F);
+  _deployMotor.SetPositionTarget(DEPLOY_POS);
 }
 
 void SubIntake::RetractIntake() {
-  _DeployMotor.SetPositionTarget(0_tr);
+  _deployMotor.SetPIDFF(P, I, D, F);
+  _deployMotor.SetPositionTarget(STOWED_POS);
 }
 
 double SubIntake::GetIntakeSpeed() {
-  return RobotContainer::isConeMode ? 1 : 0.5;
+  return RobotContainer::isConeMode ? CONE_INTAKE_SPEED : CUBE_INTAKE_SPEED;
 }
 
 void SubIntake::IntakeLeft() {
@@ -64,10 +86,20 @@ void SubIntake::Stop() {
   _rightMotor.Set(0);
 }
 
-bool SubIntake::SensesCone() {
-  return _coneSensor.Get();
+void SubIntake::ZeroDeployMotor() {
+  _deployMotor.SetPosition(0_tr);
+}
+
+void SubIntake::DriveDeployMotor(double power) {
+  _deployMotor.Set(power);
+}
+
+bool SubIntake::LocatingSwitchIsHit() {
+  return _locatingSwitch.Get();
 }
 
 bool SubIntake::CheckReach() {
-  return units::math::abs(_DeployMotor.GetPosError()) < 1_tr;
+  auto intakeErrorAngle = _intakeEncoder.GetPosition() * 1_tr - _deployMotor.GetPositionTarget();
+  intakeErrorAngle = units::math::abs(intakeErrorAngle);
+  return intakeErrorAngle < 0.1_tr;
 }

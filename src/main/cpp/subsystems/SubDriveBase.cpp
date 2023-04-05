@@ -37,6 +37,8 @@ void SubDriveBase::Periodic() {
      _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
    });
   UpdateOdometry();
+
+  frc::SmartDashboard::PutNumber("drivebase/angle", GetHeading().Degrees().value());
 }
 
 void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 
@@ -147,8 +149,9 @@ bool SubDriveBase::IsAtPose(frc::Pose2d pose) {
   } else {return false;}
 }
 
-void SubDriveBase::ResetGyroHeading() {
+void SubDriveBase::ResetGyroHeading(units::degree_t startingAngle) {
   _gyro.Reset();
+  _gyro.SetAngleAdjustment(startingAngle.value());
 }
 
 frc::Pose2d SubDriveBase::GetPose() {return _poseEstimator.GetEstimatedPosition();}
