@@ -55,7 +55,7 @@ void RobotContainer::ConfigureBindings() {
 
   // Navx
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  _driverController.Back().OnTrue(frc2::cmd::RunOnce([]{cmd::AutoBalance();}));
+  _driverController.Back().WhileTrue(cmd::AutoBalance());
 
   // Note: all arduino buttons are moved up 1 id, eg: in arduino ide, B4 is ID4, in VScode B4 is ID5
   _secondController.Button(4+1).WhileTrue(cmd::Score(grids::Column::Left, grids::Height::Low));
