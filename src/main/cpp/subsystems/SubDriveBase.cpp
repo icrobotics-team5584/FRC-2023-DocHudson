@@ -188,3 +188,6 @@ void SubDriveBase::SetNeutralMode(NeutralMode mode) {
   _backRight.SetNeutralMode(mode);
 }
 
+units::degree_t SubDriveBase::GetPitch(){
+  return _gyro.GetPitch() * 1_deg;
+}
