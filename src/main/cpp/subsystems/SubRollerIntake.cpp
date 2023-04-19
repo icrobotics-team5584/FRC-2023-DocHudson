@@ -10,7 +10,7 @@
 
 SubRollerIntake::SubRollerIntake(){
     frc::SmartDashboard::PutNumber("RollerIntake/Right side current", _rightMotor.GetOutputCurrent());
-    frc::SmartDashboard::PutNumber("RollerIntake/Right side current", _leftMotor.GetOutputCurrent());
+    frc::SmartDashboard::PutNumber("RollerIntake/Left side current", _leftMotor.GetOutputCurrent());
 
     _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
