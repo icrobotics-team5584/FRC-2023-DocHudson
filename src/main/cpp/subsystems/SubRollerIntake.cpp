@@ -9,8 +9,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 SubRollerIntake::SubRollerIntake(){
-    frc::SmartDashboard::PutNumber("RollerIntake/Right side current", _rightMotor.GetOutputCurrent());
-    frc::SmartDashboard::PutNumber("RollerIntake/Left side current", _leftMotor.GetOutputCurrent());
+    frc::SmartDashboard::PutData("RollerIntake/Right side current", (wpi::Sendable*)&_leftMotor);
+    frc::SmartDashboard::PutData("RollerIntake/Left side current", (wpi::Sendable*)&_leftMotor);
 
     _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
