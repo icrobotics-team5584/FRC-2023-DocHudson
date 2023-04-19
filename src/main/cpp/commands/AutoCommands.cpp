@@ -6,6 +6,7 @@
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
 #include <units/time.h>
+#include <constants.h>
 
 namespace cmd {
 
@@ -76,16 +77,27 @@ namespace cmd {
             {2, 0, 0},
             {1, 0, 0}, // pid value for rotation
             [MirrorPose] (frc::ChassisSpeeds speeds) {
-                // auto rotation = frc::Rotation2d.fromRadian(speeds.omega);
-                // frc::Pose2d robot_pose_vel = frc::Pose2d(speeds.vx, speeds.vy, rotation);
-                // frc::Twist2d twist_vel = frc::Pose2d.log(robot_pose_vel);
-                // frc::ChassisSpeeds new_chassis_speed = frc::ChassisSpeeds();
+                units::radian_t rotation = speeds.omega * 20_ms;
+                frc::Pose2d robot_pose_vel = frc::Pose2d(speeds.vx * 20_ms, speeds.vy * 20_ms, frc::Rotation2d(rotation));
+                frc::Twist2d twist_vel = frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)).Log(robot_pose_vel);
+
+                units::velocity::meters_per_second_t new_x = twist_vel.dx / 20_ms;
+                units::velocity::meters_per_second_t new_y = twist_vel.dy / 20_ms;
+                units::radians_per_second_t new_r = twist_vel.dtheta / 20_ms;
+
+                // units::velocity::meters_per_second_t new_x = speeds.vx;
+                // units::velocity::meters_per_second_t new_y = speeds.vy * 0.4;
+                // units::radians_per_second_t new_r = speeds.omega;
+
+
 
                 if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) {
                     SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
+                    // SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
                 }
                 else {
-                    SubDriveBase::GetInstance().Drive(speeds.vx, -speeds.vy, -speeds.omega, false);   
+                    SubDriveBase::GetInstance().Drive(new_x, -new_y, -new_r, false);
+                    // SubDriveBase::GetInstance().Drive(speeds.vx, -speeds.vy, -speeds.omega, false);
                 }
             },
             eventMap,
