@@ -21,6 +21,8 @@
 #include "utilities/POVHelper.h"
 #include <frc2/command/button/POVButton.h>
 
+#include "subsystems/SubRollerIntake.h"
+
 
 bool RobotContainer::isConeMode = true;
 grids::Grid RobotContainer::GridSelect = grids::Grid::Neutral;
@@ -88,9 +90,14 @@ void RobotContainer::ConfigureBindings() {
   _driverController.X().OnTrue(cmd::ClawIdle());
   
   // Intake
+  /*
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
   _driverController.RightTrigger().OnTrue(cmd::Intake());
   _driverController.RightTrigger().OnFalse(cmd::StopIntake());
+  */
+  _driverController.LeftTrigger().WhileTrue(cmd::RollerOuttake());
+  _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+  
 
   // Coast mode override toggle
   frc2::Trigger([&] {
