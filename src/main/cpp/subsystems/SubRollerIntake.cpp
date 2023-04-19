@@ -16,6 +16,7 @@ SubRollerIntake::SubRollerIntake(){
     _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
 
+
 void SubRollerIntake::RollerIntake(){
     _leftMotor.Set(0.3);
     _rightMotor.Set(-0.3);

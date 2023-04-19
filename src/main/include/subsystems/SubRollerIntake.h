@@ -29,7 +29,7 @@ class SubRollerIntake : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  ICSparkMax<> _leftMotor{canid::leftMotor};
-  ICSparkMax<> _rightMotor{canid::rightMotor};
+  ICSparkMax<> _leftMotor{canid::rollerLeftIntakeMotor};
+  ICSparkMax<> _rightMotor{canid::rollerRightIntakeMotor};
 
 };

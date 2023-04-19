@@ -33,6 +33,7 @@ RobotContainer::RobotContainer() {
   SubArm::GetInstance();
   SubClaw::GetInstance();
   SubLED::GetInstance();
+  SubRollerIntake::GetInstance();
 
   // Configure command bindings
   ConfigureBindings();
