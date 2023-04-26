@@ -63,6 +63,7 @@ void RobotContainer::ConfigureBindings() {
 
   _driverController.A().OnTrue(cmd::ClawToggle());  //Change to new end effector on
   _driverController.X().OnTrue(cmd::ClawIdle());    //Change to new end effector off
+  _driverController.Y().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
   
   _driverController.LeftTrigger().WhileTrue(cmd::Outtake());  
   _driverController.RightTrigger().OnTrue(cmd::Intake());
