@@ -123,9 +123,9 @@ namespace cmd {
         //     .AndThen(frc2::cmd::Wait(0.5_s))
         //     .AndThen(ClawExpand());
 
-        // return std::forward<frc2::CommandPtr>(scoreCommand)
-        //         .AndThen(RollerIntake().WithTimeout(0.5_s));
+        return std::forward<frc2::CommandPtr>(scoreCommand)
+                .AndThen(RollerIntake().WithTimeout(0.5_s));
 
-        return RollerIntake().WithTimeout(0.5_s);
+        // return RollerIntake().WithTimeout(0.5_s);
     }
 }

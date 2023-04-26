@@ -200,8 +200,8 @@ bool SubArm::CheckPosition() {
           ? _armMotorTop.GetPosError()
           : _topEncoder.GetPosition() * 1_tr - _armMotorTop.GetPositionTarget();
           
-  bool bottomOnTarget = units::math::abs(_armMotorBottom.GetPosError()) < 0.05_rad;
-  bool topOnTarget = units::math::abs(topArmError) < 0.05_rad;
+  bool bottomOnTarget = units::math::abs(_armMotorBottom.GetPosError()) < 0.07_rad;
+  bool topOnTarget = units::math::abs(topArmError) < 0.07_rad;
   return bottomOnTarget && topOnTarget;
 }
 
