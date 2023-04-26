@@ -18,4 +18,8 @@ frc2::CommandPtr StowGamePiece();
 frc2::CommandPtr DeployIntake();
 frc2::CommandPtr DriveIntakeToSwitch();
 frc2::CommandPtr ClawIdle();
+
+frc2::CommandPtr RollerIntake();
+frc2::CommandPtr RollerOuttake();
+frc2::CommandPtr IdleRollerIntake();
 }

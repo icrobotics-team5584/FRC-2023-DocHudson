@@ -45,8 +45,6 @@ class RobotContainer {
   frc::DigitalInput _breakModeSwitch{dio::breakModeSwitch};
   
   void ConfigureBindings();
-  void SetConeMode();
-  void SetCubeMode();
   
   frc::SendableChooser<std::string> _autoChooser;
   std::string _autoSelected;
