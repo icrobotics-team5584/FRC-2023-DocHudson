@@ -51,11 +51,6 @@ SubArm::SubArm() {
   _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
   frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
-  frc2::Trigger([this] {
-    return LocatingSwitchIsHit();
-  }).OnTrue(frc2::cmd::RunOnce([this] {
-              ArmResettingPos();
-            }).IgnoringDisable(true));
 }
 
 // This method will be called once per scheduler runss
@@ -191,7 +186,7 @@ frc::Translation2d SubArm::GetEndEffectorTarget() {
 }
 
 void SubArm::ArmResettingPos() {
-  _armMotorBottom.SetPosition(124.3_deg);
+  _armMotorBottom.SetPosition(90_deg);
   // No need to set the top arm position since we are using an absolute encoder
 }
 
