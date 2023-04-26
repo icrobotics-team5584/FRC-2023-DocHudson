@@ -106,4 +106,20 @@ frc2::CommandPtr RollerOuttake(){
 }
 
 
+frc2::CommandPtr StartRollerIntake(){
+  return RunOnce([]{SubRollerIntake::GetInstance().RollerIntake();});
+}
+
+frc2::CommandPtr StopRollerIntake(){
+  return RunOnce([]{SubRollerIntake::GetInstance().StopRollerIntake();});
+}
+
+frc2::CommandPtr StartRollerOuttake(){
+  return RunOnce([]{SubRollerIntake::GetInstance().RollerOuttake();});
+}
+
+frc2::CommandPtr StopRollerOuttake(){
+  return RunOnce([]{SubRollerIntake::GetInstance().StopRollerIntake();});
+}
+
 }  

@@ -111,6 +111,6 @@ void RobotContainer::ConfigureBindings() {
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   _autoSelected = _autoChooser.GetSelected();
-  return cmd::PPDrivePath("TestRotation");
+  return cmd::PPDrivePath("TestRoller");
 }
   
