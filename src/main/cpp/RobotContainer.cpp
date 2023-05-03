@@ -75,7 +75,6 @@ void RobotContainer::ConfigureBindings() {
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
   //_driverController.B().OnTrue(cmd::ArmPickUp());
-  _driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
   POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
   POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
