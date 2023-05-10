@@ -31,7 +31,7 @@ namespace canid {
   // Arm id: 10 - 19
   constexpr int armMotorBottom = 10;
   constexpr int armMotorBottomFollow = 11;
-  constexpr int armMotorTop = 13;
+  constexpr int armMotorTop =   13;
   constexpr int armMotorTopFollow = 12;
 
   //Claw id: 20-29

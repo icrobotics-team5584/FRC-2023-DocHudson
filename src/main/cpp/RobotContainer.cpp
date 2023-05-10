@@ -56,10 +56,10 @@ void RobotContainer::ConfigureBindings() {
 
   _driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
 
-  POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 20));
-  POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
-  POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
-  POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
+  POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
+  POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
+  POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
+  POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
 
   _driverController.A().OnTrue(cmd::ClawToggle());  //Change to new end effector on
   _driverController.X().OnTrue(cmd::ClawIdle());    //Change to new end effector off
