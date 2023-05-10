@@ -9,29 +9,23 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 SubRollerIntake::SubRollerIntake(){
-    frc::SmartDashboard::PutData("RollerIntake/Right side motor", (wpi::Sendable*)&_rightMotor);
-    frc::SmartDashboard::PutData("RollerIntake/Left side motor", (wpi::Sendable*)&_leftMotor);
+    frc::SmartDashboard::PutData("Rol lerIntake/Left side motor", (wpi::Sendable*)&_rollerMotor);
 
-    _leftMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    _rightMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    _rollerMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 }
 
 
 void SubRollerIntake::RollerIntake(){
-    _leftMotor.Set(0.3);
-    _rightMotor.Set(-0.3);
+    _rollerMotor.Set(1);
 }
 void SubRollerIntake::RollerOuttake(){
-    _leftMotor.Set(-0.3);
-    _rightMotor.Set(0.3);
+    _rollerMotor.Set(-1);
 }
 void SubRollerIntake::StopRollerIntake(){
-    _leftMotor.Set(0);
-    _rightMotor.Set(0);
+    _rollerMotor.Set(0);
 }
 void SubRollerIntake::IdleRollerIntake(){
-    _leftMotor.Set(0.1);
-    _rightMotor.Set(-0.1);
+    _rollerMotor.Set(0.1);
 }
 
 // This method will be called once per scheduler run
