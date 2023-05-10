@@ -35,7 +35,10 @@ namespace canid {
   constexpr int armMotorTopFollow = 12;
 
   //Claw id: 20-29
-  constexpr int clawMotor1 = 20;
+  constexpr int clawMotor1 = 99;
+
+  //RollerIntake id: 30-39
+  constexpr int rollerIntakeMotor = 20;
 }
  
 namespace dio {

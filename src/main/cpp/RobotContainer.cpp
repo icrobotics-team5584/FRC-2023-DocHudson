@@ -19,6 +19,8 @@
 #include "utilities/POVHelper.h"
 #include <frc2/command/button/POVButton.h>
 
+#include "subsystems/SubRollerIntake.h"
+
 
 bool RobotContainer::isConeMode = true;
 
@@ -28,6 +30,7 @@ RobotContainer::RobotContainer() {
   SubArm::GetInstance();
   SubClaw::GetInstance();
   SubLED::GetInstance();
+  SubRollerIntake::GetInstance();
 
   // Configure command bindings
   ConfigureBindings();
@@ -65,9 +68,11 @@ void RobotContainer::ConfigureBindings() {
   _driverController.X().OnTrue(cmd::ClawIdle());    //Change to new end effector off
   _driverController.Y().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
   
-  _driverController.LeftTrigger().WhileTrue(cmd::Outtake());  
-  _driverController.RightTrigger().OnTrue(cmd::Intake());
-  _driverController.RightTrigger().OnFalse(cmd::StopIntake());
+  // Intake
+
+  _driverController.LeftTrigger().WhileTrue(cmd::RollerOuttake());
+  _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+  
 
 
 
@@ -80,6 +85,7 @@ void RobotContainer::ConfigureBindings() {
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
   _secondController.RightTrigger().OnTrue(cmd::StowGamePiece());
   _secondController.RightBumper().OnTrue(cmd::CubeConeSwitch());
+  _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake);
 
 
   // Coast mode override toggle
