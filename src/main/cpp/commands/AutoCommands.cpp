@@ -2,6 +2,7 @@
 #include "subsystems/SubDriveBase.h"
 #include "commands/GamePieceCommands.h"
 #include "commands/ArmCommands.h"
+#include "commands/DriveCommands.h"
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
@@ -51,6 +52,8 @@ namespace cmd {
             {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
 
             {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
+
+            {"AutoBalance", cmd::AutoBalance().Until(false).Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };

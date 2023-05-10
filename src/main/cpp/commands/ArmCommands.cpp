@@ -29,7 +29,7 @@ namespace cmd{
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.436_tr); }) //x_turns = x * 360 
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.336_tr); }) //x_turns = x * 360 
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
