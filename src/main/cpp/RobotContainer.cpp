@@ -29,9 +29,7 @@ grids::Grid RobotContainer::GridSelect = grids::Grid::Neutral;
 
 RobotContainer::RobotContainer() {
   // Initializing Subsystems
-  SubIntake::GetInstance();
   SubArm::GetInstance();
-  SubClaw::GetInstance();
   SubLED::GetInstance();
   SubRollerIntake::GetInstance();
 
@@ -72,7 +70,6 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  //_driverController.X().WhileTrue(RunOnce([] {GridSelect = grids::Grid::LS;}).AndThen(cmd::Score(grids::Column::Left, grids::Height::LS)).AndThen(cmd::ClawExpand()));
   _driverController.B().WhileTrue(cmd::ArmToLoadingStation());
 
   // Arm
@@ -82,19 +79,8 @@ void RobotContainer::ConfigureBindings() {
   POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
   POVHelper::Right(&_driverController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
   POVHelper::Left(&_driverController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
-
-  // Claw
-  _driverController.RightBumper().OnTrue(cmd::StowGamePiece()); 
-  _driverController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
-  _driverController.A().OnTrue(cmd::ClawToggle());
-  _driverController.X().OnTrue(cmd::ClawIdle());
   
   // Intake
-  /*
-  _driverController.LeftTrigger().WhileTrue(cmd::Outtake());
-  _driverController.RightTrigger().OnTrue(cmd::Intake());
-  _driverController.RightTrigger().OnFalse(cmd::StopIntake());
-  */
   _driverController.LeftTrigger().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
   
@@ -110,6 +96,6 @@ void RobotContainer::ConfigureBindings() {
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   _autoSelected = _autoChooser.GetSelected();
-  return cmd::PPDrivePath("TestRoller");
+  return cmd::PPDrivePath("");
 }
   

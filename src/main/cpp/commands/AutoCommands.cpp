@@ -27,13 +27,6 @@ namespace cmd {
 
         static std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
 
-            {"StartIntake", Intake().Unwrap() },
-            {"Stopintake", StopIntake().Unwrap()}, //
-            {"StartOuttake", Outtake().Unwrap() },
-            {"StopOuttake", StopOuttake().Unwrap() },
-            {"ClawClose", ClawClose().Unwrap()}, //
-            {"ClawExpand", ClawExpand().Unwrap()}, //
-
             {"StartRollerIntake", StartRollerIntake().Unwrap() },
             {"StopRollerIntake",  StopRollerIntake().Unwrap() },
             {"StartRollerOuttake", StartRollerOuttake().Unwrap() },
@@ -55,7 +48,6 @@ namespace cmd {
             {"ArmPickUp", ArmPickUp().Unwrap()},
             {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
 
-            {"StowGamePiece", StowGamePiece().Unwrap()},
             {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
 
             {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
@@ -117,11 +109,6 @@ namespace cmd {
 
     frc2::CommandPtr ScorePos (frc2::CommandPtr && scoreCommand) {
         using namespace frc2::cmd;
-
-        // return ClawClose()
-        //     .AndThen(std::forward<frc2::CommandPtr>(scoreCommand))
-        //     .AndThen(frc2::cmd::Wait(0.5_s))
-        //     .AndThen(ClawExpand());
 
         return std::forward<frc2::CommandPtr>(scoreCommand)
                 .AndThen(RollerIntake().WithTimeout(0.5_s));
