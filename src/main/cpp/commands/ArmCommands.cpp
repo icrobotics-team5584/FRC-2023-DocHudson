@@ -1,6 +1,5 @@
 #include "commands/ArmCommands.h"
 #include "subsystems/SubArm.h"
-#include "subsystems/SubIntake.h"
 #include "subsystems/SubDrivebase.h"
 #include "units/length.h"
 #include "RobotContainer.h"
