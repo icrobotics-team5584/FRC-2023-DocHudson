@@ -85,7 +85,7 @@ void RobotContainer::ConfigureBindings() {
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
   _secondController.RightTrigger().OnTrue(cmd::StowGamePiece());
   _secondController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-  _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake);
+  _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake());
 
 
   // Coast mode override toggle
