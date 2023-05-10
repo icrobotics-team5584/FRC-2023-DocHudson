@@ -64,6 +64,9 @@ class SubArm : public frc2::SubsystemBase {
   rev::SparkMaxAbsoluteEncoder _topEncoder{_armMotorTop.GetAbsoluteEncoder(
       rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
 
+  rev::SparkMaxAbsoluteEncoder _bottomEncoder{_armMotorBottom.GetAbsoluteEncoder(
+      rev::SparkMaxAbsoluteEncoder::Type::kDutyCycle)};
+
   //sensors
   frc::DigitalInput _topSensor{dio::armTopSensor};
   frc::DigitalInput _bottomSensor{dio::armBottomSensor};
