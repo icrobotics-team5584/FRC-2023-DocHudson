@@ -57,8 +57,6 @@ void RobotContainer::ConfigureBindings() {
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
 
-  _driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
-
   POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
   POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
@@ -70,7 +68,7 @@ void RobotContainer::ConfigureBindings() {
   
   // Intake
 
-  _driverController.LeftTrigger().WhileTrue(cmd::RollerOuttake());
+  _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
   
 

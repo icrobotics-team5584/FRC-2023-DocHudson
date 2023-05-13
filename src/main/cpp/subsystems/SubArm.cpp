@@ -88,6 +88,18 @@ void SubArm::Periodic() {
   _arm1Ligament->SetAngle(_bottomEncoder.GetPosition()*1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
+   static bool wasOnTarget = false;
+
+   
+  if(CheckPosition(10_deg) && !wasOnTarget) {
+    _armMotorBottom.SetPIDFF(P,I,D,15);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
+  } else if (!CheckPosition(10_deg) && wasOnTarget) {
+    _armMotorBottom.SetPIDFF(P,I,D,30);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
+  };
+
+  wasOnTarget = CheckPosition();
 }
 
 void SubArm::DashboardInput(){
@@ -196,7 +208,7 @@ void SubArm::ArmResettingPos() {
   // No need to set the top arm position since we are using an absolute encoder
 }
 
-bool SubArm::CheckPosition() {
+bool SubArm::CheckPosition(units::degree_t tolerance) {
   auto topArmError = frc::RobotBase::IsSimulation()
           ? _armMotorTop.GetPosError()
           : _topEncoder.GetPosition() * 1_tr - _armMotorTop.GetPositionTarget();
@@ -205,8 +217,8 @@ bool SubArm::CheckPosition() {
           ? _armMotorBottom.GetPosError()
           : _bottomEncoder.GetPosition() * 1_tr - _armMotorBottom.GetPositionTarget();
           
-  bool bottomOnTarget = units::math::abs(bottomArmError) < 0.05_rad;
-  bool topOnTarget = units::math::abs(topArmError) < 0.05_rad;
+  bool bottomOnTarget = units::math::abs(bottomArmError) < tolerance;
+  bool topOnTarget = units::math::abs(topArmError) < tolerance;
   return bottomOnTarget && topOnTarget;
 }
 

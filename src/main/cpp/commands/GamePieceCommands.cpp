@@ -97,7 +97,7 @@ frc2::CommandPtr DriveIntakeToSwitch() {
 frc2::CommandPtr RollerIntake(){
   return StartEnd([]{SubRollerIntake::GetInstance().RollerIntake();},
                   []{SubRollerIntake::GetInstance().IdleRollerIntake();}
-  );
+  ).Until([] { return SubRollerIntake::GetInstance().GamePieceDetected();});
 }
 frc2::CommandPtr RollerOuttake(){
   return StartEnd([]{SubRollerIntake::GetInstance().RollerOuttake();},
