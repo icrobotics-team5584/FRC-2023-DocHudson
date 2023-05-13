@@ -1,7 +1,6 @@
 #pragma once
 
 #include <frc2/command/commands.h>
-#include "utilities/Grids.h"
 
 namespace cmd {
 
@@ -9,7 +8,6 @@ namespace cmd {
     frc2::CommandPtr ArmToMidCube();
     frc2::CommandPtr ArmToHighCone();
     frc2::CommandPtr ArmToMidCone();
-    frc2::CommandPtr ArmToScoringHeight(grids::Height height);
     frc2::CommandPtr ArmToSafePosition();
     frc2::CommandPtr ArmSafePos();
 

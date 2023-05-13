@@ -32,12 +32,11 @@ class RobotContainer {
   frc2::CommandPtr GetAutonomousCommand();
 
   static bool isConeMode;
-  static grids::Grid GridSelect;
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController _driverController{0};
-  frc2::CommandGenericHID _secondController{1};
+  frc2::CommandXboxController _secondController{1};
 
   frc::DigitalInput _breakModeSwitch{dio::breakModeSwitch};
   

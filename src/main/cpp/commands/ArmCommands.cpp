@@ -59,21 +59,7 @@ namespace cmd{
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
 
-     frc2::CommandPtr ArmToScoringHeight(grids::Height height) {
-        switch (height) {
-            case grids::Height::High:
-                return ArmToHigh();
-            case grids::Height::Middle:
-                return ArmToMid();
-            case grids::Height::Low:
-                return ArmToLowCubeOrCone();
-            case grids::Height::LS:
-                return ArmToLoadingStation();
-            default:
-                return None();
-        };
-    }
-
+    
     frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed) {
         return Run([xSpeed, ySpeed]{
             auto eePos = SubArm::GetInstance().GetEndEffectorTarget();
