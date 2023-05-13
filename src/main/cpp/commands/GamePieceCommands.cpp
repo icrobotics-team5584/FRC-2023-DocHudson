@@ -24,10 +24,19 @@ frc2::CommandPtr StartRollerOuttake(){
   return RunOnce([]{SubRollerIntake::GetInstance().RollerOuttake();});
 }
 
-frc2::CommandPtr RollerIntake(){
-  return StartEnd([]{SubRollerIntake::GetInstance().RollerIntake();},
-                  []{SubRollerIntake::GetInstance().IdleRollerIntake();}
-  ).Until([] { return SubRollerIntake::GetInstance().GamePieceDetected();});
+frc2::CommandPtr RollerIntake(frc2::CommandXboxController &controller1, frc2::CommandXboxController &controller2){
+  return StartEnd([] { SubRollerIntake::GetInstance().RollerIntake(); },
+                  [] { SubRollerIntake::GetInstance().IdleRollerIntake(); })
+      .Until([] { return SubRollerIntake::GetInstance().GamePieceDetected(); })
+      .AndThen([&] {
+        controller1.SetRumble(frc::GenericHID::kBothRumble, 1);
+        controller2.SetRumble(frc::GenericHID::kBothRumble, 1);
+      })
+      .AndThen(Wait(0.2_s))
+      .AndThen([&] {
+        controller1.SetRumble(frc::GenericHID::kBothRumble, 0);
+        controller2.SetRumble(frc::GenericHID::kBothRumble, 0);
+      });
 }
 
 frc2::CommandPtr StopRollerOuttake(){
