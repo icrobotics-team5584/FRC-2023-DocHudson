@@ -48,32 +48,16 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-
   using namespace frc2::cmd;
 
   //Main Controller
-
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  _driverController.Back().WhileTrue(cmd::AutoBalance());
-
+  _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
+  _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
   POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
   POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
   POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
-
-  _driverController.A().OnTrue(cmd::ClawToggle());  //Change to new end effector on
-  _driverController.X().OnTrue(cmd::ClawIdle());    //Change to new end effector off
-  _driverController.Y().OnTrue(frc2::cmd::RunOnce([]{SubArm::GetInstance().ArmResettingPos();}));
-  
-  // Intake
-
-  _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
-  _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
-
-  _driverController.A().OnTrue(cmd::AutoBalance());
-  
-
-
 
 
   //Second controller
@@ -82,10 +66,9 @@ void RobotContainer::ConfigureBindings() {
   _secondController.A().OnTrue(cmd::ArmToLowCubeOrCone());
   _secondController.X().OnTrue(cmd::ArmPickUp());
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
-  _secondController.RightTrigger().OnTrue(cmd::StowGamePiece());
+  _secondController.RightTrigger().OnTrue(cmd::ArmToDefaultLocation());
   _secondController.RightBumper().OnTrue(cmd::CubeConeSwitch());
   _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake());
-
 
   // Coast mode override toggle
   frc2::Trigger([&] {

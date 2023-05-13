@@ -6,17 +6,11 @@
 namespace cmd {
 using namespace frc2::cmd;
 
-frc2::CommandPtr RollerIntake(){
-  return StartEnd([]{SubRollerIntake::GetInstance().RollerIntake();},
-                  []{SubRollerIntake::GetInstance().IdleRollerIntake();}
-  );
-}
 frc2::CommandPtr RollerOuttake(){
   return StartEnd([]{SubRollerIntake::GetInstance().RollerOuttake();},
                   []{SubRollerIntake::GetInstance().StopRollerIntake();}
   );
 }
-
 
 frc2::CommandPtr StartRollerIntake(){
   return RunOnce([]{SubRollerIntake::GetInstance().RollerIntake();});
