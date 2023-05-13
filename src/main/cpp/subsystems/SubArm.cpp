@@ -91,11 +91,11 @@ void SubArm::Periodic() {
   if(CheckPosition(10_deg) && !wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,15);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
-    frc2::cmd::Print("drivebase/set FF to 15");
+    std::cout << "set arm FF to 15\n";
   } else if (!CheckPosition(10_deg) && wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,30);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
-    frc2::cmd::Print("drivebase/set FF to 30");
+    std::cout << "set arm FF to 30\n";
   };
 
   wasOnTarget = CheckPosition(10_deg);
