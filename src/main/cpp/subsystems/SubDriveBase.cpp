@@ -25,20 +25,17 @@ SubDriveBase::SubDriveBase(){
 // This method will be called once per scheduler run
 void SubDriveBase::Periodic() {
   // Dashboard Displays:
-  // frc::SmartDashboard::PutNumber("heading", GetHeading().Degrees().value());
-  // frc::SmartDashboard::PutNumber("gyro", _gyro.GetAngle());
-  // frc::SmartDashboard::PutBoolean("gyro is callibrating", _gyro.IsCalibrating());
-  // frc::SmartDashboard::PutNumber("Drivebase speed", GetVelocity().value());
+  frc::SmartDashboard::PutNumber("drivebase/heading", GetHeading().Degrees().value());
+  frc::SmartDashboard::PutNumber("Drivebase/velocity", GetVelocity().value());
 
-  frc::SmartDashboard::PutNumberArray("drivebase/swervestates", std::array{
+  frc::SmartDashboard::PutNumberArray("drivebase/true swerve states", std::array{
     _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
     _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
     _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
      _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
    });
-  UpdateOdometry();
 
-  frc::SmartDashboard::PutNumber("drivebase/angle", GetHeading().Degrees().value());
+   UpdateOdometry();
 }
 
 void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 
@@ -55,12 +52,12 @@ void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_se
   auto [fl, fr, bl, br] = states;
 
   // Dashboard Displays:
-  // frc::SmartDashboard::PutNumberArray("drivebase/requestedstates", std::array{
-  //   fl.angle.Degrees().value(), fl.speed.value(),
-  //   fr.angle.Degrees().value(), fr.speed.value(),
-  //   bl.angle.Degrees().value(), bl.speed.value(),
-  //   br.angle.Degrees().value(), br.speed.value(),
-  // });
+  frc::SmartDashboard::PutNumberArray("drivebase/desired swerve states", std::array{
+    fl.angle.Degrees().value(), fl.speed.value(),
+    fr.angle.Degrees().value(), fr.speed.value(),
+    bl.angle.Degrees().value(), bl.speed.value(),
+    br.angle.Degrees().value(), br.speed.value(),
+  });
 
   _frontLeft.SetDesiredState(fl);
   _frontRight.SetDesiredState(fr);
@@ -88,8 +85,6 @@ void SubDriveBase::SyncSensors() {
 frc::Rotation2d SubDriveBase::GetHeading() {
   return _gyro.GetRotation2d();
 }
-
-
 
 // Calculate robot's velocity over past time step (20 ms)
 units::meters_per_second_t SubDriveBase::GetVelocity() {

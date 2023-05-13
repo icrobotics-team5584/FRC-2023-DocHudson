@@ -33,7 +33,6 @@ RobotContainer::RobotContainer() {
   // Configure command bindings
   ConfigureBindings();
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
-  SubVision::GetInstance().SetDefaultCommand(cmd::AddVisionMeasurement());
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
   _autoChooser.AddOption("PreConeH+ScoreH(1)", "PreConeH+ScoreH(1)");   
@@ -54,13 +53,13 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
   _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+
+
+  //Second controller
   POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
   POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
   POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
-
-
-  //Second controller
   _secondController.Y().OnTrue(cmd::ArmToHigh());
   _secondController.B().OnTrue(cmd::ArmToMid());
   _secondController.A().OnTrue(cmd::ArmToLowCubeOrCone());
