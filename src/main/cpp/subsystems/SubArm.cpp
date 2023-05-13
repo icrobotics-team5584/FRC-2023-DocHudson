@@ -43,10 +43,8 @@ SubArm::SubArm() {
   _topEncoder.SetInverted(true);
   _armMotorTop.UseAbsoluteEncoder(_topEncoder);
 
-
-  _armMotorBottom.UseAbsoluteEncoder(_topEncoder);
+  _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
   _bottomEncoder.SetZeroOffset(0.093);
-
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
@@ -88,18 +86,19 @@ void SubArm::Periodic() {
   _arm1Ligament->SetAngle(_bottomEncoder.GetPosition()*1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
-   static bool wasOnTarget = false;
+  static bool wasOnTarget = false;
 
-   
   if(CheckPosition(10_deg) && !wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,15);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
+    frc2::cmd::Print("drivebase/set FF to 15");
   } else if (!CheckPosition(10_deg) && wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,30);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
+    frc2::cmd::Print("drivebase/set FF to 30");
   };
 
-  wasOnTarget = CheckPosition();
+  wasOnTarget = CheckPosition(10_deg);
 }
 
 void SubArm::DashboardInput(){
