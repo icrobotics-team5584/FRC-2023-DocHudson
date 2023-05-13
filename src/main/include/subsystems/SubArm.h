@@ -47,7 +47,7 @@ class SubArm : public frc2::SubsystemBase {
   std::optional<IKResult> InverseKinmetics(units::meter_t x, units::meter_t y);
   frc::Translation2d GetEndEffectorPosition();
   frc::Translation2d GetEndEffectorTarget();
-  bool CheckPosition(units::degree_t tolerance = 0.05_rad);
+  bool CheckPosition(units::degree_t tolerance = 0.07_rad);
   bool LocatingSwitchIsHit();
   units::turn_t GetBottomToTopArmAngle();
   units::turn_t GetGroundToTopArmAngle();
