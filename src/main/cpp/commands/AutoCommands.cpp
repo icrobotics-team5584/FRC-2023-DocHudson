@@ -44,7 +44,7 @@ namespace cmd {
             {"ScoreLowCube", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
             {"ScoreMidCone", ScorePos(ArmToMidCone()).Unwrap() },
             {"ScoreMidCube", ScorePos(ArmToMidCube()).Unwrap() },
-            {"ScoreHighCone", ScorePos(ArmToHighCone()).Unwrap() }, 
+            {"ScoreHighCone", ScorePos(ArmToHighCone().AndThen(ArmToScoredHighCone())).Unwrap() }, 
             {"ScoreHighCube", ScorePos(ArmToHighCube()).Unwrap() },
 
             {"ArmPickUp", ArmPickUp().Unwrap()},
@@ -115,9 +115,6 @@ namespace cmd {
     frc2::CommandPtr ScorePos (frc2::CommandPtr && scoreCommand) {
         using namespace frc2::cmd;
 
-        return std::forward<frc2::CommandPtr>(scoreCommand)
-                .AndThen(RollerIntake().WithTimeout(0.5_s));
-
-        // return RollerIntake().WithTimeout(0.5_s);
+        return std::forward<frc2::CommandPtr>(scoreCommand);
     }   
 }
