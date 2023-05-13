@@ -15,12 +15,10 @@
 
 // Created classes includes 
 #include "Constants.h"
-#include "subsystems/SubIntake.h"
 #include <frc/XboxController.h>
 #include <frc2/command/button/CommandGenericHID.h>
 #include <frc2/command/InstantCommand.h>
-#include "subsystems/SubClaw.h"
-#include "subsystems/SubIntake.h"
+#include "utilities/Grids.h"
 #include <frc/DigitalInput.h>
 
 

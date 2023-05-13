@@ -43,6 +43,8 @@ class SubDriveBase : public frc2::SubsystemBase {
   void DisplayPose(std::string label, frc::Pose2d pose);
   void UpdateOdometry();
   void SyncSensors();
+  
+  units::degree_t GetPitch();
   frc::Pose2d GetPose();
   frc::Rotation2d GetHeading();
   units::meters_per_second_t GetVelocity();

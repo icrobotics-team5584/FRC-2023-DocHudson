@@ -26,9 +26,7 @@ bool RobotContainer::isConeMode = true;
 
 RobotContainer::RobotContainer() {
   // Initializing Subsystems
-  SubIntake::GetInstance();
   SubArm::GetInstance();
-  SubClaw::GetInstance();
   SubLED::GetInstance();
   SubRollerIntake::GetInstance();
 
@@ -56,6 +54,7 @@ void RobotContainer::ConfigureBindings() {
   //Main Controller
 
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
+  _driverController.Back().WhileTrue(cmd::AutoBalance());
 
   POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
@@ -70,6 +69,8 @@ void RobotContainer::ConfigureBindings() {
 
   _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+
+  _driverController.A().OnTrue(cmd::AutoBalance());
   
 
 
@@ -97,6 +98,6 @@ void RobotContainer::ConfigureBindings() {
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   _autoSelected = _autoChooser.GetSelected();
-  return cmd::PPDrivePath(_autoSelected);
+  return cmd::PPDrivePath("PConeH+C");
 }
   

@@ -8,5 +8,8 @@ namespace cmd {
 
   //Grid drive commands
   frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter);
+
+  //auto balancing
+  frc2::CommandPtr AutoBalance();
   
 }

@@ -2,22 +2,50 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8541529646877277,
-        "y": 0.46504363818938405
+        "x": 1.9,
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.517897486685545,
-        "y": 0.46504363818938405
+        "x": 2.226120874214262,
+        "y": 3.0
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 2.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
           "ScoreHighCone"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 2.469200851009563,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 3.3944063839141694,
+        "y": 3.0
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "ArmToDefaultPosition",
+          "Wait1.5"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -26,12 +54,12 @@
     },
     {
       "anchorPoint": {
-        "x": 6.039765597844181,
-        "y": 0.7771287906615771
+        "x": 5.5,
+        "y": 3.0
       },
       "prevControl": {
-        "x": 6.039765597844181,
-        "y": 0.815341701975386
+        "x": 5.1588898305285635,
+        "y": 3.0
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -41,7 +69,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "BrakeMode"
+          "AutoBalance"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -51,9 +79,9 @@
   ],
   "markers": [
     {
-      "position": 0.4,
+      "position": 0.1,
       "names": [
-        "ArmPickUp"
+        "ArmSafePos"
       ]
     }
   ]

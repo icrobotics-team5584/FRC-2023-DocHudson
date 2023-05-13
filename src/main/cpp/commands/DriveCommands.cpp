@@ -41,4 +41,24 @@ frc2::CommandPtr DriveToPose(std::function<frc::Pose2d()> targetPoseGetter) {
       .FinallyDo([](bool _) { SubLED::autoDriving = false; });
 }
 
+frc2::CommandPtr AutoBalance(){
+
+  return Run([]{
+    units::meters_per_second_t speed = 0.1_mps;
+    units::radians_per_second_t rotSpeed = 0_rad_per_s;
+    units::degree_t robotPitchAngle = SubDriveBase::GetInstance().GetPitch();
+    frc::SmartDashboard::PutNumber("Pitch Angle", robotPitchAngle.value());
+    if(robotPitchAngle > 4_deg) {
+      SubDriveBase::GetInstance().Drive(speed, 0_mps, rotSpeed, false); // 
+    }
+    else if (robotPitchAngle < -4_deg) {
+      SubDriveBase::GetInstance().Drive(-speed, 0_mps, rotSpeed, false);
+    }
+    else{
+      SubDriveBase::GetInstance().Drive(0_mps, 0_mps, rotSpeed, false);
+    }
+    });
+
+};
+
 }  // namespace cmd

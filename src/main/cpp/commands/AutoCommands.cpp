@@ -2,10 +2,12 @@
 #include "subsystems/SubDriveBase.h"
 #include "commands/GamePieceCommands.h"
 #include "commands/ArmCommands.h"
+#include "commands/DriveCommands.h"
 #include <pathplanner/lib/PathPlanner.h>
 #include <pathplanner/lib/auto/SwerveAutoBuilder.h>
 #include <unordered_map>
 #include <units/time.h>
+#include <constants.h>
 
 namespace cmd {
 
@@ -26,15 +28,16 @@ namespace cmd {
 
         static std::unordered_map<std::string, std::shared_ptr<frc2::Command>> eventMap = {
 
-            {"StartIntake", Intake().Unwrap() },
-            // {"StopIntake", ClawClose().AlongWith(StopIntake()).AndThen(StowGamePiece()).Unwrap() },
-            {"Stopintake", StopIntake().Unwrap()}, //
-            {"StartOuttake", Outtake().Unwrap() },
-            {"StopOuttake", StopOuttake().Unwrap() },
-            {"ClawClose", ClawClose().Unwrap()}, //
-            {"ClawExpand", ClawExpand().Unwrap()}, //
+            {"StartRollerIntake", StartRollerIntake().Unwrap() },
+            {"StopRollerIntake",  StopRollerIntake().Unwrap() },
+            {"StartRollerOuttake", StartRollerOuttake().Unwrap() },
+            {"StopRollerOuttake", StopRollerOuttake().Unwrap() },
+
+            {"RollerIntake1s", RollerIntake().WithTimeout(1_s).Unwrap() },
+            {"RollerOuttake1s", RollerOuttake().WithTimeout(1_s).Unwrap() },
 
             {"Wait0.5", frc2::cmd::Wait(0.5_s).Unwrap() },
+            {"Wait1.5", frc2::cmd::Wait(1.5_s).Unwrap()},
             {"Wait5", frc2::cmd::Wait((5_s)).Unwrap()},
 
             {"ScoreLowCone", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
@@ -46,11 +49,13 @@ namespace cmd {
 
             {"ArmPickUp", ArmPickUp().Unwrap()},
             {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
+            {"ArmSafePos", ArmSafePos().Unwrap()},
 
-            {"StowGamePiece", StowGamePiece().Unwrap()},
             {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
 
             {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
+
+            {"AutoBalance", cmd::AutoBalance().Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };
@@ -76,11 +81,27 @@ namespace cmd {
             {2, 0, 0},
             {1, 0, 0}, // pid value for rotation
             [MirrorPose] (frc::ChassisSpeeds speeds) {
+                units::radian_t rotation = speeds.omega * 20_ms;
+                frc::Pose2d robot_pose_vel = frc::Pose2d(speeds.vx * 20_ms, speeds.vy * 20_ms, frc::Rotation2d(rotation));
+                frc::Twist2d twist_vel = frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)).Log(robot_pose_vel);
+
+                units::velocity::meters_per_second_t new_x = twist_vel.dx / 20_ms;
+                units::velocity::meters_per_second_t new_y = twist_vel.dy / 20_ms;
+                units::radians_per_second_t new_r = twist_vel.dtheta / 20_ms;
+
+                // units::velocity::meters_per_second_t new_x = speeds.vx;
+                // units::velocity::meters_per_second_t new_y = speeds.vy * 0.4;
+                // units::radians_per_second_t new_r = speeds.omega;
+
+
+
                 if (frc::DriverStation::GetAlliance() == frc::DriverStation::kBlue) {
                     SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
+                    // SubDriveBase::GetInstance().Drive(speeds.vx, speeds.vy, speeds.omega, false);
                 }
                 else {
-                    SubDriveBase::GetInstance().Drive(speeds.vx, -speeds.vy, -speeds.omega, false);   
+                    SubDriveBase::GetInstance().Drive(new_x, -new_y, -new_r, false);
+                    // SubDriveBase::GetInstance().Drive(speeds.vx, -speeds.vy, -speeds.omega, false);
                 }
             },
             eventMap,
@@ -94,9 +115,9 @@ namespace cmd {
     frc2::CommandPtr ScorePos (frc2::CommandPtr && scoreCommand) {
         using namespace frc2::cmd;
 
-        return ClawClose()
-            .AndThen(std::forward<frc2::CommandPtr>(scoreCommand))
-            .AndThen(frc2::cmd::Wait(0.5_s))
-            .AndThen(ClawExpand());
-    }
+        return std::forward<frc2::CommandPtr>(scoreCommand)
+                .AndThen(RollerIntake().WithTimeout(0.5_s));
+
+        // return RollerIntake().WithTimeout(0.5_s);
+    }   
 }
