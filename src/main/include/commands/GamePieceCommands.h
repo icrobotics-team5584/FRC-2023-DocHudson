@@ -6,7 +6,8 @@
 namespace cmd {
 frc2::CommandPtr StowGamePiece();
 
-frc2::CommandPtr RollerIntake(frc2::CommandXboxController &controller1, frc2::CommandXboxController &controller2);
+frc2::CommandPtr RollerIntake();
+// frc2::CommandPtr RollerIntakeWithRumble(frc2::CommandXboxController &controller1, frc2::CommandXboxController &controller2);
 frc2::CommandPtr RollerOuttake();
 frc2::CommandPtr IdleRollerIntake();
 
