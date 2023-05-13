@@ -25,7 +25,12 @@ void SubRollerIntake::StopRollerIntake(){
     _rollerMotor.Set(0);
 }
 void SubRollerIntake::IdleRollerIntake(){
-    _rollerMotor.Set(0.1);
+    _rollerMotor.Set(0);
+}
+bool SubRollerIntake::GamePieceDetected() {
+    if (_rollerMotor.GetVelocity() == 0_tps && _rollerMotor.Get() != 0) {
+        return true;
+    } else {return false;};
 }
 
 // This method will be called once per scheduler run
