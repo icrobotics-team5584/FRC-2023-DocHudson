@@ -37,6 +37,7 @@ namespace cmd {
             {"RollerOuttake1s", RollerOuttake().WithTimeout(1_s).Unwrap() },
 
             {"Wait0.5", frc2::cmd::Wait(0.5_s).Unwrap() },
+            {"Wait1.5", frc2::cmd::Wait(1.5_s).Unwrap()},
             {"Wait5", frc2::cmd::Wait((5_s)).Unwrap()},
 
             {"ScoreLowCone", ScorePos(ArmToLowCubeOrCone()).Unwrap() },
@@ -48,12 +49,13 @@ namespace cmd {
 
             {"ArmPickUp", ArmPickUp().Unwrap()},
             {"ArmToSafePosition", ArmToSafePosition().Unwrap()},
+            {"ArmSafePos", ArmSafePos().Unwrap()},
 
             {"ArmToDefaultPosition", ArmToDefaultLocation().Unwrap()},
 
             {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
 
-            {"AutoBalance", cmd::AutoBalance().Until(false).Unwrap()},
+            {"AutoBalance", cmd::AutoBalance().Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };
@@ -117,5 +119,5 @@ namespace cmd {
                 .AndThen(RollerIntake().WithTimeout(0.5_s));
 
         // return RollerIntake().WithTimeout(0.5_s);
-    }
+    }   
 }

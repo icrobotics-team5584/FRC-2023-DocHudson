@@ -71,11 +71,12 @@ void RobotContainer::ConfigureBindings() {
   _secondController.Button(1+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Left;}));
   _secondController.Button(2+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Middle;}));
   _secondController.Button(3+1).OnTrue(RunOnce([] {GridSelect = grids::Grid::Right;}));
-  _driverController.B().WhileTrue(cmd::ArmToLoadingStation());
+  // _driverController.B().WhileTrue(cmd::ArmToLoadingStation());
 
   // Arm
   _driverController.Y().OnTrue(cmd::ArmToHigh());
-  //_driverController.B().OnTrue(cmd::ArmPickUp());
+  _driverController.X().OnTrue(cmd::ArmSafePos());
+  _driverController.B().OnTrue(cmd::ArmToDefaultLocation());
   //_driverController.Back().OnTrue(cmd::DriveBottomArmToSwitch().AlongWith(cmd::DriveIntakeToSwitch()));
   POVHelper::Up(&_driverController).WhileTrue(cmd::ManualArmMove(0, 20));
   POVHelper::Down(&_driverController).WhileTrue(cmd::ManualArmMove(0, -20));
@@ -85,6 +86,8 @@ void RobotContainer::ConfigureBindings() {
   // Intake
   _driverController.LeftTrigger().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+
+  _driverController.A().OnTrue(cmd::AutoBalance());
   
 
   // Coast mode override toggle
@@ -98,6 +101,6 @@ void RobotContainer::ConfigureBindings() {
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   _autoSelected = _autoChooser.GetSelected();
-  return cmd::PPDrivePath("");
+  return cmd::PPDrivePath("PConeH+C");
 }
   
