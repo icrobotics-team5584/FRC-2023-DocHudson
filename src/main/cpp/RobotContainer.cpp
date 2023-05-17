@@ -35,7 +35,12 @@ RobotContainer::RobotContainer() {
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
+  _autoChooser.AddOption("PConeH", "PConeH");
   _autoChooser.AddOption("PConeH+C", "PConeH+C");
+  _autoChooser.AddOption("PConeH+Leave", "PConeH+Leave");
+  _autoChooser.AddOption("PConeH+Leave+Hold(1)", "PConeH+Leave+Hold(1)");
+  _autoChooser.AddOption("PConeH+Leave+Hold(3)", "PConeH+Leave+Hold(3)");
+
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
 }
