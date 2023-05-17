@@ -79,12 +79,6 @@
   ],
   "markers": [
     {
-      "position": 0.40727272727270813,
-      "names": [
-        "ArmSafePos"
-      ]
-    },
-    {
       "position": 0.014545454545449582,
       "names": [
         "RollerOuttake1s"
