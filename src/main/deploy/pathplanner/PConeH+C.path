@@ -26,15 +26,15 @@
     },
     {
       "anchorPoint": {
-        "x": 3.0,
+        "x": 2.5,
         "y": 3.0
       },
       "prevControl": {
-        "x": 2.469200851009563,
+        "x": 1.969200851009563,
         "y": 3.0
       },
       "nextControl": {
-        "x": 3.3944063839141694,
+        "x": 2.8944063839141694,
         "y": 3.0
       },
       "holonomicAngle": 180.0,
@@ -54,26 +54,24 @@
     },
     {
       "anchorPoint": {
-        "x": 8.0,
+        "x": 6.0,
         "y": 3.0
       },
       "prevControl": {
-        "x": 7.658889830528565,
-        "y": 3.0
+        "x": 4.824617464531858,
+        "y": 3.009844153672336
       },
       "nextControl": {
-        "x": 7.658889830528565,
-        "y": 3.0
+        "x": 7.175382535468142,
+        "y": 2.990155846327664
       },
       "holonomicAngle": 180.0,
-      "isReversal": true,
-      "velOverride": null,
+      "isReversal": false,
+      "velOverride": 1.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "AutoBalance"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -81,11 +79,36 @@
     },
     {
       "anchorPoint": {
-        "x": 4.7,
+        "x": 7.3,
         "y": 3.0
       },
       "prevControl": {
-        "x": 6.621769795137993,
+        "x": 6.958889830528565,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 6.958889830528565,
+        "y": 3.0
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.5,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 5.421769795137993,
         "y": 2.9999999999999996
       },
       "nextControl": null,

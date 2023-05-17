@@ -37,6 +37,7 @@ RobotContainer::RobotContainer() {
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
   _autoChooser.AddOption("PConeH", "PConeH");
   _autoChooser.AddOption("PConeH+C", "PConeH+C");
+  _autoChooser.AddOption("PConeH+C_old", "PConeH+C_old");
   _autoChooser.AddOption("PConeH+Leave", "PConeH+Leave");
   _autoChooser.AddOption("PConeH+Leave+Hold(1)", "PConeH+Leave+Hold(1)");
   _autoChooser.AddOption("PConeH+Leave+Hold(3)", "PConeH+Leave+Hold(3)");
