@@ -66,8 +66,8 @@ void RobotContainer::ConfigureBindings() {
   _secondController.X().OnTrue(cmd::ArmPickUp());
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
   _secondController.RightTrigger().OnTrue(cmd::ArmToDefaultLocation());
-  _secondController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-  _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake());
+  _secondController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+  _secondController.RightBumper().WhileTrue(cmd::RollerOuttake());
 
   // Coast mode override toggle
   frc2::Trigger([&] {
