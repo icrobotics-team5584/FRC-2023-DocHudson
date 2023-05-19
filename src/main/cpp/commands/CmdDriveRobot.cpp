@@ -15,7 +15,7 @@ void CmdDriveRobot::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void CmdDriveRobot::Execute() {
-  const double deadband = 0.17;
+  const double deadband = 0.08;
   const auto xSpeed = -_xspeedLimiter.Calculate(frc::ApplyDeadband(_controller -> GetLeftY(), deadband)) * SubDriveBase::MAX_VELOCITY;
   const auto ySpeed = -_yspeedLimiter.Calculate(frc::ApplyDeadband(_controller -> GetLeftX(), deadband)) * SubDriveBase::MAX_VELOCITY;
   const auto rot = -_rotLimiter.Calculate(frc::ApplyDeadband(_controller -> GetRightX(), deadband)) * SubDriveBase::MAX_ANGULAR_VELOCITY;
