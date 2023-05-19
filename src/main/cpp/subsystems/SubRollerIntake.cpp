@@ -25,7 +25,7 @@ void SubRollerIntake::StopRollerIntake(){
     _rollerMotor.Set(0);
 }
 void SubRollerIntake::IdleRollerIntake(){
-    _rollerMotor.Set(0);
+    _rollerMotor.Set(0.1);
 }
 bool SubRollerIntake::GamePieceDetected() {
     if (_rollerMotor.GetVelocity() == 0_tps && _rollerMotor.Get() != 0) {
