@@ -31,11 +31,11 @@ namespace cmd{
     frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(104.4_cm, 52.1_cm));}
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
-    frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(0.703_m, 0.817_m);}
+    frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(0.703_m, 0.812_m);}
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.386_tr); }) //x_turns = x * 360 
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.389_tr); }) //x_turns = x * 360 
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
