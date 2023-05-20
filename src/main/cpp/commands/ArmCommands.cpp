@@ -24,7 +24,7 @@ namespace cmd{
 
 
     frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 114_cm));} 
-    frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 95_cm));} 
+    frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(150_cm, 85_cm));} 
     frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,75_cm));} //gtg
 
     frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 98_cm));} 
