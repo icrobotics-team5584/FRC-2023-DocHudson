@@ -71,6 +71,11 @@ void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_se
     units::degree_t newHeading = GetHeading().RotateBy(radPer20ms).Degrees();
     _gyro.SetAngleAdjustment(-newHeading.value()); // negative to switch to CW from CCW
   }
+
+  _frontLeft.SendSensorsToDash();
+  _frontRight.SendSensorsToDash();
+  _backLeft.SendSensorsToDash();
+  _backRight.SendSensorsToDash();
 }
 
 // Syncs encoder values when the robot is turned on
