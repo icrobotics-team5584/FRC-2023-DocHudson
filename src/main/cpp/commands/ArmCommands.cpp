@@ -11,21 +11,21 @@ namespace cmd{
     frc2::CommandPtr ArmToSafePosition() {
       return Either(
           ArmSafePos().Until([] {
-            return SubArm::GetInstance().GetEndEffectorPosition().Y() > 70_cm;
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() > 60_cm;
           }),
           None(), [] {
-            return SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm;
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() < 60_cm;
           });
     }
 
     frc2::CommandPtr ArmSafePos() {
-        return ArmToPos(50_cm, 110_cm);
+        return ArmToPos(50_cm, 95_cm);
     }
 
 
     frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 124_cm));} 
-    frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 110_cm));} 
-    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,85_cm));} //gtg
+    frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 95_cm));} 
+    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,75_cm));} //gtg
 
     frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 98_cm));} 
     frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(104.4_cm, 52.1_cm));}
