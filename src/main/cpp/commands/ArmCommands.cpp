@@ -23,7 +23,7 @@ namespace cmd{
     }
 
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 124_cm));} 
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 114_cm));} 
     frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 95_cm));} 
     frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,75_cm));} //gtg
 
