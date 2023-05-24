@@ -39,7 +39,7 @@ frc2::CommandPtr RollerIntakeWithRumble(
         controller2.SetRumble(frc::GenericHID::kBothRumble, 1);
       })
       .AndThen(Wait(0.2_s))
-      .AndThen([&] {
+      .FinallyDo([&](bool _) {
         controller1.SetRumble(frc::GenericHID::kBothRumble, 0);
         controller2.SetRumble(frc::GenericHID::kBothRumble, 0);
       });
