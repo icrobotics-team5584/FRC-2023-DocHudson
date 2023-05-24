@@ -35,12 +35,12 @@ RobotContainer::RobotContainer() {
   SubDriveBase::GetInstance().SetDefaultCommand(CmdDriveRobot(&_driverController));
 
   _autoChooser.SetDefaultOption("Do Nothing", "DoNothing"); 
-  _autoChooser.AddOption("PreConeH+ScoreH(1)", "PreConeH+ScoreH(1)");   
-  _autoChooser.AddOption("PreConeH", "PreConeH");   
-  _autoChooser.AddOption("PreConeH+C", "PreConeH+C");
-  _autoChooser.AddOption("PreConeH+1ho+C", "PreConeH+1ho+C");
-  _autoChooser.AddOption("PreConeH+Leave", "PreConeH+Leave");
-
+  _autoChooser.AddOption("PConeH", "PConeH");
+  _autoChooser.AddOption("PConeH+C", "PConeH+C");
+  _autoChooser.AddOption("PConeH+C_old", "PConeH+C_old");
+  _autoChooser.AddOption("PConeH+Leave", "PConeH+Leave");
+  _autoChooser.AddOption("PConeH+Leave+Hold(1)", "PConeH+Leave+Hold(1)");
+  _autoChooser.AddOption("PConeH+Leave+Hold(3)", "PConeH+Leave+Hold(3)");
 
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
@@ -66,8 +66,8 @@ void RobotContainer::ConfigureBindings() {
   _secondController.X().OnTrue(cmd::ArmPickUp());
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
   _secondController.RightTrigger().OnTrue(cmd::ArmToDefaultLocation());
-  _secondController.RightBumper().OnTrue(cmd::CubeConeSwitch());
-  _secondController.LeftBumper().WhileTrue(cmd::RollerOuttake());
+  _secondController.LeftBumper().OnTrue(cmd::CubeConeSwitch());
+  _secondController.RightBumper().WhileTrue(cmd::RollerOuttake());
 
   // Coast mode override toggle
   frc2::Trigger([&] {
@@ -80,6 +80,6 @@ void RobotContainer::ConfigureBindings() {
 // For Auto Commands, removed temporarily
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   _autoSelected = _autoChooser.GetSelected();
-  return cmd::PPDrivePath("PConeH+C");
+  return cmd::PPDrivePath(_autoSelected);
 }
   

@@ -48,10 +48,10 @@ frc2::CommandPtr AutoBalance(){
     units::radians_per_second_t rotSpeed = 0_rad_per_s;
     units::degree_t robotPitchAngle = SubDriveBase::GetInstance().GetPitch();
     frc::SmartDashboard::PutNumber("Pitch Angle", robotPitchAngle.value());
-    if(robotPitchAngle > 4_deg) {
+    if(robotPitchAngle > 7_deg) {
       SubDriveBase::GetInstance().Drive(speed, 0_mps, rotSpeed, false); // 
     }
-    else if (robotPitchAngle < -4_deg) {
+    else if (robotPitchAngle < -7_deg) {
       SubDriveBase::GetInstance().Drive(-speed, 0_mps, rotSpeed, false);
     }
     else{

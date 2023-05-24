@@ -11,30 +11,31 @@ namespace cmd{
     frc2::CommandPtr ArmToSafePosition() {
       return Either(
           ArmSafePos().Until([] {
-            return SubArm::GetInstance().GetEndEffectorPosition().Y() > 70_cm;
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() > 60_cm;
           }),
           None(), [] {
-            return SubArm::GetInstance().GetEndEffectorPosition().Y() < 70_cm;
+            return SubArm::GetInstance().GetEndEffectorPosition().Y() < 60_cm;
           });
     }
 
     frc2::CommandPtr ArmSafePos() {
-        return ArmToPos(50_cm, 110_cm);
+        return ArmToPos(50_cm, 95_cm);
     }
 
 
-    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 124_cm));} 
-    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,85_cm));} //gtg
+    frc2::CommandPtr ArmToHighCone(){return ArmToSafePosition().AndThen(ArmToPos(135_cm, 114_cm));} 
+    frc2::CommandPtr ArmToScoredHighCone(){return ArmToSafePosition().AndThen(ArmToPos(150_cm, 85_cm));} 
+    frc2::CommandPtr ArmToMidCone(){return  ArmToSafePosition().AndThen(ArmToPos(103_cm,75_cm));} //gtg
 
     frc2::CommandPtr ArmToHighCube(){return  ArmToSafePosition().AndThen(ArmToPos(146.8_cm, 98_cm));} 
     frc2::CommandPtr ArmToMidCube(){return  ArmToSafePosition().AndThen(ArmToPos(104.4_cm, 52.1_cm));}
 
     frc2::CommandPtr ArmToLowCubeOrCone() {return ArmToPos(45_cm, 15_cm);}
-    frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(0.703_m, 0.817_m);}
+    frc2::CommandPtr ArmToLoadingStation(){return ArmToPos(0.703_m, 0.812_m);}
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.386_tr); }) //x_turns = x * 360 
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.389_tr); }) //x_turns = x * 360 
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }

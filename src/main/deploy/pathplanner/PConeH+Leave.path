@@ -2,22 +2,22 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.0,
-        "y": 3.0
+        "x": 1.9,
+        "y": 5.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0,
-        "y": 3.0
+        "x": 2.9000000000000012,
+        "y": 5.1
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "RollerIntake1s"
+          "ScoreHighCone"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -26,28 +26,33 @@
     },
     {
       "anchorPoint": {
-        "x": 5.0,
-        "y": 3.0
+        "x": 6.0,
+        "y": 5.1
       },
       "prevControl": {
-        "x": 4.0,
-        "y": 3.0
+        "x": 5.0,
+        "y": 5.1
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "RollerOuttake1s"
-        ],
+        "names": [],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.0072727272727289285,
+      "names": [
+        "RollerOuttake1s"
+      ]
+    }
+  ]
 }

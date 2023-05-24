@@ -3,60 +3,13 @@
     {
       "anchorPoint": {
         "x": 1.9,
-        "y": 3.0
+        "y": 0.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.226120874214262,
-        "y": 3.0
+        "x": 2.900000000000003,
+        "y": 0.45
       },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
-      "velOverride": 2.0,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 3.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 2.469200851009563,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 3.3944063839141694,
-        "y": 3.0
-      },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
-      "velOverride": 1.0,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 5.75,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 5.4088898305285635,
-        "y": 3.0
-      },
-      "nextControl": null,
       "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
@@ -64,7 +17,56 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "AutoBalance"
+          "ScoreHighCone"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.0,
+        "y": 0.6
+      },
+      "prevControl": {
+        "x": 5.0,
+        "y": 0.6
+      },
+      "nextControl": {
+        "x": 7.0,
+        "y": 0.6
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.1,
+        "y": 0.6
+      },
+      "prevControl": {
+        "x": 6.818646541255187,
+        "y": 0.6
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "StopRollerIntake"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -72,5 +74,19 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.3,
+      "names": [
+        "ArmToSafePosition"
+      ]
+    },
+    {
+      "position": 0.8,
+      "names": [
+        "ArmPickUp",
+        "StartRollerIntake"
+      ]
+    }
+  ]
 }

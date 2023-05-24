@@ -40,11 +40,12 @@ SubArm::SubArm() {
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottomFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-  _topEncoder.SetInverted(true);
+  _topEncoder.SetInverted(true); 
   _armMotorTop.UseAbsoluteEncoder(_topEncoder);
+  _topEncoder.SetZeroOffset(0.8615599);
 
   _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
-  _bottomEncoder.SetZeroOffset(0.093);
+  _bottomEncoder.SetZeroOffset(0.6048430); //old: 0.093
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
@@ -91,11 +92,13 @@ void SubArm::Periodic() {
   if(CheckPosition(10_deg) && !wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,15);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
-    frc2::cmd::Print("drivebase/set FF to 15");
+    std::cout << "set arm FF to 15\n";
   } else if (!CheckPosition(10_deg) && wasOnTarget) {
-    _armMotorBottom.SetPIDFF(P,I,D,30);
+    if(_endEffectorTarget.Y() < 90_cm){
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
-    frc2::cmd::Print("drivebase/set FF to 30");
+    }
+    _armMotorBottom.SetPIDFF(P,I,D,30);
+    std::cout << "set arm FF to 30\n";
   };
 
   wasOnTarget = CheckPosition(10_deg);

@@ -7,6 +7,7 @@ namespace cmd {
     frc2::CommandPtr ArmToHighCube();
     frc2::CommandPtr ArmToMidCube();
     frc2::CommandPtr ArmToHighCone();
+    frc2::CommandPtr ArmToScoredHighCone();
     frc2::CommandPtr ArmToMidCone();
     frc2::CommandPtr ArmToSafePosition();
     frc2::CommandPtr ArmSafePos();
