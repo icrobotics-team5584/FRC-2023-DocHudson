@@ -30,20 +30,20 @@ frc2::CommandPtr RollerIntake() {
       .Until([] { return SubRollerIntake::GetInstance().GamePieceDetected(); });
 }
 
-// frc2::CommandPtr RollerIntakeWithRumble(
-//     frc2::CommandXboxController& controller1,
-//     frc2::CommandXboxController& controller2) {
-//   return RollerIntake()
-//       .AndThen([&] {
-//         controller1.SetRumble(frc::GenericHID::kBothRumble, 1);
-//         controller2.SetRumble(frc::GenericHID::kBothRumble, 1);
-//       })
-//       .AndThen(Wait(0.2_s))
-//       .AndThen([&] {
-//         controller1.SetRumble(frc::GenericHID::kBothRumble, 0);
-//         controller2.SetRumble(frc::GenericHID::kBothRumble, 0);
-//       });
-// }
+frc2::CommandPtr RollerIntakeWithRumble(
+    frc2::CommandXboxController& controller1,
+    frc2::CommandXboxController& controller2) {
+  return RollerIntake()
+      .AndThen([&] {
+        controller1.SetRumble(frc::GenericHID::kBothRumble, 1);
+        controller2.SetRumble(frc::GenericHID::kBothRumble, 1);
+      })
+      .AndThen(Wait(0.2_s))
+      .AndThen([&] {
+        controller1.SetRumble(frc::GenericHID::kBothRumble, 0);
+        controller2.SetRumble(frc::GenericHID::kBothRumble, 0);
+      });
+}
 
 frc2::CommandPtr StopRollerOuttake(){
   return RunOnce([]{SubRollerIntake::GetInstance().StopRollerIntake();});
