@@ -24,6 +24,7 @@ SubDriveBase::SubDriveBase(){
 
 // This method will be called once per scheduler run
 void SubDriveBase::Periodic() {
+  auto loopStart = frc::GetTime();
   // Dashboard Displays:
   frc::SmartDashboard::PutNumber("drivebase/heading", GetHeading().Degrees().value());
   frc::SmartDashboard::PutNumber("Drivebase/velocity", GetVelocity().value());
@@ -36,6 +37,7 @@ void SubDriveBase::Periodic() {
    });
 
    UpdateOdometry();
+  frc::SmartDashboard::PutNumber("drivebase/loop time (sec)", (frc::GetTime()-loopStart).value());
 }
 
 void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 

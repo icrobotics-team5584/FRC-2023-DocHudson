@@ -6,6 +6,8 @@
 #include <frc/AddressableLED.h>
 #include "commands/ArmCommands.h"
 #include "RobotContainer.h"
+#include <frc/Timer.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 bool SubLED::autoDriving = false;
 
@@ -20,7 +22,9 @@ SubLED::SubLED() {
 }
 // This method will be called once per scheduler run
 void SubLED::Periodic() {
+  auto loopStart = frc::GetTime();
   SetColour();
+  frc::SmartDashboard::PutNumber("led/loop time (sec)", (frc::GetTime()-loopStart).value());
 }
 
 void SubLED::SetColour() {
