@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include "utilities/ICSparkMax.h"
 #include "Constants.h"
+#include <frc/Timer.h>
 
 class SubRollerIntake : public frc2::SubsystemBase {
  public:
@@ -31,5 +32,6 @@ class SubRollerIntake : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   ICSparkMax<> _rollerMotor{canid::rollerIntakeMotor, 10_A};
+  frc::Timer _intakeTimer;
 
 };
