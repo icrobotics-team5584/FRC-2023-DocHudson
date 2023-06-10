@@ -48,10 +48,10 @@ class SwerveModule {
     0.5   // seconds exceeded threshhold before activating
   };
 
-  const double TURN_P = 0.2;
+  const double TURN_P = 0.5;
   const double TURN_I = 0.0;
   const double TURN_D = 0.1;
-  const double DRIVE_P = 0.011489;
+  const double DRIVE_P = 0.031489;
   const double DRIVE_I = 0.0;
   const double DRIVE_D = 0.0;
   const double DRIVE_F = 0;

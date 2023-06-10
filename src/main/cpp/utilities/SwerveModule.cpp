@@ -70,6 +70,7 @@ void SwerveModule::SendSensorsToDash() {
   std::string turnMotorName = "turn motor " + std::to_string(_canTurnMotor.GetDeviceID());
   std::string turnEncoderName = "turn encoder " + std::to_string(_canTurnEncoder.GetDeviceNumber());
 
+  frc::SmartDashboard::PutNumber(driveMotorName + " Target velocity", _canDriveMotor.GetClosedLoopTarget());
   frc::SmartDashboard::PutNumber(driveMotorName + " velocity", _canDriveMotor.GetSelectedSensorVelocity());
   frc::SmartDashboard::PutNumber(turnMotorName  + " position degrees", GetAngle().Degrees().value());
   frc::SmartDashboard::PutNumber(turnMotorName  + " position tics", _canTurnMotor.GetSelectedSensorPosition());
