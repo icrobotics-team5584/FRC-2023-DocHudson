@@ -16,10 +16,10 @@ SubRollerIntake::SubRollerIntake(){
 
 
 void SubRollerIntake::RollerIntake(){
-    _rollerMotor.Set(1);
+    _rollerMotor.Set(0.3);
 }
 void SubRollerIntake::RollerOuttake(){
-    _rollerMotor.Set(-1);
+    _rollerMotor.Set(-0.3);
 }
 void SubRollerIntake::StopRollerIntake(){
     _rollerMotor.Set(0);
@@ -27,6 +27,11 @@ void SubRollerIntake::StopRollerIntake(){
 void SubRollerIntake::IdleRollerIntake(){
     _rollerMotor.Set(0);
 }
+void SubRollerIntake::ShootCube(){
+    _rollerMotor.Set(1);
+}
+
+
 bool SubRollerIntake::GamePieceDetected() {
     if (_rollerMotor.GetVelocity() == 0_tps && _rollerMotor.Get() != 0) {
         return true;

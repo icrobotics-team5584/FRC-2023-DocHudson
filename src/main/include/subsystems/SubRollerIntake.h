@@ -26,6 +26,7 @@ class SubRollerIntake : public frc2::SubsystemBase {
   void StopRollerIntake();
   void IdleRollerIntake();
   bool GamePieceDetected();
+  void ShootCube();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

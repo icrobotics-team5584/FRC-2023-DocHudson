@@ -32,10 +32,15 @@ void SubDriveBase::Periodic() {
     _frontLeft.GetAngle().Degrees().value(), _frontLeft.GetSpeed().value(),
     _frontRight.GetAngle().Degrees().value(), _frontRight.GetSpeed().value(),
     _backLeft.GetAngle().Degrees().value(), _backLeft.GetSpeed().value(),
-     _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
+    _backRight.GetAngle().Degrees().value(), _backRight.GetSpeed().value(),
    });
 
    UpdateOdometry();
+   
+   _frontLeft.SendSensorsToDash();
+   _frontRight.SendSensorsToDash();
+   _backLeft.SendSensorsToDash();
+   _backRight.SendSensorsToDash();
 }
 
 void SubDriveBase::Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, 

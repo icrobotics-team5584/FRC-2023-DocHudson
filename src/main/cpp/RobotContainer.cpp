@@ -53,6 +53,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
   _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
   _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
+  _driverController.A().WhileTrue(cmd::DriveForward());
 
 
   //Second controller

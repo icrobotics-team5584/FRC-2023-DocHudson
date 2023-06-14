@@ -4,6 +4,7 @@
 #include "RobotContainer.h"
 #include "subsystems/SubLED.h"
 #include <frc/DriverStation.h>
+#include <units/angular_velocity.h>
 
 namespace cmd {
 using namespace frc2::cmd;
@@ -60,5 +61,12 @@ frc2::CommandPtr AutoBalance(){
     });
 
 };
+
+frc2::CommandPtr DriveForward() {
+return StartEnd(
+[]{SubDriveBase::GetInstance().Drive(1_mps,0_mps,0_deg_per_s, false);},
+[]{SubDriveBase::GetInstance().Drive(0_mps,0_mps,0_deg_per_s, false);},
+{&SubDriveBase::GetInstance()});
+}
 
 }  // namespace cmd

@@ -34,4 +34,8 @@ frc2::CommandPtr StopRollerOuttake(){
   return RunOnce([]{SubRollerIntake::GetInstance().StopRollerIntake();});
 }
 
+frc2::CommandPtr ShootCube(){
+  return RunOnce([]{SubRollerIntake::GetInstance().ShootCube();});
+}
+
 }  
