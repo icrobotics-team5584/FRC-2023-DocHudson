@@ -35,7 +35,7 @@ namespace cmd{
 	frc2::CommandPtr ArmToDefaultLocation(){return ArmToPos(44_cm, 4_cm);} //gtg
 
     frc2::CommandPtr ArmPickUp(){
-        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.389_tr); }) //x_turns = x * 360 
+        return RunOnce([]() { SubArm::GetInstance().DriveTo(0.2020_tr, -0.389_tr); }, {&SubArm::GetInstance()})
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
@@ -56,7 +56,7 @@ namespace cmd{
     }
 
     frc2::CommandPtr ArmToPos(auto x, auto y) {
-        return RunOnce([x, y]() { SubArm::GetInstance().ArmPos(x, y); })
+        return RunOnce([x, y]() { SubArm::GetInstance().ArmPos(x, y); }, {&SubArm::GetInstance() })
             .AndThen(WaitUntil(
                 []() { return SubArm::GetInstance().CheckPosition(); }));
     }
