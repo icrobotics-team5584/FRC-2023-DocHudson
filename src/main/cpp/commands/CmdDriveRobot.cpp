@@ -4,6 +4,7 @@
 
 #include "commands/CmdDriveRobot.h"
 #include "subsystems/SubDriveBase.h"
+#include "subsystems/SubArm.h"
 
 CmdDriveRobot::CmdDriveRobot(frc::XboxController* controller) {
   _controller = controller;
@@ -20,8 +21,9 @@ void CmdDriveRobot::Execute() {
   const auto ySpeed = -_yspeedLimiter.Calculate(frc::ApplyDeadband(_controller -> GetLeftX(), deadband)) * SubDriveBase::MAX_VELOCITY;
   const auto rot = -_rotLimiter.Calculate(frc::ApplyDeadband(_controller -> GetRightX(), deadband)) * SubDriveBase::MAX_ANGULAR_VELOCITY;
   //SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);
-
-  if (_controller->GetLeftStickButton()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
+  
+  if (SubArm::GetInstance().GetEndEffectorTarget().Y() > 90_cm){SubDriveBase::GetInstance().Drive(xSpeed/2, ySpeed/2, rot/2, false);}
+  else if (_controller->GetLeftStickButton()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
   else {SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);} //true == field relative
 }
 
