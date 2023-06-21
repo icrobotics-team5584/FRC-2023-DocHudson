@@ -73,6 +73,10 @@ void RobotContainer::ConfigureBindings() {
   frc2::Trigger([&] {
     return frc::RobotController::GetUserButton() || _breakModeSwitch.Get();
   }).ToggleOnTrue(cmd::CoastModeOverride());
+
+  frc2::Trigger([&] {
+    return frc::Timer::GetMatchTime() < 0.2_s;
+  }).ToggleOnTrue(cmd::LockOnChargeStation());
 }
 
 

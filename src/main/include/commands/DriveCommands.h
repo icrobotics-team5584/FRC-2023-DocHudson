@@ -14,4 +14,5 @@ namespace cmd {
 
   frc2::CommandPtr DriveBackwards();
   
+  frc2::CommandPtr LockOnChargeStation();
 }

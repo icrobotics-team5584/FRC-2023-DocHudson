@@ -67,4 +67,10 @@ frc2::CommandPtr DriveBackwards() {
   });
 }
 
+frc2::CommandPtr LockOnChargeStation() {
+  return RunOnce([]{
+    SubDriveBase::GetInstance().LockWheels();
+  });
+}
+
 }  // namespace cmd

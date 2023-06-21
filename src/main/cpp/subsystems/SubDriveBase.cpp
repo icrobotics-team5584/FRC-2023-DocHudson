@@ -193,3 +193,10 @@ void SubDriveBase::SetNeutralMode(NeutralMode mode) {
 units::degree_t SubDriveBase::GetPitch(){
   return _gyro.GetPitch() * 1_deg;
 }
+
+void SubDriveBase::LockWheels() {
+  _frontLeft.SetDesiredState({0.5_mps, 0_deg});
+  _frontRight.SetDesiredState({0.5_mps, 90_deg});
+  _backRight.SetDesiredState({0.5_mps, 180_deg});
+  _backLeft.SetDesiredState({0.5_mps, 270_deg});
+}
