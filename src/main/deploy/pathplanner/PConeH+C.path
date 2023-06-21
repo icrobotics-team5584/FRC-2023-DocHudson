@@ -104,11 +104,36 @@
     },
     {
       "anchorPoint": {
-        "x": 3.5,
+        "x": 5.624266724723926,
         "y": 3.0
       },
       "prevControl": {
-        "x": 5.421769795137993,
+        "x": 6.291819391501261,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 4.9567140579465905,
+        "y": 3.0
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": 1.5,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.1,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 6.021769795137993,
         "y": 2.9999999999999996
       },
       "nextControl": null,
@@ -132,6 +157,24 @@
       "position": 0.014545454545449582,
       "names": [
         "RollerOuttake1s"
+      ]
+    },
+    {
+      "position": 2.0727272727272723,
+      "names": [
+        "ScoreMidCone"
+      ]
+    },
+    {
+      "position": 0.0,
+      "names": [
+        "event"
+      ]
+    },
+    {
+      "position": 0.0,
+      "names": [
+        "event"
       ]
     }
   ]

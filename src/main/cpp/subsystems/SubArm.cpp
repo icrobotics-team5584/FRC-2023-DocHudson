@@ -89,7 +89,7 @@ void SubArm::Periodic() {
   _arm1Ligament->SetAngle(_bottomEncoder.GetPosition()*1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
-  static bool wasOnTarget = false;
+  static bool wasOnTarget = true;
   bool isOnTarget = CheckPosition(10_deg);
 
   if(isOnTarget && !wasOnTarget) {
@@ -105,7 +105,7 @@ void SubArm::Periodic() {
   };
 
   wasOnTarget = isOnTarget;
-
+  
   frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
 }
 
