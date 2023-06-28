@@ -11,6 +11,7 @@
 #include <frc2/command/commands.h>
 #include <frc2/command/button/Trigger.h>
 #include <frc/MathUtil.h>
+#include <frc/shuffleboard/Shuffleboard.h>
 
 //./gradlew clean
 
@@ -45,7 +46,7 @@ SubArm::SubArm() {
   _topEncoder.SetZeroOffset(0.8615599);
 
   _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
-  _bottomEncoder.SetZeroOffset(0.6048430); //old: 0.093
+  _bottomEncoder.SetZeroOffset(0.0663974); //old: 0.093
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
@@ -55,6 +56,8 @@ SubArm::SubArm() {
   _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
   frc::SmartDashboard::PutNumber("arm/Back sensor input: ", 0);
+ _xoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset x", 0).GetEntry();
+ _yoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset y", 0).GetEntry();
 }
 
 // This method will be called once per scheduler runss
@@ -86,7 +89,7 @@ void SubArm::Periodic() {
   }
 
   // Update mech2d display
-  _arm1Ligament->SetAngle(_bottomEncoder.GetPosition()*1_tr);
+  _arm1Ligament->SetAngle(frc::RobotBase::IsSimulation() ? _armMotorBottom.GetPosition() : _bottomEncoder.GetPosition() * 1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
   static bool wasOnTarget = true;
@@ -157,6 +160,8 @@ std::optional<SubArm::IKResult> SubArm::InverseKinmetics(units::meter_t x, units
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
+  x=x+_xoffset->GetDouble(0)*1_m;
+  y=y+_yoffset->GetDouble(0)*1_m;
   auto ikResult = InverseKinmetics(x,y);
   if (ikResult.has_value()) {
     auto [bottomAngle, topAngle] = ikResult.value();
