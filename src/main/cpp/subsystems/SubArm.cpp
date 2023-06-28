@@ -46,7 +46,7 @@ SubArm::SubArm() {
   _topEncoder.SetZeroOffset(0.8615599);
 
   _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
-  _bottomEncoder.SetZeroOffset(0.6048430); //old: 0.093
+  _bottomEncoder.SetZeroOffset(0.0663974); //old: 0.093
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
