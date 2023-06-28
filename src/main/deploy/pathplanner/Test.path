@@ -2,39 +2,15 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.9,
-        "y": 5.1
+        "x": 1.0,
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9000000000000012,
-        "y": 5.1
+        "x": 2.0,
+        "y": 3.0
       },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [
-          "ScoreHighCone"
-        ],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 6.0,
-        "y": 5.1
-      },
-      "prevControl": {
-        "x": 5.0,
-        "y": 5.1
-      },
-      "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -45,20 +21,31 @@
         "waitBehavior": "none",
         "waitTime": 0
       }
-    }
-  ],
-  "markers": [
-    {
-      "position": 0.0072727272727289285,
-      "names": [
-        "RollerOuttake1s"
-      ]
     },
     {
-      "position": 0.2636363636363636,
-      "names": [
-        "ArmPickUp"
-      ]
+      "anchorPoint": {
+        "x": 5.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 4.0,
+        "y": 3.0
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "LockWheels"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
     }
-  ]
+  ],
+  "markers": []
 }

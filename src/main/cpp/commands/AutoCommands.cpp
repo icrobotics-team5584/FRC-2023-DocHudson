@@ -56,6 +56,8 @@ namespace cmd {
             {"BrakeMode", frc2::cmd::RunOnce([]{ SubDriveBase::GetInstance().SetNeutralMode(NeutralMode::Brake);}).Unwrap()},
 
             {"AutoBalance", cmd::AutoBalance().Unwrap()},
+
+            {"LockWheels", cmd::LockOnChargeStation().Unwrap()},
     
             {"DoNothing", frc2::cmd::None().Unwrap()}
         };
