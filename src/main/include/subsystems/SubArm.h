@@ -73,6 +73,8 @@ class SubArm : public frc2::SubsystemBase {
 
   frc::Translation2d _endEffectorTarget{0.5_m, 0.5_m};
 
+  frc::Timer _armTimer;
+
   //arm 1
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;

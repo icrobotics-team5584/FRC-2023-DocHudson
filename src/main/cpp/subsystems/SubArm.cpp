@@ -107,6 +107,18 @@ void SubArm::Periodic() {
   wasOnTarget = isOnTarget;
   
   frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
+
+  if ((units::math::abs(_armMotorTop.GetVelocity()) < 0.1_tps && abs(_armMotorTop.Get()) < 0.1) 
+  || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
+    _armTimer.Start();
+    if (_armTimer.Get() > 0.3_s) {
+      _armMotorTop.SetVoltage(0_t);
+      _armMotorBottom.SetVoltage(0_t);
+    }
+  } else {
+    _armTimer.Stop();
+    _armTimer.Reset();
+  }
 }
 
 void SubArm::DashboardInput(){
