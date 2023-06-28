@@ -61,4 +61,10 @@ frc2::CommandPtr AutoBalance(){
 
 };
 
+frc2::CommandPtr DriveBackwards() {
+  return Run([]{
+    SubDriveBase::GetInstance().Drive(-0.1_mps, 0_mps, 0_rad_per_s, false);
+  });
+}
+
 }  // namespace cmd

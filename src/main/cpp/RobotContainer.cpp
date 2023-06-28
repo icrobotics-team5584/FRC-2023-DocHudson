@@ -51,13 +51,13 @@ void RobotContainer::ConfigureBindings() {
 
   //Main Controller
   _driverController.Start().OnTrue(frc2::cmd::RunOnce([]{SubDriveBase::GetInstance().ResetGyroHeading();}));
-  _driverController.RightBumper().WhileTrue(cmd::RollerOuttake());
-  _driverController.RightTrigger().WhileTrue(cmd::RollerIntake());
-
+  _driverController.RightBumper().WhileTrue(cmd::RollerOuttake()); //outtake
+  _driverController.RightTrigger().WhileTrue(cmd::RollerIntakeWithRumble(_driverController, _secondController));
+  _driverController.LeftTrigger().OnTrue(cmd::ScoreSequence()); // score sequence
 
   //Second controller
   POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
-  POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20));
+  POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20)); //down
   POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
   POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
   _secondController.Y().OnTrue(cmd::ArmToHigh());

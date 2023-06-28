@@ -16,21 +16,21 @@
 //./gradlew clean
 
 SubArm::SubArm() {
-  frc::SmartDashboard::PutData("Arm/Arm Motor Bottom: ", (wpi::Sendable*)&_armMotorBottom);
+  frc::SmartDashboard::PutData("arm/Arm Motor Bottom: ", (wpi::Sendable*)&_armMotorBottom);
   _armMotorBottom.SetConversionFactor(1 / GEAR_RATIO);
   _armMotorBottom.SetPIDFF(P, I, D, F);
   _armMotorBottom.ConfigSmartMotion(MAX_VEL, MAX_ACCEL, TOLERANCE);
 
-  frc::SmartDashboard::PutData("Arm/Arm Motor Top: ", (wpi::Sendable*)&_armMotorTop);
+  frc::SmartDashboard::PutData("arm/Arm Motor Top: ", (wpi::Sendable*)&_armMotorTop);
   _armMotorTop.SetConversionFactor(1 / GEAR_RATIO_2);
   _armMotorTop.SetPIDFF(P_2, I_2, D_2, F_2);
   _armMotorTop.ConfigSmartMotion(MAX_VEL_2, MAX_ACCEL_2, TOLERANCE_2);
 
-  frc::SmartDashboard::PutData("Arm/Mechanism Display", &_doubleJointedArmMech);
-  frc::SmartDashboard::PutNumber("Arm/y_coord input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/x_coord input: ", 0);
-  frc::SmartDashboard::PutNumber("Arm/Bottom grav comp", _bottomArmGravityFF.kG.value());
-  frc::SmartDashboard::PutNumber("Arm/Top grav comp", _topArmGravityFF.kG.value());
+  frc::SmartDashboard::PutData("arm/Mechanism Display", &_doubleJointedArmMech);
+  frc::SmartDashboard::PutNumber("arm/y_coord input: ", 0);
+  frc::SmartDashboard::PutNumber("arm/x_coord input: ", 0);
+  frc::SmartDashboard::PutNumber("arm/Bottom grav comp", _bottomArmGravityFF.kG.value());
+  frc::SmartDashboard::PutNumber("arm/Top grav comp", _topArmGravityFF.kG.value());
 
   _armMotorTop.SetInverted(true);
   _armMotorBottomFollow.Follow(_armMotorBottom);
@@ -55,28 +55,30 @@ SubArm::SubArm() {
   _bottomArmGravFFMap.insert(-0.2_tr, 0.4_V); // etc..
   _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
-  frc::SmartDashboard::PutNumber("Arm/Back sensor input: ", 0);
+  frc::SmartDashboard::PutNumber("arm/Back sensor input: ", 0);
  _xoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset x", 0).GetEntry();
  _yoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset y", 0).GetEntry();
 }
 
 // This method will be called once per scheduler runss
 void SubArm::Periodic() {
-  frc::SmartDashboard::PutNumber("Arm/bottom to top arm turns", GetBottomToTopArmAngle().value());
-  frc::SmartDashboard::PutNumber("Arm/ground to top arm turns", GetGroundToTopArmAngle().value());
-  frc::SmartDashboard::PutNumber("Arm/top arm encoder", _topEncoder.GetPosition());
-  frc::SmartDashboard::PutNumber("Arm/bottom arm encoder", _bottomEncoder.GetPosition());
+  auto loopStart = frc::GetTime();
+
+  frc::SmartDashboard::PutNumber("arm/bottom to top arm turns", GetBottomToTopArmAngle().value());
+  frc::SmartDashboard::PutNumber("arm/ground to top arm turns", GetGroundToTopArmAngle().value());
+  frc::SmartDashboard::PutNumber("arm/top arm encoder", _topEncoder.GetPosition());
+  frc::SmartDashboard::PutNumber("arm/bottom arm encoder", _bottomEncoder.GetPosition());
   
   auto EEPos = GetEndEffectorPosition();
-  frc::SmartDashboard::PutNumber("Arm/Current X", EEPos.X().value());
-  frc::SmartDashboard::PutNumber("Arm/Current Y", EEPos.Y().value());
+  frc::SmartDashboard::PutNumber("arm/Current X", EEPos.X().value());
+  frc::SmartDashboard::PutNumber("arm/Current Y", EEPos.Y().value());
   DashboardInput();
 
   // Update gravity comp FF
   // Use zero for vel factor since we are only using these feedforward objects
   // for the gravity factor. Vel and accel is handeled by Spark Max Smart Motion.
-  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Top grav comp", _topArmGravityFF.kG.value())*1_V;
-  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("Arm/Bottom grav comp", _bottomArmGravityFF.kG.value())*1_V;
+  _topArmGravityFF.kG = frc::SmartDashboard::GetNumber("arm/Top grav comp", _topArmGravityFF.kG.value())*1_V;
+  _bottomArmGravityFF.kG = frc::SmartDashboard::GetNumber("arm/Bottom grav comp", _bottomArmGravityFF.kG.value())*1_V;
   // _bottomArmGravityFF.kG = _bottomArmGravFFMap[CalcGroundToTopArm()];
   auto topGravFF = _topArmGravityFF.Calculate(GetGroundToTopArmAngle(), 0_rad_per_s);
   auto bottomGravFF = _bottomArmGravityFF.Calculate(_bottomEncoder.GetPosition()*1_tr, 0_rad_per_s);
@@ -90,13 +92,14 @@ void SubArm::Periodic() {
   _arm1Ligament->SetAngle(frc::RobotBase::IsSimulation() ? _armMotorBottom.GetPosition() : _bottomEncoder.GetPosition() * 1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
-  static bool wasOnTarget = false;
+  static bool wasOnTarget = true;
+  bool isOnTarget = CheckPosition(10_deg);
 
-  if(CheckPosition(10_deg) && !wasOnTarget) {
+  if(isOnTarget && !wasOnTarget) {
     _armMotorBottom.SetPIDFF(P,I,D,15);
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
     std::cout << "set arm FF to 15\n";
-  } else if (!CheckPosition(10_deg) && wasOnTarget) {
+  } else if (!isOnTarget && wasOnTarget) {
     if(_endEffectorTarget.Y() < 90_cm){
     _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
     }
@@ -104,15 +107,17 @@ void SubArm::Periodic() {
     std::cout << "set arm FF to 30\n";
   };
 
-  wasOnTarget = CheckPosition(10_deg);
+  wasOnTarget = isOnTarget;
+  
+  frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
 }
 
 void SubArm::DashboardInput(){
   static auto prevXRequest = 0_m;
   static auto prevYRequest = 0_m; 
 
-  units::centimeter_t x_coord{frc::SmartDashboard::GetNumber("Arm/x_coord input: ", 0)};
-  units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("Arm/y_coord input: ", 0)};
+  units::centimeter_t x_coord{frc::SmartDashboard::GetNumber("arm/x_coord input: ", 0)};
+  units::centimeter_t y_coord{frc::SmartDashboard::GetNumber("arm/y_coord input: ", 0)};
 
   if((prevXRequest != x_coord) or (prevYRequest != y_coord)){
     ArmPos(x_coord, y_coord);
@@ -124,8 +129,8 @@ void SubArm::DashboardInput(){
 
 void SubArm::DriveTo(units::degree_t bottomAngle, units::degree_t topAngle) {
   _armMotorBottom.SetSmartMotionTarget(bottomAngle);
-  frc::SmartDashboard::PutNumber("Arm/Top target before addition", topAngle.value());
-  frc::SmartDashboard::PutNumber("Arm/Top target after addition", (topAngle+360_deg).convert<units::turns>().value());
+  frc::SmartDashboard::PutNumber("arm/Top target before addition", topAngle.value());
+  frc::SmartDashboard::PutNumber("arm/Top target after addition", (topAngle+360_deg).convert<units::turns>().value());
   _armMotorTop.SetSmartMotionTarget(TopArmAngleToEncoderAngle(topAngle));
 }
 

@@ -11,5 +11,7 @@ namespace cmd {
 
   //auto balancing
   frc2::CommandPtr AutoBalance();
+
+  frc2::CommandPtr DriveBackwards();
   
 }
