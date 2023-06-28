@@ -20,6 +20,7 @@
 #include <frc/controller/ArmFeedforward.h>
 #include <wpi/interpolating_map.h>
 #include <optional>
+#include <networktables/NetworkTableEntry.h>
 
 class SubArm : public frc2::SubsystemBase {
  public:
@@ -138,5 +139,8 @@ class SubArm : public frc2::SubsystemBase {
   frc::MechanismRoot2d* _root = _doubleJointedArmMech.GetRoot("armRoot", 1, 1); //root x and y
   frc::MechanismLigament2d* _arm1Ligament = _root->Append<frc::MechanismLigament2d>("ligament1", ARM_LENGTH.value(), 5_deg);
   frc::MechanismLigament2d* _arm2Ligament = _arm1Ligament->Append<frc::MechanismLigament2d>("ligament2", ARM_LENGTH.value(), 5_deg);
+
+  nt::GenericEntry* _xoffset;
+  nt::GenericEntry* _yoffset;
 };
 

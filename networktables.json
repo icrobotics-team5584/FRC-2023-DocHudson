@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "name": "/Shuffleboard/SmartDashboard/Arm Offset x",
+    "type": "int",
+    "value": 0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/SmartDashboard/Arm Offset y",
+    "type": "int",
+    "value": 0,
+    "properties": {
+      "persistent": true
+    }
+  }
+]
