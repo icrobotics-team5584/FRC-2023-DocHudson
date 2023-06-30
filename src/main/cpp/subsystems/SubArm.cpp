@@ -36,6 +36,9 @@ SubArm::SubArm() {
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
 
+  _armMotorBottom.SetInverted(true);
+  _armMotorBottomFollow.SetInverted(true);
+
   _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -46,7 +49,7 @@ SubArm::SubArm() {
   _topEncoder.SetZeroOffset(0.8615599);
 
   _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
-  _bottomEncoder.SetZeroOffset(0.0663974); //old: 0.093
+  _bottomEncoder.SetZeroOffset(0.15121413031); //old: 0.093
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
@@ -111,17 +114,17 @@ void SubArm::Periodic() {
   
   frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
 
-  if ((units::math::abs(_armMotorTop.GetVelocity()) < 0.1_tps && abs(_armMotorTop.Get()) < 0.1) 
-  || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
-    _armTimer.Start();
-    if (_armTimer.Get() > 0.3_s) {
-      _armMotorTop.SetVoltage(0_V);
-      _armMotorBottom.SetVoltage(0_V);
-    }
-  } else {
-    _armTimer.Stop();
-    _armTimer.Reset();
-  }
+  // if ((units::math::abs(_armMotorTop.GetVelocity()) < 0.1_tps && abs(_armMotorTop.Get()) < 0.1) 
+  // || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
+  //   _armTimer.Start();
+  //   if (_armTimer.Get() > 0.3_s) {
+  //     _armMotorTop.SetVoltage(0_V);
+  //     _armMotorBottom.SetVoltage(0_V);
+  //   }
+  // } else {
+  //   _armTimer.Stop();
+  //   _armTimer.Reset();
+  // }
 }
 
 void SubArm::DashboardInput(){
