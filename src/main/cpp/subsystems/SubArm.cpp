@@ -35,6 +35,9 @@ SubArm::SubArm() {
   _armMotorBottomFollow.Follow(_armMotorBottom);
   _armMotorTopFollow.Follow(_armMotorTop);
 
+  _armMotorBottom.SetInverted(true);
+  _armMotorBottomFollow.SetInverted(true);
+
   _armMotorTop.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorBottom.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   _armMotorTopFollow.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -45,7 +48,7 @@ SubArm::SubArm() {
   _topEncoder.SetZeroOffset(0.8615599);
 
   _armMotorBottom.UseAbsoluteEncoder(_bottomEncoder);
-  _bottomEncoder.SetZeroOffset(0.6048430); //old: 0.093
+  _bottomEncoder.SetZeroOffset(0.15121413031); //old: 0.093
 
   // Gravity map (currently unused and untuned, bottom arm is pretty geared down anyway and isn't affected much
   // by gravity)
