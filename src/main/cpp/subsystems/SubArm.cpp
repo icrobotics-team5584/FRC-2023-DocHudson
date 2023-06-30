@@ -104,7 +104,7 @@ void SubArm::Periodic() {
     std::cout << "set arm FF to 15\n";
   } else if (!isOnTarget && wasOnTarget) {
     if(_endEffectorTarget.Y() < 90_cm){
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,20);
     }
     _armMotorBottom.SetPIDFF(P,I,D,30);
     std::cout << "set arm FF to 30\n";
