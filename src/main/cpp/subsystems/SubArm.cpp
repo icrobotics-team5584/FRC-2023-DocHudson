@@ -115,8 +115,8 @@ void SubArm::Periodic() {
   || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
     _armTimer.Start();
     if (_armTimer.Get() > 0.3_s) {
-      _armMotorTop.SetVoltage(0_t);
-      _armMotorBottom.SetVoltage(0_t);
+      _armMotorTop.SetVoltage(0_V);
+      _armMotorBottom.SetVoltage(0_V);
     }
   } else {
     _armTimer.Stop();
