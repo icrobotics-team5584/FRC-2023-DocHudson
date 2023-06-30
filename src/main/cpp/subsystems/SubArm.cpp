@@ -11,6 +11,7 @@
 #include <frc2/command/commands.h>
 #include <frc2/command/button/Trigger.h>
 #include <frc/MathUtil.h>
+#include <frc/shuffleboard/Shuffleboard.h>
 
 //./gradlew clean
 
@@ -58,6 +59,8 @@ SubArm::SubArm() {
   _bottomArmGravFFMap.insert(-0.3_tr, 0.1_V);
 
   frc::SmartDashboard::PutNumber("arm/Back sensor input: ", 0);
+ _xoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset x", 0).GetEntry();
+ _yoffset=  frc::Shuffleboard::GetTab("SmartDashboard") .AddPersistent("Arm Offset y", 0).GetEntry();
 }
 
 // This method will be called once per scheduler runss
@@ -89,10 +92,10 @@ void SubArm::Periodic() {
   }
 
   // Update mech2d display
-  _arm1Ligament->SetAngle(_bottomEncoder.GetPosition()*1_tr);
+  _arm1Ligament->SetAngle(frc::RobotBase::IsSimulation() ? _armMotorBottom.GetPosition() : _bottomEncoder.GetPosition() * 1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
 
-  static bool wasOnTarget = false;
+  static bool wasOnTarget = true;
   bool isOnTarget = CheckPosition(10_deg);
 
   if(isOnTarget && !wasOnTarget) {
@@ -101,15 +104,27 @@ void SubArm::Periodic() {
     std::cout << "set arm FF to 15\n";
   } else if (!isOnTarget && wasOnTarget) {
     if(_endEffectorTarget.Y() < 90_cm){
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2,30);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,20);
     }
     _armMotorBottom.SetPIDFF(P,I,D,30);
     std::cout << "set arm FF to 30\n";
   };
 
   wasOnTarget = isOnTarget;
-
+  
   frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
+
+  // if ((units::math::abs(_armMotorTop.GetVelocity()) < 0.1_tps && abs(_armMotorTop.Get()) < 0.1) 
+  // || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
+  //   _armTimer.Start();
+  //   if (_armTimer.Get() > 0.3_s) {
+  //     _armMotorTop.SetVoltage(0_V);
+  //     _armMotorBottom.SetVoltage(0_V);
+  //   }
+  // } else {
+  //   _armTimer.Stop();
+  //   _armTimer.Reset();
+  // }
 }
 
 void SubArm::DashboardInput(){
@@ -160,6 +175,8 @@ std::optional<SubArm::IKResult> SubArm::InverseKinmetics(units::meter_t x, units
 }
 
 void SubArm::ArmPos(units::meter_t x, units::meter_t y) {
+  x=x+_xoffset->GetDouble(0)*1_m;
+  y=y+_yoffset->GetDouble(0)*1_m;
   auto ikResult = InverseKinmetics(x,y);
   if (ikResult.has_value()) {
     auto [bottomAngle, topAngle] = ikResult.value();

@@ -14,4 +14,6 @@ frc2::CommandPtr StartRollerIntake();
 frc2::CommandPtr StartRollerOuttake();
 frc2::CommandPtr StopRollerIntake();
 frc2::CommandPtr StopRollerOuttake();
+
+frc2::CommandPtr ScoreSequence();
 }

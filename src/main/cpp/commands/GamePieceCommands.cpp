@@ -2,6 +2,7 @@
 #include "RobotContainer.h"
 #include "commands/ArmCommands.h"
 #include "subsystems/SubRollerIntake.h"
+#include "commands/DriveCommands.h"
 
 namespace cmd {
 using namespace frc2::cmd;
@@ -49,4 +50,10 @@ frc2::CommandPtr StopRollerOuttake(){
   return RunOnce([]{SubRollerIntake::GetInstance().StopRollerIntake();});
 }
 
+frc2::CommandPtr ScoreSequence() {
+  return ManualArmMove(0, -20).WithTimeout(0.3_s).AndThen(
+      RollerOuttake().WithTimeout(1_s).AlongWith(
+          DriveBackwards().WithTimeout(1_s)));
+}
 }  
+
