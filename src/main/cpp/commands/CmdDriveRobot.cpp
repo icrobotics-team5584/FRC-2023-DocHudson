@@ -23,7 +23,7 @@ void CmdDriveRobot::Execute() {
   //SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);
   
   if (SubArm::GetInstance().GetEndEffectorTarget().Y() > 90_cm){SubDriveBase::GetInstance().Drive(xSpeed/2, ySpeed/2, rot/2, false);}
-  else if (_controller->GetLeftStickButton()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
+  // else if (_controller->GetLeftStickButton()){SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, false);}
   else {SubDriveBase::GetInstance().Drive(xSpeed, ySpeed, rot, true);} //true == field relative
 }
 
