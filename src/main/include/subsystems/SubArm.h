@@ -80,7 +80,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P = 0.0;
   static constexpr double I = 0.0;
   static constexpr double D = 0.0;
-  static constexpr double F = 20;
+  static constexpr double F = 15;
 
   // Bottom arm FF is all zeros, it will be dynamically set in Periodic() based
   // on the position of the top arm and the Gravity FF Map.
@@ -100,7 +100,7 @@ class SubArm : public frc2::SubsystemBase {
   static constexpr double P_2 = 0.0;
   static constexpr double I_2 = 0.0;
   static constexpr double D_2 = 0.0;
-  static constexpr double F_2 = 15;
+  static constexpr double F_2 = 20;
   frc::ArmFeedforward _topArmGravityFF{0_V, -0.5_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq};
   
   static constexpr double GEAR_RATIO_2 = 155.91;
