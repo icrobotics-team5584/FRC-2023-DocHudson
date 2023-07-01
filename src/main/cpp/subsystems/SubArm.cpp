@@ -99,12 +99,12 @@ void SubArm::Periodic() {
   bool isOnTarget = CheckPosition(10_deg);
 
   if(isOnTarget && !wasOnTarget) {
-    _armMotorBottom.SetPIDFF(P,I,D,15);
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
+    _armMotorBottom.SetPIDFF(P,I,D,F);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,F);
     std::cout << "set arm FF to 15\n";
   } else if (!isOnTarget && wasOnTarget) {
     if(_endEffectorTarget.Y() < 90_cm){
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2,20);
+    _armMotorTop.SetPIDFF(P_2,I_2,D_2,F/2);
     }
     _armMotorBottom.SetPIDFF(P,I,D,30);
     std::cout << "set arm FF to 30\n";
