@@ -64,7 +64,8 @@ void RobotContainer::ConfigureBindings() {
   POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
   _secondController.Y().OnTrue(cmd::ArmToHigh());
   _secondController.B().OnTrue(cmd::ArmToMid());
-  _secondController.A().OnTrue(cmd::ArmToLowCubeOrCone());
+  // _secondController.A().OnTrue(cmd::ArmToLowCubeOrCone());
+  _secondController.A().OnTrue(cmd::ArmMovesUp());
   _secondController.X().OnTrue(cmd::ArmPickUp());
   _secondController.LeftTrigger().OnTrue(cmd::ArmToLoadingStation());
   _secondController.RightTrigger().OnTrue(cmd::ArmToDefaultLocation());

@@ -43,7 +43,7 @@ namespace cmd{
     frc2::CommandPtr CubeConeSwitch(){
         return RunOnce([]{
             if(RobotContainer::isConeMode){RobotContainer::isConeMode = false;}
-            else{RobotContainer::isConeMode = true;}
+            else{RobotContainer::isConeMode = true;}          
         });
     }
     
@@ -86,5 +86,9 @@ namespace cmd{
         return StartEnd([] { SubArm::GetInstance().DriveBottomAt(0.3); },
                         [] { SubArm::GetInstance().DriveBottomAt(0); })
             .Until([] { return SubArm::GetInstance().LocatingSwitchIsHit(); });
+    }
+
+    frc2::CommandPtr ArmMovesUp() {       
+        return ArmToPos(50_cm, 13_cm);
     }
 }

@@ -27,4 +27,5 @@ namespace cmd {
     frc2::CommandPtr ManualArmMove(double xSpeed, double ySpeed);
     frc2::CommandPtr CoastModeOverride();
     frc2::CommandPtr DriveBottomArmToSwitch();
+    frc2::CommandPtr ArmMovesUp();
 }
