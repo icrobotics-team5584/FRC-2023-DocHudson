@@ -41,6 +41,8 @@ RobotContainer::RobotContainer() {
   _autoChooser.AddOption("PConeH+Leave", "PConeH+Leave");
   _autoChooser.AddOption("PConeH+Leave+Hold(1)", "PConeH+Leave+Hold(1)");
   _autoChooser.AddOption("PConeH+Leave+Hold(3)", "PConeH+Leave+Hold(3)");
+  _autoChooser.AddOption("Leave", "Leave");
+  _autoChooser.AddOption("Climb", "Climb");
 
 
   frc::SmartDashboard::PutData("Auto Chooser", &_autoChooser);
