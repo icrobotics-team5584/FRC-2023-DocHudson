@@ -90,7 +90,7 @@ void SubArm::Periodic() {
     _armMotorTop.SetSmartMotionTarget(_armMotorTop.GetPositionTarget(), topGravFF);
     _armMotorBottom.SetSmartMotionTarget(_armMotorBottom.GetPositionTarget(), bottomGravFF);
   }
-
+  auto armloop2 = frc::GetTime();
   // Update mech2d display
   _arm1Ligament->SetAngle(frc::RobotBase::IsSimulation() ? _armMotorBottom.GetPosition() : _bottomEncoder.GetPosition() * 1_tr);
   _arm2Ligament->SetAngle(GetBottomToTopArmAngle());
@@ -98,22 +98,30 @@ void SubArm::Periodic() {
   static bool wasOnTarget = true;
   bool isOnTarget = CheckPosition(10_deg);
 
-  if(isOnTarget && !wasOnTarget) {
-    _armMotorBottom.SetPIDFF(P,I,D,15);
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
-    std::cout << "set arm FF to 15\n";
-  } else if (!isOnTarget && wasOnTarget) {
-    if(_endEffectorTarget.Y() < 90_cm){
-    _armMotorTop.SetPIDFF(P_2,I_2,D_2, F_2);
-    }
-    _armMotorBottom.SetPIDFF(P,I,D,F);
-    std::cout << "set arm FF to 30\n";
-  };
+  auto armloop3 = frc::GetTime();
+
+  //WARNING !!! Enabling the bellow code will cause loop time overrun, due to Rev Lib. 202311012100
+
+  // if(isOnTarget && !wasOnTarget) {
+  //   _armMotorBottom.SetPIDFF(P,I,D,15);
+  //   _armMotorTop.SetPIDFF(P_2,I_2,D_2,15);
+  //   std::cout << "set arm FF to 15\n";
+  // } else if (!isOnTarget && wasOnTarget) {
+  //   if(_endEffectorTarget.Y() < 90_cm){
+  //   _armMotorTop.SetPIDFF(P_2,I_2,D_2, F_2);
+  //   }
+  //   _armMotorBottom.SetPIDFF(P,I,D,F);
+  //   std::cout << "set arm FF to 30\n";
+  // };
 
   wasOnTarget = isOnTarget;
   
-  frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
+auto armloop4 = frc::GetTime();
 
+  frc::SmartDashboard::PutNumber("arm/loop time (sec)", (frc::GetTime()-loopStart).value());
+  frc::SmartDashboard::PutNumber("arm/loop time 2 (sec)", (frc::GetTime()-armloop2).value());
+  frc::SmartDashboard::PutNumber("arm/loop time 3 (sec)", (frc::GetTime()-armloop3).value());
+  frc::SmartDashboard::PutNumber("arm/loop time 4 (sec)", (frc::GetTime()-armloop4).value());
   // if ((units::math::abs(_armMotorTop.GetVelocity()) < 0.1_tps && abs(_armMotorTop.Get()) < 0.1) 
   // || (units::math::abs(_armMotorBottom.GetVelocity()) < 0.1_tps && abs(_armMotorBottom.Get()) < 0.1)) {
   //   _armTimer.Start();
