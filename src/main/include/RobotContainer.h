@@ -20,8 +20,6 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc/DigitalInput.h>
 
-
-
 class RobotContainer {
  public:
   RobotContainer();

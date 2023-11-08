@@ -56,6 +56,11 @@ class SubArm : public frc2::SubsystemBase {
  private:
   units::turn_t TopArmAngleToEncoderAngle(units::turn_t topArmAngle);
 
+  //variables
+    static constexpr double ROT_P = 0.05;
+    static constexpr double ROT_I = 0.0;
+    static constexpr double ROT_D = 0.001;
+
   // motors
   ICSparkMax<> _armMotorBottom{canid::armMotorBottom};
   ICSparkMax<> _armMotorTop{canid::armMotorTop};

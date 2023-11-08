@@ -56,7 +56,7 @@ void RobotContainer::ConfigureBindings() {
   _driverController.LeftTrigger().OnTrue(cmd::ScoreSequence()); // score sequence
 
   //Second controller
-  POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20));
+  POVHelper::Up(&_secondController).WhileTrue(cmd::ManualArmMove(0, 20)); //up
   POVHelper::Down(&_secondController).WhileTrue(cmd::ManualArmMove(0, -20)); //down
   POVHelper::Right(&_secondController).WhileTrue(cmd::ManualArmMove(20, 0)); //forward
   POVHelper::Left(&_secondController).WhileTrue(cmd::ManualArmMove(-20, 0)); //backward
